@@ -111,7 +111,7 @@ const Login: React.FC<Props> = props => {
           <div className={style.bg1} />
           <div className={style.gyl}>
             物联网平台
-        <div className={style.gy2}>MQTT TCP CoAP HTTP , 多消息协议适配 , 可视化规则引擎
+        <div className={style.gy2}>道能智联（北京）科技有限公司
         </div>
           </div>
           <div className={style.box}>
@@ -163,7 +163,7 @@ const Login: React.FC<Props> = props => {
       <div className={style.bg1} />
       <div className={style.gyl}>
         物联网平台
-        <div className={style.gy2}>MQTT TCP CoAP HTTP , 多消息协议适配 , 可视化规则引擎
+        <div className={style.gy2}>道能智联（北京）科技有限公司
         </div>
       </div>
       {/* style={{ height: enable ? '387px' : '330px' }} */}

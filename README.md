@@ -33,7 +33,7 @@ $ npm run start:dev     //支持：dev、test、pre环境
 export default {
   dev: {
     '/jetlinks': {
-      target: '后台地址',
+      target: '127.0.0.1:8848',
       changeOrigin: true,
       pathRewrite: { '^/jetlinks': '' },
     },
