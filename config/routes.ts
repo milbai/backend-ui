@@ -21,14 +21,50 @@ export const routes = [
                 routes: [
                     {
                         path: '/',
-                        redirect: '/analysis',
+                        redirect: '/map',
 
                     },
                     {
-                        name: '人员定位',
+                        name: '电子地图',
                         path: '/map',
                         icon: 'table',
+                        tenant: ['admin', 'member'],
+                        iconfont: 'icon-tongjifenxi',
                         component: './map'
+                    },
+                    {
+                        name: '定位管理',
+                        path: 'location',
+                        icon: 'table',
+                        tenant: ['admin', 'member'],
+                        iconfont: 'icon-shezhi',
+                        authority: ['user', 'permission', 'organization', 'dictionary', 'open-api', 'admin', 'system-config', 'dimension', 'tenant-side-manager', 'tenant-manager'],
+                        routes: [
+                            {
+                                path: '/location/user',
+                                name: '人员信息',
+                                iconfont: 'icon-yonghuguanli',
+                                icon: 'user',
+                                authority: ['user', 'admin'],
+                                component: './location/users',
+                            },
+                            {
+                                path: '/location/fence',
+                                name: '电子围栏',
+                                iconfont: 'icon-yonghuguanli',
+                                icon: 'user',
+                                authority: ['user', 'admin'],
+                                component: './location/fence',
+                            },
+                            {
+                                path: '/location/trajectory',
+                                name: '轨迹查询',
+                                iconfont: 'icon-yonghuguanli',
+                                icon: 'user',
+                                authority: ['user', 'admin'],
+                                component: './location/trajectory',
+                            },
+                        ]
                     },
                     {
                         name: '统计分析',
@@ -126,7 +162,7 @@ export const routes = [
                         routes: [
                             {
                                 path: '/device/product',
-                                name: '产品',
+                                name: '产品管理',
                                 icon: 'laptop',
                                 iconfont: 'icon-shebei',
                                 tenant: ['admin', 'member'],
@@ -163,7 +199,7 @@ export const routes = [
                             },
                             {
                                 path: '/device/instance',
-                                name: '设备',
+                                name: '设备管理',
                                 icon: 'desktop',
                                 tenant: ['admin', 'member'],
                                 iconfont: 'icon-shebei1',
@@ -218,7 +254,7 @@ export const routes = [
                             },
                             {
                                 path: '/device/gateway',
-                                name: '网关',
+                                name: '网关管理',
                                 icon: 'global',
                                 tenant: ['admin', 'member'],
                                 iconfont: 'icon-Group',
