@@ -78,6 +78,7 @@
     "dva": "^2.6.0-beta.21",
     "event-source-polyfill": "^1.0.20",
     "export-from-json": "^1.3.4",
+    "fengmap": "^2.7.1",
     "form-render": "^0.8.7",
     "gg-editor": "^2.0.4",
     "lodash": "^4.17.20",
