@@ -367,7 +367,7 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
         </div>
 
         <div id="btnsGroup" className = {styles.btnsGroup}>
-          <button onClick={() => this.addImageMarker()}>模拟报警</button>
+          <button onClick={() => this.addWarningMarker()}>模拟报警</button>
 	      </div>
 
       </div>
