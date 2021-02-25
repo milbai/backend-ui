@@ -181,7 +181,7 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
           //设置矩形的宽度
           width: 200,
           //设置矩形的高度
-          height: 120
+          height: 420
         }
       });
       rectangleMarker.color_checked = true;
@@ -235,7 +235,7 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
             y: data.y,
             //图片地址
             //url: './images/location2.png',
-            url: require('./images/location2.png'),
+            url: require('./images/location.png'),
             //楼层id
             groupID: 1,
             //图片尺寸
@@ -286,8 +286,10 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
 
   addWarningMarker = () => {
     var domMarker = new fengmap.FMDomMarker({
-      x: 12624580.356833097,
-      y: 2622714.4953265693,
+      // x: 12624580.356833097,
+      // y: 2622714.4953265693,
+      x: map.center.x + 1 * Math.random() * 20,
+			y: map.center.y + 1 * Math.random() * 20,
       height: 5,
       domWidth: '30',
       domHeight: '30',
@@ -298,6 +300,7 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
     let dmLayer = map.getFMGroup(map.focusGroupID).getOrCreateLayer('domMarker');
     dmLayer.addMarker(domMarker);
 
+    console.log('add warning marker');
   }
 
   render() {
@@ -330,7 +333,7 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
         </div>
 
         <div id="btnsGroup" className = {styles.btnsGroup}>
-          <button onClick={() => this.addAlertMarkerFunc()}>添加报警</button>
+          <button onClick={() => this.addWarningMarker()}>添加报警</button>
 	      </div>
 
       </div>
