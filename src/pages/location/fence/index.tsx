@@ -2,6 +2,13 @@ import * as React from 'react';
 import fengmap from 'fengmap';
 import styles from './css/index.css';
 import {_update, stopUpdateLocation, updateLocation} from "@/pages/location/fence/js/locSDK";
+import { Divider, Switch, InputNumber, DatePicker, Select } from "antd";
+const { RangePicker } = DatePicker;
+const { Option } = Select;
+const children = [];
+for (let i = 10; i < 36; i++) {
+  children.push(<Option key={i.toString(36) + i}>{i.toString(36) + i}</Option>);
+}
 
 interface  MapDemoState {
 }
@@ -33,11 +40,14 @@ if (_update) {
   stopUpdateLocation();
 }
 
+var current_selected;
+
 export default class Map extends React.Component<MapDemoProps,MapDemoState>{
   mapNode : HTMLDivElement
   constructor(props: MallZoomProps) {
     super(props)
     this.state = {
+      color_checked: true
     }
   }
   componentDidMount() {
@@ -89,30 +99,36 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       addPolygonMarker();
     });
 
+    var that = this;
     //地图点击事件，需要在地图加载完成之后操作
     map.on('mapClickNode', function (event) {
       console.log(event);
       var nodeType = event.nodeType;
       var target = event.target;
       if(!nodeType || !target || nodeType != 36) {
-        rectangleMarker.setColor('#CD5A5A', "0.8");
-        circleMaker.setColor('#CD5A5A', "0.8");
-        console.log("隐藏弹窗");
+        document.getElementById('fence_modal').style.display = 'none';
         return;
       }
 
       switch (target._points.type) {
         case "rectangle":
-          rectangleMarker.setColor("#3CB371", "0.8");
+          document.getElementById('fence_name').innerHTML = '临时检修001';
+          current_selected = rectangleMarker;
           break;
         case "circle":
-          circleMaker.setColor("#3CB371", "0.8");
+          document.getElementById('fence_name').innerHTML = '临时检修002';
+          current_selected = circleMaker;
           break;
         default:
           break;
       }
-      console.log("打开弹窗");
+      setColorState(current_selected.color_checked);
+      document.getElementById('fence_modal').style.display = 'block';
     });
+
+    function setColorState(v) {
+      that.setColorState(v);
+    }
 
     /**
      * 为第一层的模型添加多边形标注图层
@@ -167,6 +183,7 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
           height: 90
         }
       });
+      rectangleMarker.color_checked = true;
     }
 
     /**
@@ -197,9 +214,8 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
           segments: 40
         }
       });
+      circleMaker.color_checked = true;
     }
-
-
 
     /**
      * 这个方法是示例的定位sdk回调，实际根据使用的定位sdk不同，接口名称和方式可能会有差异
@@ -249,10 +265,52 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
     });
   }
 
+  setFence = (b) => {
+    if(b) {
+      current_selected.color_checked = true;
+      this.setColorState(true);
+      current_selected.setColor('#CD5A5A', "0.8");
+    } else {
+      current_selected.color_checked = false;
+      this.setColorState(true);
+      current_selected.setColor("#3CB371", "0.8");
+    }
+  }
+
+  setColorState = (v) => {
+    this.setState({
+      color_checked: current_selected.color_checked
+    });
+  }
+
   render() {
     return <div>
       <div className={styles.mapout}>
         <div className={styles.fengMap} ref={(c) => this.mapNode = c}></div>
+
+        <div id="fence_modal" className={styles.fenceModal}>
+          电子围栏
+          <Divider className={styles.fengge} />
+          名称<span id="fence_name" className={styles.vRight}></span>
+          <Divider className={styles.fengge} />
+          开关<Switch className={styles.vRight} checked={this.state.color_checked} onChange={(b) => this.setFence(b)} />
+          <Divider className={styles.fengge} />
+          有效期<RangePicker size="small" className={styles.vRightD} />
+          <Divider className={styles.fengge} />
+          允许进入人员<Select
+          mode="multiple"
+          allowClear
+          style={{ width: '160px', float: 'right' }}
+          placeholder="Please select"
+          defaultValue={['a10']}
+        >
+          {children}
+        </Select>
+          <Divider className={styles.fengge} />
+          未进入警告<Switch className={styles.vRight} defaultChecked />
+          <Divider className={styles.fengge} />
+          超时设置<span className={styles.vRight}> 分钟</span><InputNumber size="small" className={styles.vRight} min={1} max={60} defaultValue={15} />
+        </div>
 
       </div>
     </div>
