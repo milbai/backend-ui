@@ -128,7 +128,7 @@
 
 /* 产生动画（向外扩散变大）的圆圈  */
 .pulse,
-.pulse-big {
+.pulseBig {
   position: absolute;
   width: 120px;
   height: 120px;
@@ -152,7 +152,7 @@
   box-shadow: 1px 1px 30px #EF2D02;
 }
 
-.pulse-big {
+.pulseBig {
   background: rgba(239, 45, 2, 0.6) !important;
   -webkit-animation: warn1 0.9s ease-out;
   -moz-animation: warn1 0.9s ease-out;

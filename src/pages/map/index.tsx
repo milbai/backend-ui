@@ -293,7 +293,7 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       height: 5,
       domWidth: '30',
       domHeight: '30',
-      domContent: '<div class="domContainer"><div class="dot"></div><div class="pulse"></div><div class="pulse-big"></div></div>',
+      domContent: '<div class="'+styles.domContainer+'"><div class="'+styles.dot+'"></div><div class="'+styles.pulse+'"></div><div class="'+styles.pulseBig+'"></div></div>',
       anchor: fengmap.FMMarkerAnchor.BOTTOM
     });
 
