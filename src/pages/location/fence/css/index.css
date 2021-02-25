@@ -20,3 +20,27 @@
   touch-action: none;
   -ms-touch-action: none;
 }
+
+.fenceModal {
+  position: absolute;
+  right: 0;
+  top: 20px;
+  display: none;
+  background-color:rgba(8,20,42,0.6);
+  color: white;
+  padding: 10px;
+  width: 300px;
+}
+
+.vRight {
+  float: right;
+}
+
+.vRightD {
+  float: right;
+  width: 220px;
+}
+
+.fengge {
+  margin: 10px 0;
+}
