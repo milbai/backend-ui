@@ -113,11 +113,11 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
 
       switch (target._points.type) {
         case "rectangle":
-          document.getElementById('fence_name').innerHTML = '临时检修001';
+          document.getElementById('fence_name').innerHTML = '电子围栏001';
           current_selected = rectangleMarker;
           break;
         case "circle":
-          document.getElementById('fence_name').innerHTML = '临时检修002';
+          document.getElementById('fence_name').innerHTML = '电子围栏00２';
           current_selected = circleMaker;
           break;
         default:
@@ -303,6 +303,40 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
     console.log('add warning marker');
   }
 
+  addImageMarker = () => {
+    //获取当前聚焦楼层
+    var group = map.getFMGroup(map.focusGroupID);
+
+    /*//实例化方法1：自定义图片标注层
+     layer = new fengmap.FMImageMarkerLayer();
+     //添加图片标注层到模型层
+     group.addLayer(layer);*/
+
+    //实例化方法2：
+    //返回当前层中第一个imageMarkerLayer,如果没有，则自动创建
+    layer = group.getOrCreateLayer('imageMarker');
+
+    //图标标注对象，默认位置为该楼层中心点
+    var gpos = group.mapCoord;
+    let im = new fengmap.FMImageMarker({
+        x: map.center.x + 1 * Math.random() * 100,
+			  y: map.center.y + 1 * Math.random() * 100,
+        //设置图片路径
+        url: require('./images/alarm.gif'),
+        //设置图片显示尺寸
+        size: 32,
+        //标注高度，大于model的高度
+        height: 4
+    });
+
+    /**
+     * imageMarker添加自定义属性
+     **/
+    im.selfAttr = '自定义属性selfAttr';
+
+    layer.addMarker(im);
+}
+
   render() {
     return <div>
       <div className={styles.mapout}>
@@ -333,7 +367,7 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
         </div>
 
         <div id="btnsGroup" className = {styles.btnsGroup}>
-          <button onClick={() => this.addWarningMarker()}>添加报警</button>
+          <button onClick={() => this.addImageMarker()}>模拟报警</button>
 	      </div>
 
       </div>
