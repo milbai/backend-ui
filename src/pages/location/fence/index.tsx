@@ -1,6 +1,7 @@
 import * as React from 'react';
 import fengmap from 'fengmap';
 import styles from './css/index.css';
+import {_update, stopUpdateLocation, updateLocation} from "@/pages/location/fence/js/locSDK";
 
 interface  MapDemoState {
 }
@@ -15,6 +16,22 @@ var fmapID = '1356807379731935234';
 var loadComplete = false;
 //地图是否正在加载中
 var isLoading = false;
+
+var layer = null;
+var rectangleMarker = null;
+var circleMaker = null;
+
+//定义定位点marker
+var locationMarker;
+
+//运行刷新，重置locationMarker
+if (locationMarker) {
+  locationMarker = null;
+}
+
+if (_update) {
+  stopUpdateLocation();
+}
 
 export default class Map extends React.Component<MapDemoProps,MapDemoState>{
   mapNode : HTMLDivElement
@@ -69,7 +86,166 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       loadComplete = true;
       isLoading = false;
       console.log('地图加载完成！');
+      addPolygonMarker();
+    });
 
+    //地图点击事件，需要在地图加载完成之后操作
+    map.on('mapClickNode', function (event) {
+      console.log(event);
+      var nodeType = event.nodeType;
+      var target = event.target;
+      if(!nodeType || !target || nodeType != 36) {
+        rectangleMarker.setColor('#CD5A5A', "0.8");
+        circleMaker.setColor('#CD5A5A', "0.8");
+        console.log("隐藏弹窗");
+        return;
+      }
+
+      switch (target._points.type) {
+        case "rectangle":
+          rectangleMarker.setColor("#3CB371", "0.8");
+          break;
+        case "circle":
+          circleMaker.setColor("#3CB371", "0.8");
+          break;
+        default:
+          break;
+      }
+      console.log("打开弹窗");
+    });
+
+    /**
+     * 为第一层的模型添加多边形标注图层
+     * */
+    function addPolygonMarker() {
+      //获取当前聚焦楼层
+      var group = map.getFMGroup(map.focusGroupID);
+      //返回当前层中第一个polygonMarker,如果没有，则自动创建
+      layer = group.getOrCreateLayer('polygonMarker');
+
+      //创建矩形标注
+      createRectangleMaker();
+      layer.addMarker(rectangleMarker);
+
+      //创建圆形标注
+      createCircleMaker();
+      layer.addMarker(circleMaker);
+    }
+
+    /**
+     * 创建矩形标注
+     * fengmap.FMPolygonMarker 自定义图片标注对象
+     * https://developer.fengmap.com/docs/js/v2.7.1/fengmap.FMPolygonMarker.html
+     */
+    function createRectangleMaker() {
+      rectangleMarker = new fengmap.FMPolygonMarker({
+        //设置颜色
+        color: '#CD5A5A',
+        //设置透明度
+        alpha: 0.8,
+        //设置边框线的宽度
+        lineWidth: 0,
+        //设置高度
+        height: 5,
+        //多边形的坐标点集数组
+        points: {
+          //设置为矩形
+          type: 'rectangle',
+          //设置此形状的中心坐标
+          center: {
+            x:12624571.907404978,
+            y:2622858.668323242
+          },
+          //矩形的起始点设置，代表矩形的左上角。优先级大于center。
+          /*startPoint: {
+           x: 1.2961583E7,
+           y: 4861865.0
+           },*/
+          //设置矩形的宽度
+          width: 100,
+          //设置矩形的高度
+          height: 90
+        }
+      });
+    }
+
+    /**
+     * 创建圆形标注
+     * */
+    function createCircleMaker() {
+      circleMaker = new fengmap.FMPolygonMarker({
+        //设置颜色
+        color: '#CD5A5A',
+        //设置透明度
+        alpha: .8,
+        //设置边框线的宽度
+        lineWidth: 0,
+        //设置高度
+        height: 6,
+        //多边形的坐标点集数组
+        points: {
+          //设置为圆形
+          type: 'circle',
+          //设置此形状的中心坐标
+          center: {
+            x:12624571.907404978,
+            y:2623058.668323242
+          },
+          //设置半径
+          radius: 50,
+          //设置段数，默认为40段
+          segments: 40
+        }
+      });
+    }
+
+
+
+    /**
+     * 这个方法是示例的定位sdk回调，实际根据使用的定位sdk不同，接口名称和方式可能会有差异
+     * */
+    updateLocation(function (data) {
+      if (loadComplete) {
+        if (!locationMarker) {
+          /**
+           * fengmap.FMLocationMarker 自定义图片标注对象，为自定义图层
+           * https://developer.fengmap.com/docs/js/v2.7.1/fengmap.FMLocationMarker.html
+           */
+          locationMarker = new fengmap.FMLocationMarker({
+            //x坐标值
+            x: data.x,
+            //y坐标值
+            y: data.y,
+            //图片地址
+            //url: './images/location2.png',
+            url: require('./images/location2.png'),
+            //楼层id
+            groupID: 1,
+            //图片尺寸
+            size: 48,
+            //marker标注高度
+            height: 3,
+            callback: function () {
+              //回调函数
+              console.log('定位点marker加载完成！');
+            }
+          });
+          //添加定位点marker
+          map.addLocationMarker(locationMarker);
+        } else {
+          //旋转locationMarker
+          locationMarker.rotateTo({
+            to: data.angle,
+            duration: 1
+          });
+          //移动locationMarker
+          locationMarker.moveTo({
+            x: data.x,
+            y: data.y,
+            groupID: 1
+          });
+        }
+      }
     });
   }
 
