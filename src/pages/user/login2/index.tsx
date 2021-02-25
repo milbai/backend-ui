@@ -162,8 +162,8 @@ const Login: React.FC<Props> = props => {
 
       <div className={style.bg1} />
       <div className={style.gyl}>
-        物联网平台
-        <div className={style.gy2}>道能智联（北京）科技有限公司
+        车辆段安全管控支撑系统
+        <div className={style.gy2}>
         </div>
       </div>
       {/* style={{ height: enable ? '387px' : '330px' }} */}

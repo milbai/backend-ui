@@ -57,7 +57,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: 'RwsLinks',
+  title: '车辆段安全管控支持系统',
   pwa: false,
   iconfontUrl: '',
 } as DefaultSettings;

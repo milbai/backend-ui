@@ -174,7 +174,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
         logo={settings.titleIcon || logo}
         menuHeaderRender={(logoDom, titleDom) => (
           <Link to="/">
-            {logoDom}
+            {/* {logoDom} */}
             {titleDom}
           </Link>
         )}

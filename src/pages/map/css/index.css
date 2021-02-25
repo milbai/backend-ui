@@ -20,3 +20,174 @@
   touch-action: none;
   -ms-touch-action: none;
 }
+
+.fenceModal {
+  position: absolute;
+  right: 0;
+  top: 20px;
+  display: none;
+  background-color:rgba(8,20,42,0.6);
+  color: white;
+  padding: 10px;
+  width: 300px;
+}
+
+.vRight {
+  float: right;
+}
+
+.vRightD {
+  float: right;
+  width: 220px;
+}
+
+.fengge {
+  margin: 10px 0;
+}
+
+/* 按钮组 */
+.btnsGroup {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  display: none;
+}
+
+.btnsGroup button {
+  padding: 8px;
+  cursor: pointer;
+  display: block;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  outline: none;
+  background-color: #fff;
+}
+
+.btnsGroup button.active {
+  background-color: #3385ff;
+  border: 1px solid #3385ff;
+  color: #fff;
+}
+
+.btnsGroup button.disabled {
+  background-color: #ccc;
+  border: none;
+}
+
+/*覆盖物管理*/
+.btns {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+  display: none;
+}
+
+.btns button {
+  padding: 8px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  border: 1px solid #ccc;
+  outline: none;
+  background-color: #fff;
+}
+
+.btns button.active {
+  background-color: #3385ff;
+  border: 1px solid #3385ff;
+  color: #fff;
+}
+
+.markersSelect {
+  height: 38px;
+  border: 1px solid #ccc;
+}
+
+/* domMarker demo start */
+/* 报警marker */
+.domContainer {
+  width: 100%;
+  height: 100%;
+}
+
+.domContainer canvas {
+  display: block;
+  position: absolute;
+  left: 0;
+  top: -9px;
+}
+
+/* 保持大小不变的小圆圈  */
+.dot {
+  width: 100%;
+  height: 100%;
+  background: url(../images/alarm.gif) no-repeat;
+  background-size: 100%;
+  z-index: 200;
+}
+
+
+/* 产生动画（向外扩散变大）的圆圈  */
+.pulse,
+.pulse-big {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 2px solid #EF2D02;
+  background: rgba(239, 45, 2, 0.8);
+  border-radius: 50%;
+  z-index: 100;
+  opacity: 0;
+  top: -45px;
+  left: -45px;
+}
+
+.pulse {
+  background: rgba(239, 45, 2, 0.6) !important;
+  -webkit-animation: warn 0.9s ease-out;
+  -moz-animation: warn 0.9s ease-out;
+  animation: warn 0.9s ease-out;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  box-shadow: 1px 1px 30px #EF2D02;
+}
+
+.pulse-big {
+  background: rgba(239, 45, 2, 0.6) !important;
+  -webkit-animation: warn1 0.9s ease-out;
+  -moz-animation: warn1 0.9s ease-out;
+  animation: warn1 0.9s ease-out;
+  -webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+  box-shadow: 1px 1px 30px #EF2D02;
+}
+
+
+@keyframes warn {
+  0% {
+      -moz-transform: scale(0);
+      transform: scale(0);
+      opacity: 1;
+  }
+
+  100% {
+      -moz-transform: scale(1);
+      transform: scale(1);
+      opacity: 0;
+  }
+}
+
+@keyframes warn1 {
+  0% {
+      -o-transform: scale(0);
+      transform: scale(0);
+      opacity: 1;
+  }
+
+  100% {
+      -o-transform: scale(0.6);
+      transform: scale(0.6);
+      opacity: 0;
+  }
+}
