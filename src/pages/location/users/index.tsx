@@ -49,10 +49,12 @@ const UserList: React.FC<Props> = props => {
         {
             title: '姓名',
             dataIndex: 'name',
+            render: text => <span>{text === '测试账号' ? '王小强' : '张旭刚'}</span>,
         },
         {
-            title: '用户名',
+            title: '部门',
             dataIndex: 'username',
+            render: text => <span>{'维修段'}</span>,
         },
         {
             title: '状态',

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import fengmap from 'fengmap';
 import styles from './css/index.css';
-import {_update, stopUpdateLocation, updateLocation} from "@/pages/location/fence/js/locSDK";
+// import {_update, stopUpdateLocation, updateLocation} from "@/pages/location/fence/js/locSDK";
 import { Divider, Switch, InputNumber, DatePicker, Select } from "antd";
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -32,13 +32,13 @@ var circleMaker = null;
 var locationMarker;
 
 //运行刷新，重置locationMarker
-if (locationMarker) {
-  locationMarker = null;
-}
+// if (locationMarker) {
+//   locationMarker = null;
+// }
 
-if (_update) {
-  stopUpdateLocation();
-}
+// if (_update) {
+//   stopUpdateLocation();
+// }
 
 var current_selected;
 
@@ -220,49 +220,50 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
     /**
      * 这个方法是示例的定位sdk回调，实际根据使用的定位sdk不同，接口名称和方式可能会有差异
      * */
-    updateLocation(function (data) {
-      if (loadComplete) {
-        if (!locationMarker) {
-          /**
-           * fengmap.FMLocationMarker 自定义图片标注对象，为自定义图层
-           * https://developer.fengmap.com/docs/js/v2.7.1/fengmap.FMLocationMarker.html
-           */
-          locationMarker = new fengmap.FMLocationMarker({
-            //x坐标值
-            x: data.x,
-            //y坐标值
-            y: data.y,
-            //图片地址
-            //url: './images/location2.png',
-            url: require('./images/location2.png'),
-            //楼层id
-            groupID: 1,
-            //图片尺寸
-            size: 48,
-            //marker标注高度
-            height: 3,
-            callback: function () {
-              //回调函数
-              console.log('定位点marker加载完成！');
-            }
-          });
-          //添加定位点marker
-          map.addLocationMarker(locationMarker);
-        } else {
-          //旋转locationMarker
-          locationMarker.rotateTo({
-            to: data.angle,
-            duration: 1
-          });
-          //移动locationMarker
-          locationMarker.moveTo({
-            x: data.x,
-            y: data.y,
-            groupID: 1
-          });
-        }
-      }
-    });
+  //   updateLocation(function (data) {
+  //     if (loadComplete) {
+  //       if (!locationMarker) {
+  //         /**
+  //          * fengmap.FMLocationMarker 自定义图片标注对象，为自定义图层
+  //          * https://developer.fengmap.com/docs/js/v2.7.1/fengmap.FMLocationMarker.html
+  //          */
+  //         locationMarker = new fengmap.FMLocationMarker({
+  //           //x坐标值
+  //           x: data.x,
+  //           //y坐标值
+  //           y: data.y,
+  //           //图片地址
+  //           //url: './images/location2.png',
+  //           url: require('./images/location2.png'),
+  //           //楼层id
+  //           groupID: 1,
+  //           //图片尺寸
+  //           size: 48,
+  //           //marker标注高度
+  //           height: 3,
+  //           callback: function () {
+  //             //回调函数
+  //             console.log('定位点marker加载完成！');
+  //           }
+  //         });
+  //         //添加定位点marker
+  //         map.addLocationMarker(locationMarker);
+  //       } else {
+  //         //旋转locationMarker
+  //         locationMarker.rotateTo({
+  //           to: data.angle,
+  //           duration: 1
+  //         });
+  //         //移动locationMarker
+  //         locationMarker.moveTo({
+  //           x: data.x,
+  //           y: data.y,
+  //           groupID: 1
+  //         });
+  //       }
+  //     }
+  //   });
+  // }
   }
 
   setFence = (b) => {

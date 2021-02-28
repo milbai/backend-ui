@@ -96,7 +96,22 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       addPolygonMarker();
       document.getElementById('btnsGroup').style.display = 'block';
 
-      addImageMarker1();
+      //接驳站-视频
+      addImageMarker(12624580.356833097, 2622714.4953265693+30, require('./images/camera.png'));
+
+      //事故油田-视频
+      addImageMarker(12624526.260180058, 2623051.4631302427 + 30, require('./images/camera.png'));
+
+      //供电房-视频
+      addImageMarker(12624517.518862803, 2622865.8147207727 + 30, require('./images/camera.png'));
+      addImageMarker(12624517.518862803 + 100, 2622865.8147207727 + 30, require('./images/camera.png'));
+
+      addImageMarker(12624603.225404195, 2623086.2421856797 + 30, require('./images/smoker.png'));
+      addImageMarker(12624603.225404195 - 50, 2623086.2421856797 + 30, require('./images/smoker.png'));
+
+      //远转站-广播
+      addImageMarker(12624872.825635102, 2623137.587430931 + 30, require('./images/broadcast.png'));
+
     });
 
     var that = this;
@@ -178,25 +193,27 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
            y: 4861865.0
            },*/
           //设置矩形的宽度
-          width: 200,
+          width: 100,
           //设置矩形的高度
-          height: 420
+          height: 200
         }
       });
       rectangleMarker.color_checked = true;
     }
+    function addImageMarker(p_x, p_y, image_str: any) {
 
-    function addImageMarker1() {
-
-      layer = group.getOrCreateLayer('imageMarker');
+      var group = map.getFMGroup(map.focusGroupID)
+      var layer = group.getOrCreateLayer('imageMarker');
 
       //图标标注对象，默认位置为该楼层中心点
-      var gpos = group.mapCoord;
       let im = new fengmap.FMImageMarker({
-        x: map.center.x + 1 * Math.random() * 200,
-        y: map.center.y + 1 * Math.random() * 200,
+        // x: 12624580.356833097,
+        // y: 2622714.4953265693,
+        x: p_x,
+        y: p_y,
         //设置图片路径
-        url: require('./images/camera.jpg'),
+        // url: require('./images/camera.png'),
+        url: image_str,
         //设置图片显示尺寸
         size: 32,
         //标注高度，大于model的高度
@@ -204,9 +221,7 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       });
 
       layer.addMarker(im);
-      im.show
     }
-
     /**
      * 创建圆形标注
      * */
@@ -322,40 +337,6 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
 
     console.log('add warning marker');
   }
-
-  addImageMarker = () => {
-    //获取当前聚焦楼层
-    var group = map.getFMGroup(map.focusGroupID);
-
-    /*//实例化方法1：自定义图片标注层
-     layer = new fengmap.FMImageMarkerLayer();
-     //添加图片标注层到模型层
-     group.addLayer(layer);*/
-
-    //实例化方法2：
-    //返回当前层中第一个imageMarkerLayer,如果没有，则自动创建
-    layer = group.getOrCreateLayer('imageMarker');
-
-    //图标标注对象，默认位置为该楼层中心点
-    var gpos = group.mapCoord;
-    let im = new fengmap.FMImageMarker({
-        x: map.center.x + 1 * Math.random() * 100,
-			  y: map.center.y + 1 * Math.random() * 100,
-        //设置图片路径
-        url: require('./images/alarm.gif'),
-        //设置图片显示尺寸
-        size: 32,
-        //标注高度，大于model的高度
-        height: 4
-    });
-
-    /**
-     * imageMarker添加自定义属性
-     **/
-    im.selfAttr = '自定义属性selfAttr';
-
-    layer.addMarker(im);
-}
 
   render() {
     return <div>

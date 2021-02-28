@@ -57,7 +57,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: '车辆段安全管控支持系统',
+  title: '广州地铁',
   pwa: false,
   iconfontUrl: '',
 } as DefaultSettings;
