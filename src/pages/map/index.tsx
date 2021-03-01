@@ -1,7 +1,7 @@
 import * as React from 'react';
 import fengmap from 'fengmap';
 import styles from './css/index.css';
-import {_update, stopUpdateLocation, updateLocation} from "@/pages/location/fence/js/locSDK";
+import {_update, stopUpdateLocation, updateLocation} from "@/pages/map/js/locSDK";
 import { Divider, Switch, InputNumber, DatePicker, Select } from "antd";
 const { RangePicker } = DatePicker;
 const { Option } = Select;
