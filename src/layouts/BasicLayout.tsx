@@ -170,12 +170,12 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
       <Authorized authority={authorized!.authority} noMatch={noMatch} >
         {children}
       </Authorized > : <ProLayout
-        // logo={logo}
-        logo={settings.titleIcon || logo}
+        logo={logo}
+        // logo={settings.titleIcon || logo}
         menuHeaderRender={(logoDom, titleDom) => (
           <Link to="/">
-            {/* {logoDom} */}
-            {titleDom}
+            {logoDom}
+            {/* {titleDom} */}
           </Link>
         )}
         onCollapse={handleMenuCollapse}

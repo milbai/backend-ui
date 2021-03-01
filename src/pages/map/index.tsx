@@ -16,7 +16,7 @@ interface MapDemoProps {
 }
 
 //定义全局map变量
-var map = null;
+var map: any = null;
 //定义地图ID变量
 var fmapID = '1356807379731935234';
 //定义地图是否加载完成变量

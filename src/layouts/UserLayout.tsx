@@ -4,7 +4,7 @@ import { Link } from 'umi';
 import React, { useEffect } from 'react';
 import { connect } from 'dva';
 import { ConnectProps, ConnectState } from '@/models/connect';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo1.svg';
 import styles from './UserLayout.less';
 
 export interface UserLayoutProps extends ConnectProps {
