@@ -1,26 +1,36 @@
-import BaseService from "@/services/crud";
-import { defer, from } from "rxjs";
-import request from "@/utils/request";
-import { map } from "rxjs/operators";
+import request from '@/utils/request';
+import { SystemLoggerItem } from './data';
 
-class Service extends BaseService<any>{
-    public propertyType = (deviceId: string, propertyId: string) =>
-        defer(() =>
-            from(request(
-                `/jetlinks/device/instance/${deviceId}/property/${propertyId}`,
-                { method: 'GET' }
-            )).pipe(
-                map(resp => resp.result),
-            ));
-
-    public exec = (deviceId: string, functionId: string, data: any) =>
-        defer(() =>
-            from(request(
-                `/jetlinks/device/instance/${deviceId}/function/${functionId}`,
-                { method: 'POST', data }
-            )).pipe(
-                map(resp => resp.result)
-            ));
-
+export async function list(params?: any) {
+    return request(`/jetlinks/logger/system/_query`, {
+        method: 'GET',
+        params: params,
+    });
 }
-export default Service;
+
+export async function listNoPaging(params?: any) {
+    return request(`/jetlinks/logger/system/_query/no-paging`, {
+        method: 'GET',
+        params: params,
+    });
+}
+
+export async function saveOrUpdate(params: SystemLoggerItem) {
+    return request(`/jetlinks/logger/system/`, {
+        method: 'PATCH',
+        data: params,
+    });
+}
+
+export async function info(id: string) {
+    return request(`/jetlinks/logger/system/${id}`, {
+        method: 'GET',
+    });
+}
+
+
+export async function remove(id: string) {
+    return request(`/jetlinks/logger/system/${id}`, {
+        method: 'DELETE',
+    });
+}
