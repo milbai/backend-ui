@@ -79,7 +79,7 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
     function drawLines() {
       var lineStyle = {
         //设置线的宽度
-        lineWidth: 5,
+        lineWidth: 2,
         //设置线的类型
         lineType: fengmap.FMLineType.FULL,
         //设置线的颜色, 只支持修改非FMARROW线型的线的颜色

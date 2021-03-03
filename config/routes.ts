@@ -38,14 +38,14 @@ export const routes = [
                         icon: 'table',
                         tenant: ['admin', 'member'],
                         iconfont: 'icon-shezhi',
-                        authority: ['user', 'permission', 'organization', 'dictionary', 'open-api', 'admin', 'system-config', 'dimension', 'tenant-side-manager', 'tenant-manager'],
+                        authority: ['location-user', 'location-fence', 'location-trajectory', 'access-logger', 'admin'],
                         routes: [
                             {
                                 path: '/location/user',
                                 name: '人员信息',
                                 iconfont: 'icon-yonghuguanli',
                                 icon: 'user',
-                                authority: ['user', 'admin'],
+                                authority: ['location-user', 'access-logger', 'admin'],
                                 component: './location/users',
                             },
                             {
@@ -53,7 +53,7 @@ export const routes = [
                                 name: '电子围栏',
                                 iconfont: 'icon-yonghuguanli',
                                 icon: 'user',
-                                authority: ['user', 'admin'],
+                                authority: ['location-fence', 'access-logger', 'admin'],
                                 component: './location/fence',
                             },
                             {
@@ -61,7 +61,7 @@ export const routes = [
                                 name: '轨迹查询',
                                 iconfont: 'icon-yonghuguanli',
                                 icon: 'user',
-                                authority: ['user', 'admin'],
+                                authority: ['location-trajectory', 'access-logger', 'admin'],
                                 component: './location/trajectory',
                             },
                         ]
@@ -80,14 +80,14 @@ export const routes = [
                         iconfont: 'icon-shezhi',
                         icon: 'setting',
                         tenant: ['admin'],
-                        authority: ['user', 'permission', 'organization', 'dictionary', 'open-api', 'admin', 'system-config', 'dimension', 'tenant-side-manager', 'tenant-manager'],
+                        authority: ['user1', 'permission', 'organization', 'dictionary', 'open-api', 'admin', 'system-config', 'dimension', 'tenant-side-manager', 'tenant-manager'],
                         routes: [
                             {
                                 path: '/system/user',
                                 name: '用户管理',
                                 iconfont: 'icon-yonghuguanli',
                                 icon: 'user',
-                                authority: ['user', 'admin'],
+                                authority: ['user1', 'admin'],
                                 component: './system/users',
                             },
                             {
