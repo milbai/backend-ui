@@ -4,8 +4,8 @@
 }
 
 .mapout {
-  margin: -24px;
-  height: calc(100vh - 64px);
+  margin: 0;
+  height: calc(100vh - 350px);
   overflow: hidden;
   font-size: 14px;
   font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑,
@@ -13,9 +13,10 @@
 }
 
 .fengMap {
-  width: calc(100% + 48px);
-  height: 100%;
   position: absolute;
+  width: 100%;
+  top: 270px;
+  bottom: 0;
   overflow: hidden;
   touch-action: none;
   -ms-touch-action: none;

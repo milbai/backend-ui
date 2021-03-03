@@ -2,6 +2,9 @@ import * as React from 'react';
 import fengmap from 'fengmap';
 import styles from './css/index.css';
 import {results} from "@/pages/location/trajectory/js/data";
+import {Card} from "antd";
+import SearchForm from "@/components/SearchForm";
+import {PageHeaderWrapper} from "@ant-design/pro-layout";
 
 interface  MapDemoState {
 }
@@ -103,6 +106,33 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
 
   render() {
     return <div>
+      <PageHeaderWrapper title="轨迹记录">
+        <Card bordered={false}>
+          <div className={styles.tableList}>
+            <div>
+              <SearchForm
+                formItems={[
+                  {
+                    label: '设备ID',
+                    key: '请输入设备ID',
+                    type: 'string',
+                  },
+                  {
+                    label: '人员姓名',
+                    key: '请输入人员姓名',
+                    type: 'string'
+                  },
+                  {
+                    label: '查询时间',
+                    key: 'createTime$btw',
+                    type: 'time',
+                  }
+                ]}
+              />
+            </div>
+          </div>
+        </Card>
+      </PageHeaderWrapper>
       <div className={styles.mapout}>
         <div className={styles.fengMap} ref={(c) => this.mapNode = c}></div>
 
