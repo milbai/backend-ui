@@ -23,11 +23,12 @@ var fmapID = '1356807379731935234';
 var loadComplete = false;
 
 var layer = null;
-var rectangleMarker = null;
-var circleMaker = null;
+var rectangleMarker: any = null;
+var circleMaker: any = null;
+var polygonMarker: any = null;
 
 //定义定位点marker
-var locationMarker;
+var locationMarker: any;
 
 //运行刷新，重置locationMarker
 if (locationMarker) {
@@ -75,7 +76,7 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       // mapScaleRange: [200, 4000]      // 自定义比例尺范围，单位（厘米）
       defaultMapScaleLevel: 18,          // 默认比例尺级别设置为19级
       appName: 'TestSubway',
-      key: 'df8d1ac1bada373505fcb0ce2a84b011'
+      key: 'df8d1ac1bada373505fcb0ce2a84b011',
     };
 
     //初始化地图对象
@@ -131,10 +132,12 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
           current_selected = rectangleMarker;
           break;
         case "circle":
-          document.getElementById('fence_name').innerHTML = '电子围栏00２';
+          document.getElementById('fence_name').innerHTML = '电子围栏002';
           current_selected = circleMaker;
           break;
         default:
+          document.getElementById('fence_name').innerHTML = '电子围栏003';
+          current_selected = polygonMarker;
           break;
       }
       setColorState(current_selected.color_checked);
@@ -155,12 +158,35 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       layer = group.getOrCreateLayer('polygonMarker');
 
       //创建矩形标注
-      createRectangleMaker();
-      layer.addMarker(rectangleMarker);
+      // createRectangleMaker();
+      // layer.addMarker(rectangleMarker);
 
       //创建圆形标注
       // createCircleMaker();
       // layer.addMarker(circleMaker);
+
+      createPolygon();
+      layer.addMarker(polygonMarker);
+    }
+
+    function createPolygon() {
+      //创建自定义多边形形状PolygonMarker所需的顶点数组
+      var coords = [
+        {x: 12624626.835419225, y: 2623077.622810768, z: 56},
+        {x: 12624804.285913208, y: 2623272.659102146, z: 56},
+        {x: 12624810.320749149, y: 2623257.144389396, z: 56},
+        {x: 12624642.238706516, y: 2623070.529021903, z: 56},
+      ];
+
+      polygonMarker = new fengmap.FMPolygonMarker({
+        alpha: .8,             //设置透明度
+        color: '#CD5A5A',
+        lineWidth: 0,      //设置边框线的宽度
+        height: 6,    //设置高度*/
+        points: coords //多边形坐标点
+      });
+
+      polygonMarker.color_checked = true;
     }
 
     /**
@@ -177,30 +203,34 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
         //设置边框线的宽度
         lineWidth: 0,
         //设置高度
-        height: 5,
+        height: 0,
         //多边形的坐标点集数组
         points: {
           //设置为矩形
           type: 'rectangle',
           //设置此形状的中心坐标
-          center: {
-            x:12624571.907404978,
-            y:2622858.668323242
-          },
+          // center: {
+          //   x:12624571.907404978,
+          //   y:2622858.668323242
+          // },
           //矩形的起始点设置，代表矩形的左上角。优先级大于center。
-          /*startPoint: {
-           x: 1.2961583E7,
-           y: 4861865.0
-           },*/
+          startPoint: {
+           x: 12624628.96063348,
+           y: 2623049.229235602
+           },
+           offSet: {
+             x: -80,
+             y: 0
+           },
           //设置矩形的宽度
           width: 100,
           //设置矩形的高度
-          height: 200
+          height: 60
         }
       });
       rectangleMarker.color_checked = true;
     }
-    function addImageMarker(p_x, p_y, image_str: any) {
+    function addImageMarker(p_x: number, p_y: number, image_str: any) {
 
       var group = map.getFMGroup(map.focusGroupID)
       var layer = group.getOrCreateLayer('imageMarker');
