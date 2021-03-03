@@ -1,6 +1,7 @@
 import * as React from 'react';
 import fengmap from 'fengmap';
 import styles from './css/index.css';
+import {results} from "@/pages/location/trajectory/js/data";
 
 interface  MapDemoState {
 }
@@ -69,8 +70,35 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       loadComplete = true;
       isLoading = false;
       console.log('地图加载完成！');
-
+      drawLines();
     });
+
+    function drawLines() {
+      var lineStyle = {
+        //设置线的宽度
+        lineWidth: 5,
+        //设置线的类型
+        lineType: fengmap.FMLineType.FULL,
+        //设置线的颜色, 只支持修改非FMARROW线型的线的颜色
+        color: '#FF0000'
+      };
+      //创建路径线图层
+      var line = new fengmap.FMLineMarker();
+      //循环results中坐标点集合，通过坐标点绘制路径线
+      for (var i = 0; i < results.length; i++) {
+        var result = results[i];
+        var gid = result.groupId;
+        var points = result.points;
+        //创建FMSegment点集，一个点集代表一条折线
+        var seg = new fengmap.FMSegment();
+        seg.groupId = gid;
+        seg.points = points;
+        //将FMSegment绘制到线图层上
+        line.addSegment(seg);
+        //绘制线
+        map.drawLineMark(line, lineStyle);
+      }
+    }
   }
 
   render() {
