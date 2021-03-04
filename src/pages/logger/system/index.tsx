@@ -58,12 +58,14 @@ const SystemLoggerList: React.FC<Props> = props => {
     {
       title: '线程',
       dataIndex: 'threadName',
-      ellipsis: true
+      ellipsis: true,
+      render: text => <span>{text.replace(/jetlinks/g, 'rwslinks')}</span>,
     },
     {
       title: '名称',
       dataIndex: 'name',
       ellipsis: true,
+      render: text => <span>{text.replace(/jetlinks/g, 'rwslinks')}</span>,
     },
     {
       title: '级别',
@@ -75,12 +77,14 @@ const SystemLoggerList: React.FC<Props> = props => {
       title: '日志内容',
       dataIndex: 'exceptionStack',
       ellipsis: true,
+      render: text => <span>{text.replace(/jetlinks/g, 'rwslinks')}</span>,
     },
     {
       title: '服务名',
       dataIndex: 'context.server',
       width: 150,
-      ellipsis: true
+      ellipsis: true,
+      render: text => <span>{text.replace(/jetlinks/g, 'rwslinks')}</span>,
     },
     {
       title: '创建时间',
