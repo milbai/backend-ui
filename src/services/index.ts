@@ -44,7 +44,11 @@ import * as aliyun from '@/pages/cloud/aliyun/service';
 import * as onenet from '@/pages/cloud/onenet/service';
 import * as ctwing from '@/pages/cloud/ctwing/service';
 
+import * as employee from '@/pages/location/users/service';
+
 const apis = {
+  employee,
+
   login,
   permission,
   role,

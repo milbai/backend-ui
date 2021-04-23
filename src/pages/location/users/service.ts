@@ -2,9 +2,15 @@ import request from '@/utils/request';
 import { UserItem } from './data';
 
 export async function list(params?: any) {
+  /*
   return request(`/jetlinks/user/_query`, {
     method: 'GET',
     params: params,
+  });
+  */
+  var id = "test001";
+  return request(`/jetlinks/user/employee/${id}`, {
+    method: 'GET',
   });
 }
 

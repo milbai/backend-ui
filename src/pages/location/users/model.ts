@@ -28,7 +28,8 @@ const UsersModel: UsersModelType = {
   },
   effects: {
     *query({ payload, callback }, { call, put }) {
-      const response: SimpleResponse = yield call(apis.users.list, payload);
+      //const response: SimpleResponse = yield call(apis.users.list, payload);
+      const response: SimpleResponse = yield call(apis.employee.list, payload);
       yield put({
         type: 'save',
         payload: response.result,
