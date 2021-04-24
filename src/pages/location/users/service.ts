@@ -2,41 +2,35 @@ import request from '@/utils/request';
 import { UserItem } from './data';
 
 export async function list(params?: any) {
-  /*
-  return request(`/jetlinks/user/_query`, {
+  return request(`/jetlinks/user/employee/_query`, {
     method: 'GET',
     params: params,
-  });
-  */
-  var id = "test001";
-  return request(`/jetlinks/user/employee/${id}`, {
-    method: 'GET',
   });
 }
 
 export async function listNoPaging(params?: any) {
-  return request(`/jetlinks/user/_query/no-paging`, {
+  return request(`/jetlinks/user/employee/_query/no-paging`, {
     method: 'GET',
     params: params,
   });
 }
 
 export async function saveOrUpdate(params: UserItem) {
-  return request(`/jetlinks/user/`, {
+  return request(`/jetlinks/user/employee/`, {
     method: 'PATCH',
     data: params,
   });
 }
 
 export async function info(id: string) {
-  return request(`/jetlinks/user/${id}`, {
+  return request(`/jetlinks/user/employee/${id}`, {
     method: 'GET',
   });
 }
 
 
 export async function remove(id: string) {
-  return request(`/jetlinks/user/${id}`, {
+  return request(`/jetlinks/user/employee/${id}`, {
     method: 'DELETE',
   });
 }

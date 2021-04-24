@@ -7,6 +7,7 @@ import { DefaultSettings as SettingModelState } from '../../config/defaultSettin
 import { MenuDataItem } from '@ant-design/pro-layout';
 import { DeviceProductModelState } from '@/pages/device/product/model';
 import { UsersModelState } from '@/pages/system/users/model';
+import { EmployeeModelState } from '@/pages/location/users/model';
 import { RoleModelState } from '@/pages/system/role/model';
 import { PermissionModelState } from '@/pages/system/permission/model';
 import { DeviceInstanceModelState } from '@/pages/device/instance/model';
@@ -57,6 +58,7 @@ export interface Loading {
     setting: boolean;
     user: boolean; // 当前登录用户
     users: boolean; // 用户管理
+    employee: boolean;
     role: boolean;
     permission: boolean;
     deviceProduct: boolean;
@@ -91,6 +93,7 @@ export interface ConnectState {
   settings: SettingModelState;
   user: UserModelState;
   users: UsersModelState;
+  employee: EmployeeModelState;
   role: RoleModelState;
   permission: PermissionModelState;
   deviceProduct: DeviceProductModelState;

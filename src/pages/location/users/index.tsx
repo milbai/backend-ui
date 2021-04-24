@@ -13,7 +13,7 @@ import apis from '@/services';
 import SearchForm from '@/components/SearchForm';
 
 interface Props {
-    users: any;
+    employee: any;
     dispatch: Dispatch;
     location: Location;
     loading: boolean;
@@ -30,7 +30,7 @@ interface State {
 const UserList: React.FC<Props> = props => {
 
     const { dispatch } = props;
-    const { result } = props.users;
+    const { result } = props.employee;
 
     const initState: State = {
         data: result,
@@ -102,7 +102,7 @@ const UserList: React.FC<Props> = props => {
     const handleSearch = (params?: any) => {
         setSearchParam(params);
         dispatch({
-            type: 'users/query',
+            type: 'employee/query',
             payload: encodeQueryParam(params)
         });
     };
@@ -145,7 +145,7 @@ const UserList: React.FC<Props> = props => {
 
     const saveOrUpdate = (user: UserItem) => {
         dispatch({
-            type: 'users/insert',
+            type: 'employee/insert',
             payload: encodeQueryParam(user),
             callback: (response: any) => {
                 if (response.status === 200) {
@@ -167,7 +167,7 @@ const UserList: React.FC<Props> = props => {
             cancelText: '取消',
             onOk() {
                 dispatch({
-                    type: 'users/remove',
+                    type: 'employee/remove',
                     payload: params.id,
                     callback: response => {
                         if (response.status === 200) {
@@ -262,7 +262,7 @@ const UserList: React.FC<Props> = props => {
         </PageHeaderWrapper>
     )
 };
-export default connect(({ users, loading }: ConnectState) => ({
-    users,
-    loading: loading.models.users
+export default connect(({ employee, loading }: ConnectState) => ({
+  employee,
+    loading: loading.models.employee
 }))(UserList)

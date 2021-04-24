@@ -3,13 +3,13 @@ import { Reducer } from 'react';
 import apis from '@/services';
 import { SimpleResponse } from '@/utils/common';
 
-export interface UsersModelState {
+export interface EmployeeModelState {
   result: any;
 }
 
-export interface UsersModelType {
+export interface EmployeeModelType {
   namespace: string;
-  state: UsersModelState;
+  state: EmployeeModelState;
   effects: {
     query: Effect;
     queryById: Effect;
@@ -21,14 +21,13 @@ export interface UsersModelType {
   }
 }
 
-const UsersModel: UsersModelType = {
-  namespace: 'users',
+const EmployeeModel: EmployeeModelType = {
+  namespace: 'employee',
   state: {
     result: {},
   },
   effects: {
     *query({ payload, callback }, { call, put }) {
-      //const response: SimpleResponse = yield call(apis.users.list, payload);
       const response: SimpleResponse = yield call(apis.employee.list, payload);
       yield put({
         type: 'save',
@@ -36,15 +35,15 @@ const UsersModel: UsersModelType = {
       });
     },
     *queryById({ payload, callback }, { call }) {
-      const response: SimpleResponse = yield call(apis.users.list, payload);
+      const response: SimpleResponse = yield call(apis.employee.list, payload);
       callback(response);
     },
     *insert({ payload, callback }, { call }) {
-      const response: SimpleResponse = yield call(apis.users.saveOrUpdate, payload);
+      const response: SimpleResponse = yield call(apis.employee.saveOrUpdate, payload);
       callback(response);
     },
     *remove({ payload, callback }, { call, put }) {
-      const response: SimpleResponse = yield call(apis.users.remove, payload);
+      const response: SimpleResponse = yield call(apis.employee.remove, payload);
       callback(response);
     }
   },
@@ -58,4 +57,4 @@ const UsersModel: UsersModelType = {
   }
 };
 
-export default UsersModel;
+export default EmployeeModel;
