@@ -1,16 +1,15 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { ColumnProps, PaginationConfig, SorterResult } from 'antd/es/table';
 import { UserItem } from './data';
-import { Button, Card, Divider, message, Modal, Popconfirm, Table, Tag } from 'antd';
+import { Button, Card, Divider, message, Modal, Popconfirm, Table } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import styles from '@/utils/table.less';
 import { ConnectState, Dispatch } from '@/models/connect';
 import { connect } from 'dva';
 import encodeQueryParam from '@/utils/encodeParam';
 import Save from './save';
-import Authorization from '@/components/Authorization';
-import apis from '@/services';
 import SearchForm from '@/components/SearchForm';
+import Save1 from "@/pages/location/users/save/save1";
 
 interface Props {
     employee: any;
@@ -24,7 +23,7 @@ interface State {
     searchParam: any;
     saveVisible: boolean;
     currentItem: Partial<UserItem>;
-    autzVisible: boolean;
+    save1Visible: boolean;
 }
 
 const UserList: React.FC<Props> = props => {
@@ -37,62 +36,59 @@ const UserList: React.FC<Props> = props => {
         searchParam: { pageSize: 10 },
         saveVisible: false,
         currentItem: {},
-        autzVisible: false
+        save1Visible: false
     };
 
     const [searchParam, setSearchParam] = useState(initState.searchParam);
     const [saveVisible, setSaveVisible] = useState(initState.saveVisible);
     const [currentItem, setCurrentItem] = useState(initState.currentItem);
-    const [autzVisible, setAutzVisible] = useState(initState.autzVisible);
+    const [save1Visible, setSave1Visible] = useState(initState.save1Visible);
 
     const columns: ColumnProps<UserItem>[] = [
-        {
-            title: '姓名',
-            dataIndex: 'name',
-            render: text => <span>{text === '超级管理员' ? '王小强' : text}</span>,
-        },
-        {
-            title: '部门',
-            dataIndex: 'username',
-            render: text => <span>{'维修段'}</span>,
-        },
-        {
-            title: '状态',
-            dataIndex: 'status',
-            render: text => <Tag color={text === 1 ? '#108ee9' : '#f50'}>{text === 1 ? '正常' : '已禁用'}</Tag>,
-        },
+      {
+        title: '姓名',
+        dataIndex: 'name',
+      },
+      {
+        title: '部门',
+        dataIndex: 'department',
+      },
+      {
+        title: '电话',
+        dataIndex: 'telephone',
+      },
+      {
+        title: '身份证',
+        dataIndex: 'cardNumber',
+      },
+      {
+        title: '卡号',
+        dataIndex: 'deviceId',
+      },
         {
             title: '操作',
             render: (text, record) => (
                 <Fragment>
                     <a onClick={() => edit(record)}>编辑</a>
                     <Divider type="vertical" />
-
-                    <a onClick={() => setting(record)}>绑定</a>
+                    <a onClick={() => handleHistory(record)}>记录</a>
                     <Divider type="vertical" />
-                    {record.status !== 1 ? (
-                        <span>
-                            <Popconfirm
-                                title="确认启用此用户？"
-                                onConfirm={() => {
-                                    enableOrDisable(record);
-                                }}
-                            >
-                                <a>启用</a>
-                            </Popconfirm>
-                            <Divider type="vertical" />
-                            <a onClick={() => handleDelete(record)}>删除</a>
-                        </span>
+                    {record.deviceId ? (
+                      <Popconfirm
+                        title="确认解绑？"
+                        onConfirm={() => {
+                          handleUnbind(record);
+                        }}
+                      >
+                        <a>解绑</a>
+                      </Popconfirm>
                     ) : (
-                            <Popconfirm
-                                title="确认禁用此用户？"
-                                onConfirm={() => {
-                                    enableOrDisable(record);
-                                }}
-                            >
-                                <a>禁用</a>
-                            </Popconfirm>
-                        )}
+                      <span>
+                        <a onClick={() => bind(record)}>绑卡</a>
+                        <Divider type="vertical" />
+                        <a onClick={() => handleDelete(record)}>删除</a>
+                      </span>
+                     )}
                 </Fragment>
             ),
         },
@@ -115,33 +111,14 @@ const UserList: React.FC<Props> = props => {
         handleSearch(searchParam);
     }, []);
 
-    const enableOrDisable = (record: UserItem) => {
-        apis.users.saveOrUpdate(
-            { id: record.id, status: record.status === 1 ? 0 : 1 }
-        ).then(res => {
-            if (res.status === 200) {
-                if (record.status === 1) {
-                    message.success("禁用成功");
-                } else {
-                    message.success("启用成功");
-                }
-                handleSearch(searchParam);
-            } else {
-                message.error(`操作失败，${res.message}`)
-            }
-        }
-        ).catch(() => { });
-    };
-
-
     const edit = (record: UserItem) => {
         setCurrentItem(record);
         setSaveVisible(true);
     };
-    const setting = (record: UserItem) => {
-        setAutzVisible(true);
-        setCurrentItem(record);
-    };
+  const bind = (record: UserItem) => {
+    setCurrentItem(record);
+    setSave1Visible(true);
+  };
 
     const saveOrUpdate = (user: UserItem) => {
         dispatch({
@@ -149,19 +126,35 @@ const UserList: React.FC<Props> = props => {
             payload: encodeQueryParam(user),
             callback: (response: any) => {
                 if (response.status === 200) {
-                    message.success("添加成功");
+                    message.success("操作成功");
                     setSaveVisible(false);
                     handleSearch(searchParam);
                     setCurrentItem({})
                 } else {
-                    // message.error(`添加失败，${response.message}`);
+                    message.error(`操作失败，${response.message}`);
                 }
             }
         })
     };
+  const saveOrUpdate1 = (user: UserItem) => {
+    dispatch({
+      type: 'employee/insert',
+      payload: encodeQueryParam(user),
+      callback: (response: any) => {
+        if (response.status === 200) {
+          message.success("绑卡成功");
+          setSave1Visible(false);
+          handleSearch(searchParam);
+          setCurrentItem({})
+        } else {
+          message.error(`绑卡失败，${response.message}`);
+        }
+      }
+    })
+  };
     const handleDelete = (params: any) => {
         Modal.confirm({
-            title: '确定删除此用户吗？',
+            title: '确定删除此员工吗？',
             okText: '删除',
             okType: 'danger',
             cancelText: '取消',
@@ -181,6 +174,25 @@ const UserList: React.FC<Props> = props => {
             },
         })
     };
+
+  const handleHistory = (params: any) => {
+    message.info("待开发");
+  };
+
+  const handleUnbind = (record: UserItem) => {
+    dispatch({
+      type: 'employee/insert',
+      payload: encodeQueryParam({id: record.id, name: record.name, deviceId: ""}),
+      callback: (response: any) => {
+        if (response.status === 200) {
+          message.success("解绑成功");
+          handleSearch(searchParam);
+        } else {
+          message.error(`解绑失败，${response.message}`);
+        }
+      }
+    });
+  };
 
 
     const onTableChange = (pagination: PaginationConfig, filters: any, sorter: SorterResult<any>, extra: any) => {
@@ -205,16 +217,11 @@ const UserList: React.FC<Props> = props => {
                                 handleSearch({ terms: params, pageSize: 10 })
                             }}
                             formItems={[
-                                {
-                                    label: "姓名",
-                                    key: "name$LIKE",
-                                    type: 'string'
-                                },
-                                {
-                                    label: "用户名",
-                                    key: "username$LIKE",
-                                    type: 'string'
-                                },
+                              {
+                                label: "姓名",
+                                key: "name$LIKE",
+                                type: 'string'
+                              },
                             ]}
                         />
                     </div>
@@ -251,14 +258,14 @@ const UserList: React.FC<Props> = props => {
                     save={(user: UserItem) => { saveOrUpdate(user) }}
                 />
             }
-            {
-                autzVisible &&
-                <Authorization
-                    close={() => { setAutzVisible(false); setCurrentItem({}) }}
-                    target={currentItem}
-                    targetType='user'
-                />
-            }
+          {
+            save1Visible &&
+            <Save1
+              data={currentItem}
+              close={() => { setSave1Visible(false); setCurrentItem({}) }}
+              save={(user: UserItem) => { saveOrUpdate1(user) }}
+            />
+          }
         </PageHeaderWrapper>
     )
 };
