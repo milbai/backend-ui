@@ -38,7 +38,7 @@ export const routes = [
                         icon: 'table',
                         tenant: ['admin', 'member'],
                         iconfont: 'icon-shezhi',
-                        authority: ['location-user', 'location-fence', 'location-trajectory', 'access-logger', 'admin'],
+                        authority: ['location-user', 'location-visitor', 'location-fence', 'location-trajectory', 'access-logger', 'admin'],
                         routes: [
                             {
                                 path: '/location/user',
@@ -48,6 +48,14 @@ export const routes = [
                                 authority: ['location-user', 'access-logger', 'admin'],
                                 component: './location/users',
                             },
+                          {
+                            path: '/location/visitor',
+                            name: '访客信息',
+                            iconfont: 'icon-yonghuguanli',
+                            icon: 'user',
+                            authority: ['location-visitor', 'access-logger', 'admin'],
+                            component: './location/visitors',
+                          },
                             {
                                 path: '/location/fence',
                                 name: '电子围栏',

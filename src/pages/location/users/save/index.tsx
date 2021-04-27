@@ -14,7 +14,7 @@ const Save: React.FC<Props> = props => {
     const submitData = () => {
       form.validateFields((err, fileValue) => {
         if (err) return;
-        props.save({ id: props.data.id, ...fileValue });
+        props.save({ id: props.data.id, type: 1, ...fileValue });
       });
     };
 
@@ -73,24 +73,6 @@ const Save: React.FC<Props> = props => {
                   initialValue: props.data.cardNumber
                 })(<Input placeholder="请输入" />)}
               </Form.Item>
-              {
-                props.data.deviceId ? (<Form.Item
-                  key="deviceId"
-                  label="卡号"
-                >
-                  {getFieldDecorator('deviceId', {
-                    initialValue: props.data.deviceId,
-                  })(<Input placeholder="请输入" disabled={true} />)}
-                </Form.Item>) : (<Form.Item
-                  key="deviceId"
-                  label="卡号"
-                >
-                  {getFieldDecorator('deviceId', {
-                    rules: [{ message: '请输入卡号' }],
-                    initialValue: props.data.deviceId,
-                  })(<Input placeholder="请输入" />)}
-                </Form.Item>)
-              }
             </Form>
         </Modal>
     );

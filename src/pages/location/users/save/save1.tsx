@@ -14,7 +14,7 @@ const Save1: React.FC<Props> = props => {
     const submitData = () => {
       form.validateFields((err, fileValue) => {
         if (err) return;
-        props.save({ id: props.data.id, ...fileValue });
+        props.save({ id: props.data.id, deviceId: fileValue.deviceId });
       });
     };
 

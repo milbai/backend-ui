@@ -9,7 +9,7 @@ import { connect } from 'dva';
 import encodeQueryParam from '@/utils/encodeParam';
 import Save from './save';
 import SearchForm from '@/components/SearchForm';
-import Save1 from "@/pages/location/users/save/save1";
+import Save1 from "./save/save1";
 
 interface Props {
     employee: any;
@@ -33,7 +33,7 @@ const UserList: React.FC<Props> = props => {
 
     const initState: State = {
         data: result,
-        searchParam: { pageSize: 10 },
+        searchParam: { pageSize: 10, terms: {type: 1} },
         saveVisible: false,
         currentItem: {},
         save1Visible: false
@@ -136,9 +136,9 @@ const UserList: React.FC<Props> = props => {
             }
         })
     };
-  const saveOrUpdate1 = (user: UserItem) => {
+  const bond = (user: UserItem) => {
     dispatch({
-      type: 'employee/insert',
+      type: 'employee/bond',
       payload: encodeQueryParam(user),
       callback: (response: any) => {
         if (response.status === 200) {
@@ -154,7 +154,7 @@ const UserList: React.FC<Props> = props => {
   };
     const handleDelete = (params: any) => {
         Modal.confirm({
-            title: '确定删除此员工吗？',
+            title: '确定删除吗？',
             okText: '删除',
             okType: 'danger',
             cancelText: '取消',
@@ -181,8 +181,8 @@ const UserList: React.FC<Props> = props => {
 
   const handleUnbind = (record: UserItem) => {
     dispatch({
-      type: 'employee/insert',
-      payload: encodeQueryParam({id: record.id, name: record.name, deviceId: ""}),
+      type: 'employee/unbond',
+      payload: encodeQueryParam({id: record.id, bondId: record.bondId}),
       callback: (response: any) => {
         if (response.status === 200) {
           message.success("解绑成功");
@@ -213,6 +213,12 @@ const UserList: React.FC<Props> = props => {
                     <div >
                         <SearchForm
                             search={(params: any) => {
+                              if(params) {
+                                params["type"] = 1;
+                              }
+                              else {
+                                params = {type: 1}
+                              }
                                 setSearchParam(params);
                                 handleSearch({ terms: params, pageSize: 10 })
                             }}
@@ -263,7 +269,7 @@ const UserList: React.FC<Props> = props => {
             <Save1
               data={currentItem}
               close={() => { setSave1Visible(false); setCurrentItem({}) }}
-              save={(user: UserItem) => { saveOrUpdate1(user) }}
+              save={(user: UserItem) => { bond(user) }}
             />
           }
         </PageHeaderWrapper>

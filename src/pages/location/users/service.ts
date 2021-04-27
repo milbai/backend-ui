@@ -22,6 +22,19 @@ export async function saveOrUpdate(params: UserItem) {
   });
 }
 
+export async function bond(params?: any) {
+  return request(`/jetlinks/user/employee/bond`, {
+    method: 'GET',
+    params: params,
+  });
+}
+export async function unbond(params?: any) {
+  return request(`/jetlinks/user/employee/unbond`, {
+    method: 'GET',
+    params: params,
+  });
+}
+
 export async function info(id: string) {
   return request(`/jetlinks/user/employee/${id}`, {
     method: 'GET',
