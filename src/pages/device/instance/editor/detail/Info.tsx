@@ -151,6 +151,12 @@ const Info: React.FC<Props> = (props) => {
           <Descriptions.Item label="最后上线时间" span={1}>
             {props.data.state?.value !== 'notActive' ? moment(props.data.onlineTime).format('YYYY-MM-DD HH:mm:ss') : '/'}
           </Descriptions.Item>
+          <Descriptions.Item label="经度" span={1}>
+            {props.data.longitude}
+          </Descriptions.Item>
+          <Descriptions.Item label="纬度" span={2}>
+            {props.data.latitude}
+          </Descriptions.Item>
           <Descriptions.Item label="说明" span={3}>
             {props.data.describe || props.data.description}
           </Descriptions.Item>

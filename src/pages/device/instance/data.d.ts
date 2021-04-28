@@ -68,6 +68,9 @@ export class DeviceInstance extends SimpleType {
   onlineTime:string;
 
   tags:any;
+
+  longitude: number;
+  latitude: number;
 }
 
 export interface DeviceInstancePagination {

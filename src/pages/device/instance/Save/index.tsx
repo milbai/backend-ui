@@ -146,6 +146,32 @@ const Save: React.FC<Props> = props => {
             </Select>,
           )}
         </Form.Item>
+
+        <Form.Item key="longitude" label="经度">
+          {getFieldDecorator('longitude', {
+            rules: [
+              { message: '请输入经度' },
+              { pattern: new RegExp(/^[1-9]\d*$/, "g"), message: '请输入数字' }
+            ],
+            getValueFromEvent: (event) => {
+              return event.target.value.replace(/\D/g,'')
+            },
+            initialValue: props.data.longitude
+          })(<Input placeholder="请输入" />)}
+        </Form.Item>
+        <Form.Item key="latitude" label="纬度">
+          {getFieldDecorator('latitude', {
+            rules: [
+              { message: '请输入纬度' },
+              { pattern: new RegExp(/^[1-9]\d*$/, "g"), message: '请输入数字' }
+            ],
+            getValueFromEvent: (event) => {
+              return event.target.value.replace(/\D/g,'')
+            },
+            initialValue: props.data.latitude
+          })(<Input placeholder="请输入" />)}
+        </Form.Item>
+
         <Form.Item key="orgId" label="所属机构">
           {getFieldDecorator('orgId', {
             initialValue: props.data.orgId,

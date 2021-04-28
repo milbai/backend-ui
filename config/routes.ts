@@ -221,7 +221,7 @@ export const routes = [
                             },
                             {
                                 path: '/device/instance',
-                                name: '设备管理',
+                                name: '设备',
                                 icon: 'desktop',
                                 tenant: ['admin', 'member'],
                                 iconfont: 'icon-shebei1',
