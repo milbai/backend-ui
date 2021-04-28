@@ -49,12 +49,26 @@ export const routes = [
                                 component: './location/users',
                             },
                           {
+                            hideInMenu: true,
+                            path: '/location/user/detail',
+                            name: '绑卡记录',
+                            authority: ['location-user', 'access-logger', 'admin'],
+                            component: './location/users/Carddetail',
+                          },
+                          {
                             path: '/location/visitor',
                             name: '访客信息',
                             iconfont: 'icon-yonghuguanli',
                             icon: 'user',
                             authority: ['location-visitor', 'access-logger', 'admin'],
                             component: './location/visitors',
+                          },
+                          {
+                            hideInMenu: true,
+                            path: '/location/visitor/detail',
+                            name: '绑卡记录',
+                            authority: ['location-visitor', 'access-logger', 'admin'],
+                            component: './location/visitors/Carddetail',
                           },
                             {
                                 path: '/location/fence',

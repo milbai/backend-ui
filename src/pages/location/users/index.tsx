@@ -10,6 +10,7 @@ import encodeQueryParam from '@/utils/encodeParam';
 import Save from './save';
 import SearchForm from '@/components/SearchForm';
 import Save1 from "./save/save1";
+import {router} from "umi";
 
 interface Props {
     employee: any;
@@ -71,7 +72,12 @@ const UserList: React.FC<Props> = props => {
                 <Fragment>
                     <a onClick={() => edit(record)}>编辑</a>
                     <Divider type="vertical" />
-                    <a onClick={() => handleHistory(record)}>记录</a>
+                    <a onClick={() => {
+                      router.push({
+                        pathname: '/location/user/detail',
+                        query: { name: record.name, id: record.id },
+                      })
+                    }}>记录</a>
                     <Divider type="vertical" />
                     {record.deviceId ? (
                       <Popconfirm
@@ -174,10 +180,6 @@ const UserList: React.FC<Props> = props => {
             },
         })
     };
-
-  const handleHistory = (params: any) => {
-    message.info("待开发");
-  };
 
   const handleUnbind = (record: UserItem) => {
     dispatch({

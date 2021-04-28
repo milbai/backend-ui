@@ -35,6 +35,13 @@ export async function unbond(params?: any) {
   });
 }
 
+export async function carddetail(params?: any) {
+  return request(`/jetlinks/user/card/record/_query`, {
+    method: 'GET',
+    params: params,
+  });
+}
+
 export async function info(id: string) {
   return request(`/jetlinks/user/employee/${id}`, {
     method: 'GET',

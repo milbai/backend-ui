@@ -50,6 +50,13 @@ const EmployeeModel: EmployeeModelType = {
       const response: SimpleResponse = yield call(apis.employee.unbond, payload);
       callback(response);
     },
+    *carddetail({ payload, callback }, { call, put }) {
+      const response: SimpleResponse = yield call(apis.employee.carddetail, payload);
+      yield put({
+        type: 'save',
+        payload: response.result,
+      });
+    },
     *remove({ payload, callback }, { call, put }) {
       const response: SimpleResponse = yield call(apis.employee.remove, payload);
       callback(response);
