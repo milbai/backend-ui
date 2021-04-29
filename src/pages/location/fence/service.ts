@@ -1,36 +1,36 @@
 import request from '@/utils/request';
-import { SystemLoggerItem } from './data';
+import { FenceItem } from './data';
 
 export async function list(params?: any) {
-    return request(`/jetlinks/logger/system/_query`, {
-        method: 'GET',
-        params: params,
-    });
+  return request(`/jetlinks/electric/fence/_query`, {
+    method: 'GET',
+    params: params,
+  });
 }
 
 export async function listNoPaging(params?: any) {
-    return request(`/jetlinks/logger/system/_query/no-paging`, {
-        method: 'GET',
-        params: params,
-    });
+  return request(`/jetlinks/electric/fence/_query/no-paging`, {
+    method: 'GET',
+    params: params,
+  });
 }
 
-export async function saveOrUpdate(params: SystemLoggerItem) {
-    return request(`/jetlinks/logger/system/`, {
-        method: 'PATCH',
-        data: params,
-    });
+export async function saveOrUpdate(params: FenceItem) {
+  return request(`/jetlinks/electric/fence/`, {
+    method: 'PATCH',
+    data: params,
+  });
 }
 
 export async function info(id: string) {
-    return request(`/jetlinks/logger/system/${id}`, {
-        method: 'GET',
-    });
+  return request(`/jetlinks/electric/fence/${id}`, {
+    method: 'GET',
+  });
 }
 
 
 export async function remove(id: string) {
-    return request(`/jetlinks/logger/system/${id}`, {
-        method: 'DELETE',
-    });
+  return request(`/jetlinks/electric/fence/${id}`, {
+    method: 'DELETE',
+  });
 }

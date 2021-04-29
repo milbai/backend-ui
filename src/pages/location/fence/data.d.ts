@@ -1,14 +1,12 @@
-export interface SystemLoggerItem {
-    id: string;
-    className: string;
-    context: any;
-    createTime: number;
-    exceptionStack: string;
-    level: string;
-    lineNumber: number;
-    message: string;
-    methodName: string;
-    name: string;
-    threadId: string;
-    threadName: string;
+export interface FenceItem {
+  id: string;
+  name: string;
+  area: string;
+  begin: number;
+  end: number;
+  outsideAlarm: boolean;
+  outsideTimeout: number;
+  insideAlarm: boolean;
+  insideTimeout: number;
+  employees: string;
 }

@@ -15,6 +15,13 @@ export async function listNoPaging(params?: any) {
   });
 }
 
+export async function listAll(params?: any) {
+  return request(`/jetlinks/user/employee/_query/no-paging?paging=false`, {
+    method: 'GET',
+    params: params,
+  });
+}
+
 export async function saveOrUpdate(params: UserItem) {
   return request(`/jetlinks/user/employee/`, {
     method: 'PATCH',

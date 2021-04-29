@@ -45,9 +45,11 @@ import * as onenet from '@/pages/cloud/onenet/service';
 import * as ctwing from '@/pages/cloud/ctwing/service';
 
 import * as employee from '@/pages/location/users/service';
+import * as fence from '@/pages/location/fence/service';
 
 const apis = {
   employee,
+  fence,
 
   login,
   permission,

@@ -8,6 +8,7 @@ import { MenuDataItem } from '@ant-design/pro-layout';
 import { DeviceProductModelState } from '@/pages/device/product/model';
 import { UsersModelState } from '@/pages/system/users/model';
 import { EmployeeModelState } from '@/pages/location/users/model';
+import { FenceModelState } from '@/pages/location/fence/model';
 import { RoleModelState } from '@/pages/system/role/model';
 import { PermissionModelState } from '@/pages/system/permission/model';
 import { DeviceInstanceModelState } from '@/pages/device/instance/model';
@@ -59,6 +60,7 @@ export interface Loading {
     user: boolean; // 当前登录用户
     users: boolean; // 用户管理
     employee: boolean;
+    fence: boolean;
     role: boolean;
     permission: boolean;
     deviceProduct: boolean;
@@ -94,6 +96,7 @@ export interface ConnectState {
   user: UserModelState;
   users: UsersModelState;
   employee: EmployeeModelState;
+  fence: FenceModelState;
   role: RoleModelState;
   permission: PermissionModelState;
   deviceProduct: DeviceProductModelState;
