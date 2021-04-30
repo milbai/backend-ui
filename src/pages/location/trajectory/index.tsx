@@ -14,7 +14,7 @@ interface MapDemoProps {
 //定义全局map变量
 var map = null;
 //定义地图ID变量
-var fmapID = '1356807379731935234';
+var fmapID = '1384053067182067713';
 //定义地图是否加载完成变量
 var loadComplete = false;
 //地图是否正在加载中
@@ -53,8 +53,8 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       mapScaleLevelRange: [16, 23],       // 比例尺级别范围， 16级到23级
       // mapScaleRange: [200, 4000]      // 自定义比例尺范围，单位（厘米）
       defaultMapScaleLevel: 18,          // 默认比例尺级别设置为19级
-      appName: 'TestSubway',
-      key: 'df8d1ac1bada373505fcb0ce2a84b011'
+      appName: '陈头岗地铁停车场',
+      key: '40308d481d2d806bcd2e5fb346c2dc45'
     };
 
     //初始化地图对象
@@ -73,7 +73,7 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       loadComplete = true;
       isLoading = false;
       console.log('地图加载完成！');
-      drawLines();
+      //drawLines();
     });
 
     function drawLines() {

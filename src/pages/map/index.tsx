@@ -18,7 +18,7 @@ interface MapDemoProps {
 //定义全局map变量
 var map: any = null;
 //定义地图ID变量
-var fmapID = '1356807379731935234';
+var fmapID = '1384053067182067713';
 //定义地图是否加载完成变量
 var loadComplete = false;
 
@@ -75,8 +75,8 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       mapScaleLevelRange: [16, 23],       // 比例尺级别范围， 16级到23级
       // mapScaleRange: [200, 4000]      // 自定义比例尺范围，单位（厘米）
       defaultMapScaleLevel: 18,          // 默认比例尺级别设置为19级
-      appName: 'TestSubway',
-      key: 'df8d1ac1bada373505fcb0ce2a84b011',
+      appName: '陈头岗地铁停车场',
+      key: '40308d481d2d806bcd2e5fb346c2dc45',
     };
 
     //初始化地图对象
@@ -94,24 +94,24 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       //修改地图加载状态
       loadComplete = true;
       console.log('地图加载完成！');
-      addPolygonMarker();
-      document.getElementById('btnsGroup').style.display = 'block';
+      //addPolygonMarker();
+      //document.getElementById('btnsGroup').style.display = 'block';
 
-      //接驳站-视频
-      addImageMarker(12624580.356833097, 2622714.4953265693+30, require('./images/camera.png'));
+      // //接驳站-视频
+      // addImageMarker(12624580.356833097, 2622714.4953265693+30, require('./images/camera.png'));
 
-      //事故油田-视频
-      addImageMarker(12624526.260180058, 2623051.4631302427 + 30, require('./images/camera.png'));
+      // //事故油田-视频
+      // addImageMarker(12624526.260180058, 2623051.4631302427 + 30, require('./images/camera.png'));
 
-      //供电房-视频
-      addImageMarker(12624517.518862803, 2622865.8147207727 + 30, require('./images/camera.png'));
-      addImageMarker(12624517.518862803 + 100, 2622865.8147207727 + 30, require('./images/camera.png'));
+      // //供电房-视频
+      // addImageMarker(12624517.518862803, 2622865.8147207727 + 30, require('./images/camera.png'));
+      // addImageMarker(12624517.518862803 + 100, 2622865.8147207727 + 30, require('./images/camera.png'));
 
-      addImageMarker(12624603.225404195, 2623086.2421856797 + 30, require('./images/smoker.png'));
-      addImageMarker(12624603.225404195 - 50, 2623086.2421856797 + 30, require('./images/smoker.png'));
+      // addImageMarker(12624603.225404195, 2623086.2421856797 + 30, require('./images/smoker.png'));
+      // addImageMarker(12624603.225404195 - 50, 2623086.2421856797 + 30, require('./images/smoker.png'));
 
-      //远转站-广播
-      addImageMarker(12624872.825635102, 2623137.587430931 + 30, require('./images/broadcast.png'));
+      // //远转站-广播
+      // addImageMarker(12624872.825635102, 2623137.587430931 + 30, require('./images/broadcast.png'));
 
     });
 
@@ -397,9 +397,9 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
           超时设置<span className={styles.vRight}> 分钟</span><InputNumber size="small" className={styles.vRight} min={1} max={60} defaultValue={15} />
         </div>
 
-        <div id="btnsGroup" className = {styles.btnsGroup}>
+        {/* <div id="btnsGroup" className = {styles.btnsGroup}>
           <button onClick={() => this.addWarningMarker()}>模拟报警</button>
-	      </div>
+	      </div> */}
 
       </div>
     </div>
