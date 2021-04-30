@@ -373,6 +373,8 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       <div className={styles.mapout}>
         <div className={styles.fengMap} ref={(c) => this.mapNode = c}></div>
 
+        <div className={styles.mapmask}></div>
+
         <div id="fence_modal" className={styles.fenceModal}>
           电子围栏
           <Divider className={styles.fengge} />

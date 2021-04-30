@@ -136,6 +136,8 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       <div className={styles.mapout}>
         <div className={styles.fengMap} ref={(c) => this.mapNode = c}></div>
 
+        <div className={styles.mapmask}></div>
+
       </div>
     </div>
   }

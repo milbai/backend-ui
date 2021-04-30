@@ -191,3 +191,15 @@
       opacity: 0;
   }
 }
+
+.mapmask {
+  position: absolute;
+  width: 18%;
+  height: 5%;
+  right: -24px;
+  bottom: 0;
+  background-color: #28303B;
+  overflow: hidden;
+  touch-action: none;
+  -ms-touch-action: none;
+}

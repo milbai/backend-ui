@@ -21,3 +21,15 @@
   touch-action: none;
   -ms-touch-action: none;
 }
+
+.mapmask {
+  position: absolute;
+  width: 11%;
+  height: 3%;
+  right: 0;
+  bottom: 0;
+  background-color: #28303B;
+  overflow: hidden;
+  touch-action: none;
+  -ms-touch-action: none;
+}
