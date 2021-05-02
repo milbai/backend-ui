@@ -39,7 +39,39 @@ if (_update) {
   stopUpdateLocation();
 }
 
-var current_selected;
+var current_selected: any = null;
+
+//电子围栏-月检线
+var coordsMonth = [
+  { x: 12609343.487486389, y: 2634680.7467382923, z: 56 },
+  { x: 12609339.252967019, y: 2634651.1668030284, z: 56 },
+  { x: 12609706.621351019, y: 2634652.1526199896, z: 56 },
+  { x: 12609706.650074564, y: 2634681.1130687636,  z: 56 },
+];
+
+//电子围栏-日检线A区
+var coordsDailyA = [
+  { x: 12609242.913614508, y: 2634621.3513399083, z: 56 },
+  { x: 12609239.662802674, y: 2634466.6577441064, z: 56 },
+  { x: 12609613.856840886, y: 2634465.754081998, z: 56 },
+  { x: 12609613.544191122, y: 2634621.7920239493, z: 56 },
+];
+
+//电子围栏-日检线B区
+var coordsDailyB = [
+  { x: 12609647.203478605, y: 2634622.74148204, z: 56 },
+  { x: 12609645.15114645, y: 2634464.339464341, z: 56 },
+  { x: 12609998.237355687, y: 2634466.8285023263, z: 56 },
+  { x: 12610002.36026345, y: 2634620.025391266, z: 56 },
+];
+
+//电子围栏-维修线
+var coordsMaintain = [
+  { x: 12609257.503689926, y: 2634651.916090568, z: 56 },
+  { x: 12609258.790374342, y: 2634636.405447829, z: 56 },
+  { x: 12609707.527558396, y: 2634634.2928042985, z: 56 },
+  { x: 12609706.033594407, y: 2634652.290200657, z: 56 },
+];
 
 export default class Map extends React.Component<MapDemoProps,MapDemoState>{
   mapNode : HTMLDivElement
@@ -94,7 +126,11 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
       //修改地图加载状态
       loadComplete = true;
       console.log('地图加载完成！');
-      //addPolygonMarker();
+      addPolygonMarker(coordsMonth);
+      addPolygonMarker(coordsMaintain);
+
+      addPolygonMarker(coordsDailyA);
+      addPolygonMarker(coordsDailyB);
       //document.getElementById('btnsGroup').style.display = 'block';
 
       // //接驳站-视频
@@ -151,32 +187,18 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
     /**
      * 为第一层的模型添加多边形标注图层
      * */
-    function addPolygonMarker() {
+    function addPolygonMarker(coords: any) {
       //获取当前聚焦楼层
       var group = map.getFMGroup(map.focusGroupID);
       //返回当前层中第一个polygonMarker,如果没有，则自动创建
       layer = group.getOrCreateLayer('polygonMarker');
 
-      //创建矩形标注
-      // createRectangleMaker();
-      // layer.addMarker(rectangleMarker);
-
-      //创建圆形标注
-      // createCircleMaker();
-      // layer.addMarker(circleMaker);
-
-      createPolygon();
+      createPolygon(coords);
       layer.addMarker(polygonMarker);
     }
 
-    function createPolygon() {
+    function createPolygon(coords: any) {
       //创建自定义多边形形状PolygonMarker所需的顶点数组
-      var coords = [
-        {x: 12624626.835419225, y: 2623077.622810768, z: 56},
-        {x: 12624804.285913208, y: 2623272.659102146, z: 56},
-        {x: 12624810.320749149, y: 2623257.144389396, z: 56},
-        {x: 12624642.238706516, y: 2623070.529021903, z: 56},
-      ];
 
       polygonMarker = new fengmap.FMPolygonMarker({
         alpha: .8,             //设置透明度
