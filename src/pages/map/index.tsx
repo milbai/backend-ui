@@ -87,26 +87,15 @@ export default class Map extends React.Component<MapDemoProps,MapDemoState>{
   componentWillUnmount() {
   }
 
-  /**
-   * 打开地图
-   * */
   openMap = () => {
-    /**
-     * 初始化参数，默认使用在线数据，从蜂鸟视图数据服务器加载模型数据
-     * https://developer.fengmap.com/docs/js/v2.7.1/fengmap.FMMap.html
-     **/
     var mapOptions = {
-      //必要，地图容器
       container: this.mapNode,
-      //默认主题名称
+      mapServerURL: './fengmap/data/' + fmapID,
+      mapThemeURL: './fengmap/data/theme',
       defaultThemeName: '3b91d03288204d02368dd4f68fc1f189',
-      //必要，地图应用名称，通过蜂鸟云后台创建
-      //appName: '蜂鸟研发SDK_2_0',
-      //必要，地图应用密钥，通过蜂鸟云后台获取
-      //key: '57c7f309aca507497d028a9c00207cf8'
       mapScaleLevelRange: [16, 23],       // 比例尺级别范围， 16级到23级
       // mapScaleRange: [200, 4000]      // 自定义比例尺范围，单位（厘米）
-      defaultMapScaleLevel: 18,          // 默认比例尺级别设置为19级
+      defaultMapScaleLevel: 17,          // 默认比例尺级别设置为19级
       appName: '陈头岗地铁停车场',
       key: '40308d481d2d806bcd2e5fb346c2dc45',
     };
