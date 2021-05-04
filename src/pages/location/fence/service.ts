@@ -15,6 +15,13 @@ export async function listNoPaging(params?: any) {
   });
 }
 
+export async function listAll(params?: any) {
+  return request(`/jetlinks/electric/fence/_query/no-paging?paging=false`, {
+    method: 'GET',
+    params: params,
+  });
+}
+
 export async function saveOrUpdate(params: FenceItem) {
   return request(`/jetlinks/electric/fence/`, {
     method: 'PATCH',
