@@ -1,144 +1,144 @@
 import * as React from 'react';
-import fengmap from 'fengmap';
-import styles from './css/index.css';
-import {results} from "@/pages/location/trajectory/js/data";
-import {Card} from "antd";
-import SearchForm from "@/components/SearchForm";
+import {Button, Card, Col, DatePicker, Form, Row, Select} from "antd";
 import {PageHeaderWrapper} from "@ant-design/pro-layout";
+import { createFengmap, clearMap, updateMap } from './fengmap'
+import styles from './css/index.css';
+import { FormComponentProps } from "antd/lib/form";
+import {useEffect} from "react";
+import {defer, from} from "rxjs";
+import apis from "@/services";
+import encodeQueryParam from "@/utils/encodeParam";
+import {filter, map} from "rxjs/operators";
+import {useState} from "react";
+import moment, {Moment} from "moment";
 
-interface  MapDemoState {
+interface Props extends FormComponentProps {
 }
-interface MapDemoProps {
+interface State {
+  cm100List: any;
 }
 
-//定义全局map变量
-var map = null;
-//定义地图ID变量
-var fmapID = '1384053067182067713';
-//定义地图是否加载完成变量
-var loadComplete = false;
-//地图是否正在加载中
-var isLoading = false;
+const Trajectory: React.FC<Props> = props => {
+  const initState: State = {
+    cm100List: []
+  };
+  const {
+    form: { getFieldDecorator },
+    form,
+  } = props;
+  const [cm100List, setCm100List] = useState(initState.cm100List);
 
-export default class Map extends React.Component<MapDemoProps,MapDemoState>{
-  mapNode : HTMLDivElement
-  constructor(props: MallZoomProps) {
-    super(props)
-    this.state = {
-    }
-  }
-  componentDidMount() {
-    this.openMap();
-  }
-  componentWillUnmount() {
-  }
-
-  /**
-   * 打开地图
-   * */
-  openMap = () => {
-    /**
-     * 初始化参数，默认使用在线数据，从蜂鸟视图数据服务器加载模型数据
-     * https://developer.fengmap.com/docs/js/v2.7.1/fengmap.FMMap.html
-     **/
-    var mapOptions = {
-      //必要，地图容器
-      container: this.mapNode,
-      //默认主题名称
-      defaultThemeName: '3b91d03288204d02368dd4f68fc1f189',
-      //必要，地图应用名称，通过蜂鸟云后台创建
-      //appName: '蜂鸟研发SDK_2_0',
-      //必要，地图应用密钥，通过蜂鸟云后台获取
-      //key: '57c7f309aca507497d028a9c00207cf8'
-      mapScaleLevelRange: [16, 23],       // 比例尺级别范围， 16级到23级
-      // mapScaleRange: [200, 4000]      // 自定义比例尺范围，单位（厘米）
-      defaultMapScaleLevel: 18,          // 默认比例尺级别设置为19级
-      appName: '陈头岗地铁停车场',
-      key: '40308d481d2d806bcd2e5fb346c2dc45'
-    };
-
-    //初始化地图对象
-    map = new fengmap.FMMap(mapOptions);
-
-    //打开Fengmap服务器的地图数据和主题
-    map.openMapById(fmapID, function (error) {
-      //打印错误信息
-      console.log(error);
+  useEffect(() => {
+    defer(
+      () => from(apis.deviceInstance.listAll(encodeQueryParam({ terms: {productId: 'CM100'} }))).pipe(
+        filter(resp => resp.status === 200),
+        map(resp => resp.result)
+      )).subscribe((data) => {
+      setCm100List(data);
     });
+    createFengmap();
+  }, []);
 
-    //地图加载完成事件
-    map.on('loadComplete', function () {
-
-      //修改地图加载状态
-      loadComplete = true;
-      isLoading = false;
-      console.log('地图加载完成！');
-      //drawLines();
-    });
-
-    function drawLines() {
-      var lineStyle = {
-        //设置线的宽度
-        lineWidth: 2,
-        //设置线的类型
-        lineType: fengmap.FMLineType.FULL,
-        //设置线的颜色, 只支持修改非FMARROW线型的线的颜色
-        color: '#FF0000'
-      };
-      //创建路径线图层
-      var line = new fengmap.FMLineMarker();
-      //循环results中坐标点集合，通过坐标点绘制路径线
-      for (var i = 0; i < results.length; i++) {
-        var result = results[i];
-        var gid = result.groupId;
-        var points = result.points;
-        //创建FMSegment点集，一个点集代表一条折线
-        var seg = new fengmap.FMSegment();
-        seg.groupId = gid;
-        seg.points = points;
-        //将FMSegment绘制到线图层上
-        line.addSegment(seg);
-        //绘制线
-        map.drawLineMark(line, lineStyle);
+  const onSearch = () => {
+    form.validateFields((err, params) => {
+      if (err) return;
+      if (params.createTime$BTW) {
+        const formatDate = params.createTime$BTW.map((e: Moment) =>
+          moment(e).format('YYYY-MM-DD HH:mm:ss'),
+        );
+        params.createTime$BTW = formatDate.join(',');
       }
-    }
-  }
+      loadLogData({
+        pageSize: 10000,
+        pageIndex: 0,
+        terms: { type$IN: 'reportProperty', ...params },
+        sorts: {
+          field: 'createTime',
+          order: 'desc',
+        },
+      });
+    });
+  };
 
-  render() {
-    return <div>
-      <PageHeaderWrapper title="轨迹记录">
-        <Card bordered={false}>
-          <div className={styles.tableList}>
-            <div>
-              <SearchForm
-                formItems={[
-                  {
-                    label: '设备ID',
-                    key: '请输入设备ID',
-                    type: 'string',
-                  },
-                  {
-                    label: '人员姓名',
-                    key: '请输入人员姓名',
-                    type: 'string'
-                  },
-                  {
-                    label: '查询时间',
-                    key: 'createTime$btw',
-                    type: 'time',
-                  }
-                ]}
-              />
-            </div>
-          </div>
-        </Card>
-      </PageHeaderWrapper>
-      <div className={styles.mapout}>
-        <div className={styles.fengMap} ref={(c) => this.mapNode = c}></div>
+  const loadLogData = (param: any) => {
+    apis.deviceInstance
+      .logs(param.terms.deviceId, encodeQueryParam(param))
+      .then(response => {
+        if (response.status === 200) {
+          if(response.result.data && response.result.data.length) {
+            updateMap(response.result.data);
+          }
+        }
+      })
+      .catch(() => {});
+  };
 
-        <div className={styles.mapmask}></div>
-
-      </div>
+  return <div>
+    <PageHeaderWrapper title="轨迹记录">
+      <Card bordered={false}>
+        <div>
+          <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
+            <Row gutter={{ md: 8, lg: 4, xl: 48 }}>
+              <Col md={8} sm={24}>
+                <Form.Item label="设备名称">
+                  {getFieldDecorator('deviceId', {
+                    rules: [{ required: true, message: '请选择设备' }]
+                  })(
+                    <Select>
+                      {cm100List.map(item => (
+                        <Select.Option key={item.id} value={item.id}>
+                          {item.name}
+                        </Select.Option>
+                      ))}
+                    </Select>,
+                  )}
+                </Form.Item>
+              </Col>
+              <Col md={10} sm={24}>
+                <Form.Item label="日期">
+                  {getFieldDecorator('createTime$BTW')(
+                    <DatePicker.RangePicker
+                      showTime={{ format: 'HH:mm' }}
+                      format="YYYY-MM-DD HH:mm"
+                      placeholder={['开始时间', '结束时间']}
+                    />,
+                  )}
+                </Form.Item>
+              </Col>
+              <Col md={6} sm={24}>
+                <div style={{ overflow: 'hidden' }}>
+                  <div style={{ float: 'right', marginBottom: 24 }}>
+                    <Button
+                      icon="search"
+                      type="primary"
+                      onClick={() => {
+                        onSearch();
+                      }}
+                    >
+                      查询
+                    </Button>
+                    <Button
+                      style={{ marginLeft: 8 }}
+                      onClick={() => {
+                        form.resetFields();
+                        clearMap();
+                      }}
+                    >
+                      重置
+                    </Button>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Card>
+    </PageHeaderWrapper>
+    <div className={styles.mapout}>
+      <div className={styles.fengMap} id="fengmap"></div>
+      <div className={styles.mapmask}></div>
     </div>
-  }
-}
+  </div>
+};
+
+export default Form.create<Props>()(Trajectory);
