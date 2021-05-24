@@ -24,8 +24,8 @@
 
 .mapmask {
   position: absolute;
-  width: 110px;
-  height: 28px;
+  left: 0;
+  height: 5%;
   right: 0;
   bottom: 0;
   background-color: #28303B;
