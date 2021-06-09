@@ -11,6 +11,7 @@ import Save from './save';
 import SearchForm from '@/components/SearchForm';
 import Save1 from "./save/save1";
 import {router} from "umi";
+import UnBind from "./unBind";
 
 interface Props {
     employee: any;
@@ -25,6 +26,7 @@ interface State {
     saveVisible: boolean;
     currentItem: Partial<UserItem>;
     save1Visible: boolean;
+    unbindVisible: boolean;
 }
 
 const UserList: React.FC<Props> = props => {
@@ -37,13 +39,15 @@ const UserList: React.FC<Props> = props => {
         searchParam: { pageSize: 10, terms: {type: 1} },
         saveVisible: false,
         currentItem: {},
-        save1Visible: false
+        save1Visible: false,
+        unbindVisible: false
     };
 
     const [searchParam, setSearchParam] = useState(initState.searchParam);
     const [saveVisible, setSaveVisible] = useState(initState.saveVisible);
     const [currentItem, setCurrentItem] = useState(initState.currentItem);
     const [save1Visible, setSave1Visible] = useState(initState.save1Visible);
+    const [unbindVisible, setUnbindVisible] = useState(initState.unbindVisible);
 
     const columns: ColumnProps<UserItem>[] = [
       {
@@ -158,6 +162,22 @@ const UserList: React.FC<Props> = props => {
       }
     })
   };
+
+  const unBond = (record: UserItem) => {
+    dispatch({
+      type: 'employee/unbondById',
+      payload: encodeQueryParam({ id: record.deviceId }),
+      callback: (response: any) => {
+        if (response.status === 200) {
+          message.success("解绑成功");
+          handleSearch(searchParam);
+        } else {
+          message.error(`解绑失败，${response.message}`);
+        }
+      }
+    });
+
+  };
     const handleDelete = (params: any) => {
         Modal.confirm({
             title: '确定删除吗？',
@@ -237,6 +257,9 @@ const UserList: React.FC<Props> = props => {
                         <Button icon="plus" type="primary" onClick={() => { setSaveVisible(true) }}>
                             新建
                         </Button>
+                        <Button icon="disconnect" onClick={() => { setUnbindVisible(true) }}>
+                            解绑
+                        </Button>
                     </div>
                     <div className={styles.StandardTable}>
                         <Table
@@ -274,6 +297,14 @@ const UserList: React.FC<Props> = props => {
               save={(user: UserItem) => { bond(user) }}
             />
           }
+        {
+          unbindVisible &&
+          <UnBind
+            data={currentItem}
+            close={() => { setUnbindVisible(false); setCurrentItem({}) }}
+            save={(user: UserItem) => { unBond(user) }}
+          />
+        }
         </PageHeaderWrapper>
     )
 };

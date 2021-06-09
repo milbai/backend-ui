@@ -42,6 +42,12 @@ export async function unbond(params?: any) {
   });
 }
 
+export async function unbondById(id: string) {
+  return request(`/rwslinks/user/employee/unbond/${id}`, {
+    method: 'GET',
+  });
+}
+
 export async function carddetail(params?: any) {
   return request(`/rwslinks/user/card/record/_query`, {
     method: 'GET',
