@@ -7,7 +7,7 @@ import { filter, map } from "rxjs/operators";
 class Service extends BaseService<any>{
 
     public groupList = (params: any) => defer(
-        () => from(request(`/jetlinks/device/group/_query`, {
+        () => from(request(`/rwslinks/device/group/_query`, {
             method: 'GET',
             params
         })).pipe(
@@ -16,7 +16,7 @@ class Service extends BaseService<any>{
         ));
 
     public groupTree = (params: any) => defer(
-        () => from(request(`/jetlinks/device/group/_query/_children/tree`, {
+        () => from(request(`/rwslinks/device/group/_query/_children/tree`, {
             method: 'GET',
             params,
             errorHandler: () => message.error('服务器错误！')
@@ -26,7 +26,7 @@ class Service extends BaseService<any>{
         ));
 
     public saveGroup = (data: any) => defer(
-        () => from(request(`/jetlinks/device/group`, {
+        () => from(request(`/rwslinks/device/group`, {
             method: 'PATCH',
             data,
             errorHandler: (res) => { message.error(res.data.message) }
@@ -35,7 +35,7 @@ class Service extends BaseService<any>{
             map(resp => resp.result)
         ));
     public removeGroup = (id: string) => defer(
-        () => from(request(`/jetlinks/device/group/${id}`, {
+        () => from(request(`/rwslinks/device/group/${id}`, {
             method: 'DELETE',
             errorHandler: (res) => { message.error(res.data.message) }
         })).pipe(
@@ -44,7 +44,7 @@ class Service extends BaseService<any>{
         ));
 
     public groupDevice = (param: any) => defer(
-        () => from(request(`/jetlinks/device-instance/_query`, {
+        () => from(request(`/rwslinks/device-instance/_query`, {
             method: 'GET',
             params: param
         })).pipe(
@@ -53,7 +53,7 @@ class Service extends BaseService<any>{
         ));
 
     public bindDevice = (id: string, deviceId: string[]) => defer(
-        () => from(request(`/jetlinks/device/group/${id}/_bind`, {
+        () => from(request(`/rwslinks/device/group/${id}/_bind`, {
             method: 'POST',
             data: deviceId,
             errorHandler: (res) => { message.error(res.data.message) }
@@ -63,7 +63,7 @@ class Service extends BaseService<any>{
         ));
 
     public unbindDevice = (id: string, deviceId: string[]) => defer(
-        () => from(request(`/jetlinks/device/group/${id}/_unbind`, {
+        () => from(request(`/rwslinks/device/group/${id}/_unbind`, {
             method: "POST",
             data: deviceId,
             errorHandler: (res) => { message.error(res.data.message) }
@@ -73,7 +73,7 @@ class Service extends BaseService<any>{
         ));
 
     public unbindAll = (id: string) => defer(
-        () => from(request(`/jetlinks/device/group/${id}/_unbind/all`, {
+        () => from(request(`/rwslinks/device/group/${id}/_unbind/all`, {
             method: 'POST',
         })).pipe(
             filter(resp => resp.status === 200),
@@ -81,7 +81,7 @@ class Service extends BaseService<any>{
         ));
 
     public unbind = (groupId: string, id: string[]) => defer(
-        () => from(request(`/jetlinks/device/group/${groupId}/_unbind`, {
+        () => from(request(`/rwslinks/device/group/${groupId}/_unbind`, {
             method: 'POST',
             data: id
         })).pipe(

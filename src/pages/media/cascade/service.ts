@@ -6,7 +6,7 @@ import {filter, map} from "rxjs/operators";
 class Service extends BaseService<any> {
 
   public _enabled = (cascadeId: string) => defer(
-    () => from(request(`/jetlinks/media/gb28181-cascade/${cascadeId}/_enabled`, {
+    () => from(request(`/rwslinks/media/gb28181-cascade/${cascadeId}/_enabled`, {
       method: 'POST',
     })).pipe(
       filter(resp => resp.status === 200),
@@ -14,7 +14,7 @@ class Service extends BaseService<any> {
     ));
 
   public _disabled = (cascadeId: string) => defer(
-    () => from(request(`/jetlinks/media/gb28181-cascade/${cascadeId}/_disabled`, {
+    () => from(request(`/rwslinks/media/gb28181-cascade/${cascadeId}/_disabled`, {
       method: 'POST',
     })).pipe(
       filter(resp => resp.status === 200),
@@ -22,7 +22,7 @@ class Service extends BaseService<any> {
     ));
 
   public saveCascade = (data: any) => defer(
-    () => from(request(`/jetlinks/media/gb28181-cascade/`, {
+    () => from(request(`/rwslinks/media/gb28181-cascade/`, {
       method: 'PATCH',
       data: data
     }))
@@ -32,7 +32,7 @@ class Service extends BaseService<any> {
       ));
 
   public mediaDeviceNoPaging = (params: any) => defer(
-    () => from(request(`/jetlinks/media/channel/_query/no-paging?paging=false`, {
+    () => from(request(`/rwslinks/media/channel/_query/no-paging?paging=false`, {
       method: 'GET',
       params
     }))
@@ -42,7 +42,7 @@ class Service extends BaseService<any> {
       ));
 
   public _bind = (cascadeId: string, channelList: any[]) => defer(
-    () => from(request(`/jetlinks/media/gb28181-cascade/${cascadeId}/channels/_bind`, {
+    () => from(request(`/rwslinks/media/gb28181-cascade/${cascadeId}/channels/_bind`, {
       method: 'POST',
       data: channelList
     }))
@@ -52,7 +52,7 @@ class Service extends BaseService<any> {
       ));
 
   public _unbind = (cascadeId: string, channelList: any[]) => defer(
-    () => from(request(`/jetlinks/media/gb28181-cascade/${cascadeId}/channels/_unbind`, {
+    () => from(request(`/rwslinks/media/gb28181-cascade/${cascadeId}/channels/_unbind`, {
       method: 'POST',
       data: channelList
     }))
@@ -62,7 +62,7 @@ class Service extends BaseService<any> {
       ));
 
   public clusterNodes = () => defer(
-    () => from(request(`/jetlinks/cluster/nodes`, {
+    () => from(request(`/rwslinks/cluster/nodes`, {
       method: 'GET',
     }))
       .pipe(

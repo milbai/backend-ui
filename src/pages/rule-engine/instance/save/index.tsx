@@ -23,7 +23,7 @@ const Save = (props: Props) => {
         if (resp.status === 200) {
           message.success('保存成功');
           props.close();
-          window.open(`/jetlinks/rule-editor/index.html#flow/${fileValue.id}`);
+          window.open(`/rwslinks/rule-editor/index.html#flow/${fileValue.id}`);
         }
       })
     })

@@ -66,7 +66,7 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = props => {
       {/* <Tooltip title="使用文档">
         <a
           target="_blank"
-          href="http://doc.jetlinks.cn/"
+          href="http://doc.rwslinks.cn/"
           rel="noopener noreferrer"
           className={styles.action}
         >

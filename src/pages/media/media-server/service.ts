@@ -6,14 +6,14 @@ import {filter, map} from "rxjs/operators";
 class Service extends BaseService<any> {
 
   public providersList = () => defer(
-    () => from(request(`/jetlinks/media/server/providers`, {method: 'GET'}))
+    () => from(request(`/rwslinks/media/server/providers`, {method: 'GET'}))
       .pipe(
         filter(resp => resp.status === 200),
         map(resp => resp.result)
       ));
 
   public mediaServerInfo = (id: string) => defer(
-    () => from(request(`/jetlinks/media/server/${id}`, {
+    () => from(request(`/rwslinks/media/server/${id}`, {
       method: 'GET',
       errorHandler: () => {
       }
@@ -24,7 +24,7 @@ class Service extends BaseService<any> {
       ));
 
   public saveMediaServer = (data: any) => defer(
-    () => from(request(`/jetlinks/media/server/`, {
+    () => from(request(`/rwslinks/media/server/`, {
       method: 'PATCH',
       data: data
     }))

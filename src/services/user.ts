@@ -5,17 +5,17 @@ export async function query(): Promise<any> {
 }
 
 export async function queryCurrent(): Promise<any> {
-  return request('/jetlinks/authorize/me', {
+  return request('/rwslinks/authorize/me', {
     method: 'GET',
   });
 }
 
 export async function systemVersion(): Promise<any> {
-  return request(`/jetlinks/system/version`);
+  return request(`/rwslinks/system/version`);
 }
 
 export async function queryNotices(params: any): Promise<any> {
-  return request(`/jetlinks/notifications/_query`, {
+  return request(`/rwslinks/notifications/_query`, {
     method: "GET",
     params,
   });

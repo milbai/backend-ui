@@ -7,35 +7,35 @@
  */
 export default {
   dev: {
-    '/jetlinks': {
+    '/rwslinks': {
       // target: 'http://192.168.3.146:8844/',
       // ws: 'ws://192.168.3.146:8844/',
-      // target: 'http://water.zlkjhb.com:9000/jetlinks',
-      // ws: 'http://water.zlkjhb.com:9000/jetlinks',
-      // ws: 'ws://demo.jetlinks.cn/jetlinks',
-      // target: 'http://demo.jetlinks.cn/jetlinks',
+      // target: 'http://water.zlkjhb.com:9000/rwslinks',
+      // ws: 'http://water.zlkjhb.com:9000/rwslinks',
+      // ws: 'ws://demo.rwslinks.cn/rwslinks',
+      // target: 'http://demo.rwslinks.cn/rwslinks',
       target: 'http://101.201.145.41:8848/',
       ws: 'ws://101.201.145.41:8848/',
-      // ws: 'ws://demo.jetlinks.cn/jetlinks',
-      // target: 'http://demo.jetlinks.cn/jetlinks',
+      // ws: 'ws://demo.rwslinks.cn/rwslinks',
+      // target: 'http://demo.rwslinks.cn/rwslinks',
       changeOrigin: true,
-      pathRewrite: { '^/jetlinks': '' },
+      pathRewrite: { '^/rwslinks': '' },
     },
   },
   test: {
-    '/jetlinks': {
+    '/rwslinks': {
       // target: 'http://192.168.3.89:8848/',
-      target: 'http://2.jetlinks.org:9010/',
+      target: 'http://2.rwslinks.org:9010/',
       changeOrigin: true,
-      pathRewrite: { '^/jetlinks': '' },
+      pathRewrite: { '^/rwslinks': '' },
     },
   },
   pre: {
-    '/jetlinks': {
+    '/rwslinks': {
       // target: 'http://192.168.3.89:8848/',
-      target: 'http://2.jetlinks.org:9010/',
+      target: 'http://2.rwslinks.org:9010/',
       changeOrigin: true,
-      pathRewrite: { '^/jetlinks': '' },
+      pathRewrite: { '^/rwslinks': '' },
     },
   },
 };

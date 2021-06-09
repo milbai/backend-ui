@@ -31,7 +31,7 @@ const Config: React.FC<Props> = props => {
 
     const uploadProps: UploadProps = {
         // accept: ,
-        action: '/jetlinks/file/static',
+        action: '/rwslinks/file/static',
         headers: {
             'X-Access-Token': getAccessToken(),
         },

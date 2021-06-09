@@ -27,7 +27,7 @@ class BaseService<T> implements BaseServieImpl<T>{
     };
 
     constructor(uri?: string) {
-        this.uri = `/jetlinks/${uri}`
+        this.uri = `/rwslinks/${uri}`
     }
 
     public list = (params: any) => defer(() => from(request(
@@ -40,7 +40,7 @@ class BaseService<T> implements BaseServieImpl<T>{
         map(resp => resp.result),
     );
 
-    // return request(`/jetlinks/dimension/_query`, {
+    // return request(`/rwslinks/dimension/_query`, {
     //     method: 'GET',
     //     params,
     //   });

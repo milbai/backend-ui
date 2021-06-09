@@ -46,7 +46,7 @@ const MqttServer: React.FC<Props> = props => {
 
     // const eventSource = new EventSourcePolyfill(
     //   wrapAPI(
-    //     `/jetlinks/network/mqtt/server/${item.id}/_subscribe/${type}?:X_Access_Token=${getAccessToken()}`,
+    //     `/rwslinks/network/mqtt/server/${item.id}/_subscribe/${type}?:X_Access_Token=${getAccessToken()}`,
     //   ));
     // setSourceState(eventSource);
     // eventSource.onerror = () => {

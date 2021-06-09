@@ -1,8 +1,8 @@
 ## 使用
 
 ```bash
-$ git clone https://github.com/jetlinks/jetlinks-ui-antd.git
-$ cd jetlinks-ui-antd
+$ git clone https://github.com/rwslinks/rwslinks-ui-antd.git
+$ cd rwslinks-ui-antd
 $ npm install
 $ npm start         # visit http://localhost:8000
 ```
@@ -32,24 +32,24 @@ $ npm run start:dev     //支持：dev、test、pre环境
  */
 export default {
   dev: {
-    '/jetlinks': {
+    '/rwslinks': {
       target: '127.0.0.1:8848',
       changeOrigin: true,
-      pathRewrite: { '^/jetlinks': '' },
+      pathRewrite: { '^/rwslinks': '' },
     },
   },
   test: {
-    '/jetlinks': {
+    '/rwslinks': {
       target: '后台地址',
       changeOrigin: true,
-      pathRewrite: { '^/jetlinks': '' },
+      pathRewrite: { '^/rwslinks': '' },
     },
   },
   pre: {
-    '/jetlinks': {
+    '/rwslinks': {
       target: '后台地址',
       changeOrigin: true,
-      pathRewrite: { '^/jetlinks': '' },
+      pathRewrite: { '^/rwslinks': '' },
     },
   },
 };

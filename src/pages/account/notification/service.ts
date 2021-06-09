@@ -4,14 +4,14 @@ import request from "@/utils/request";
 
 class Service extends BaseService<any> {
 
-  public read = (id: string) => defer(() => request(`/jetlinks/notifications/${id}/read`));
+  public read = (id: string) => defer(() => request(`/rwslinks/notifications/${id}/read`));
 
-  public unReadNotices = (data: string[]) => defer(() => request(`/jetlinks/notifications/_unread`, {
+  public unReadNotices = (data: string[]) => defer(() => request(`/rwslinks/notifications/_unread`, {
     method: 'POST',
     data
   }));
 
-  public readNotices = (data: string[]) => defer(() => request(`/jetlinks/notifications/_read`, {
+  public readNotices = (data: string[]) => defer(() => request(`/rwslinks/notifications/_read`, {
     method: 'POST',
     data
   }));
@@ -20,27 +20,27 @@ class Service extends BaseService<any> {
 export default Service;
 
 export async function readNotice(id: string): Promise<any> {
-  return request(`/jetlinks/notifications/${id}/read`, {
+  return request(`/rwslinks/notifications/${id}/read`, {
     method: 'GET',
   });
 }
 
 export async function noticesCount(params: any) {
-  return request(`/jetlinks/notifications/_query`, {
+  return request(`/rwslinks/notifications/_query`, {
     method: 'GET',
     params
   });
 }
 
 export async function readNotices(data: string[]): Promise<any> {
-  return request(`/jetlinks/notifications/_read`, {
+  return request(`/rwslinks/notifications/_read`, {
     method: 'POST',
     data
   });
 }
 
 export async function unReadNotices(data: string[]): Promise<any> {
-  return request(`/jetlinks/notifications/_unread`, {
+  return request(`/rwslinks/notifications/_unread`, {
     method: 'POST',
     data
   });

@@ -7,7 +7,7 @@ import { TenantItem } from "./data";
 class Service extends BaseService<TenantItem>{
     private tenant = localStorage.getItem('tenants-admin');
     public create = (params: any) => defer(
-        () => from(request(`/jetlinks/tenant/_create`, {
+        () => from(request(`/rwslinks/tenant/_create`, {
             method: 'POST',
             data: params
         })).pipe(
@@ -15,7 +15,7 @@ class Service extends BaseService<TenantItem>{
         ));
 
     public list = (params: any) => defer(
-        () => from(request(`/jetlinks/tenant/detail/_query`, {
+        () => from(request(`/rwslinks/tenant/detail/_query`, {
             method: 'GET',
             params
         }
@@ -30,7 +30,7 @@ class Service extends BaseService<TenantItem>{
             })
         ));
 
-    public queryById = (id: string) => defer(() => from(request(`/jetlinks/tenant/${id}`, {
+    public queryById = (id: string) => defer(() => from(request(`/rwslinks/tenant/${id}`, {
         method: 'GET'
     })).pipe(
         filter(resp => resp.status === 200),
@@ -39,7 +39,7 @@ class Service extends BaseService<TenantItem>{
 
     public member = {
         query: (id: string, params: any) => defer(() => from(
-            request(`/jetlinks/tenant/${id}/members/_query`, {
+            request(`/rwslinks/tenant/${id}/members/_query`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -47,7 +47,7 @@ class Service extends BaseService<TenantItem>{
                 map(resp => resp.result)
             )),
         query2: (params: any) => defer(() => from(
-            request(`/jetlinks/tenant/members/_query`, {
+            request(`/rwslinks/tenant/members/_query`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -55,7 +55,7 @@ class Service extends BaseService<TenantItem>{
                 map(resp => resp.result)
             )),
         queryNoPaging: (params: any) => defer(() => from(
-            request(`/jetlinks/tenant/members/_query/no-paging?paging=false`, {
+            request(`/rwslinks/tenant/members/_query/no-paging?paging=false`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -64,7 +64,7 @@ class Service extends BaseService<TenantItem>{
             )),
         bind: (id: string, data: { name: string, userId: string, admin: boolean }[]) => defer(
             () => from(
-                request(this.tenant === 'true' ? `/jetlinks/tenant/members/_bind` : `/jetlinks/tenant/${id}/members/_bind`, {
+                request(this.tenant === 'true' ? `/rwslinks/tenant/members/_bind` : `/rwslinks/tenant/${id}/members/_bind`, {
                     method: 'POST',
                     data,
                 })).pipe(
@@ -72,7 +72,7 @@ class Service extends BaseService<TenantItem>{
                     map(resp => resp.result)
                 )),
         unBind: (id: string, data: string[]) => defer(() => from(
-            request(this.tenant === 'true' ? `/jetlinks/tenant/members/_unbind` : `/jetlinks/tenant/${id}/members/_unbind`, {
+            request(this.tenant === 'true' ? `/rwslinks/tenant/members/_unbind` : `/rwslinks/tenant/${id}/members/_unbind`, {
                 method: 'POST',
                 data
             })).pipe(
@@ -80,7 +80,7 @@ class Service extends BaseService<TenantItem>{
                 map(resp => resp.result)
             )),
         create: (id: string, data: any) => defer(() => from(
-            request(`/jetlinks/tenant/${id}/member`, {
+            request(`/rwslinks/tenant/${id}/member`, {
                 method: 'POST',
                 data
             })).pipe(
@@ -88,7 +88,7 @@ class Service extends BaseService<TenantItem>{
                 map(resp => resp.result)
             )),
         userlist: (params: any) => defer(() => from(
-            request(`/jetlinks/user/_query/no-paging`, {
+            request(`/rwslinks/user/_query/no-paging`, {
                 method: 'GET',
                 params,
             })).pipe(
@@ -104,7 +104,7 @@ class Service extends BaseService<TenantItem>{
             assetIdList: string[],
             allPermission: boolean
         }[]) => defer(() => from(
-            request(this.tenant === 'true' ? `/jetlinks/tenant/assets/_bind` : `/jetlinks/tenant/${id}/assets/_bind`, {
+            request(this.tenant === 'true' ? `/rwslinks/tenant/assets/_bind` : `/rwslinks/tenant/${id}/assets/_bind`, {
                 method: 'POST',
                 data
             })).pipe(
@@ -116,7 +116,7 @@ class Service extends BaseService<TenantItem>{
             assetType: string,
             assetIdList: string[]
         }[]) => defer(() => from(
-            request(this.tenant === 'true' ? `/jetlinks/tenant/assets/_unbind` : `/jetlinks/tenant/${id}/assets/_unbind`, {
+            request(this.tenant === 'true' ? `/rwslinks/tenant/assets/_unbind` : `/rwslinks/tenant/${id}/assets/_unbind`, {
                 method: 'POST',
                 data
             })).pipe(
@@ -124,7 +124,7 @@ class Service extends BaseService<TenantItem>{
                 map(resp => resp.result)
             )),
         device: (params: any) => defer(() => from(
-            request(`/jetlinks/device/instance/_query`, {
+            request(`/rwslinks/device/instance/_query`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -132,7 +132,7 @@ class Service extends BaseService<TenantItem>{
                 map(resp => resp.result)
             )),
         deviceCount: (params: any) => defer(() => from(
-            request(`/jetlinks/device/instance/_count`, {
+            request(`/rwslinks/device/instance/_count`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -140,7 +140,7 @@ class Service extends BaseService<TenantItem>{
                 map(resp => resp.result)
             )),
         product: (params: any) => defer(() => from(
-            request(`/jetlinks/device-product/_query`, {
+            request(`/rwslinks/device-product/_query`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -148,7 +148,7 @@ class Service extends BaseService<TenantItem>{
                 map(resp => resp.result)
             )),
         productNopaging: (params: any) => defer(() => from(
-            request(`/jetlinks/device-product/_query/no-paging?paging=false`, {
+            request(`/rwslinks/device-product/_query/no-paging?paging=false`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -156,7 +156,7 @@ class Service extends BaseService<TenantItem>{
                 flatMap(resp => from(resp.result)),
             )),
         productCount: (params: any) => defer(() => from(
-            request(`/jetlinks/device-product/_count`, {
+            request(`/rwslinks/device-product/_count`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -164,7 +164,7 @@ class Service extends BaseService<TenantItem>{
                 map(resp => resp.result)
             )),
         instanceNopaging: (params: any) => defer(() => from(
-            request(`/jetlinks/device-instance/_query/no-paging?paging=false`, {
+            request(`/rwslinks/device-instance/_query/no-paging?paging=false`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -172,7 +172,7 @@ class Service extends BaseService<TenantItem>{
                 flatMap(resp => from(resp.result)),
             )),
         protocol: (params: any) => defer(() => from(
-            request(`/jetlinks/protocol/_query`, {
+            request(`/rwslinks/protocol/_query`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -180,7 +180,7 @@ class Service extends BaseService<TenantItem>{
                 map(resp => resp.result)
             )),
         protocolCount: (params: any) => defer(() => from(
-            request(`/jetlinks/protocol/_count`, {
+            request(`/rwslinks/protocol/_count`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -188,7 +188,7 @@ class Service extends BaseService<TenantItem>{
                 map(resp => resp.result)
             )),
         members: (tenantId: string, assetType: string, assetId: string) => defer(() => from(
-            request(`/jetlinks/tenant/${tenantId}/asset/${assetType}/${assetId}/members`, {
+            request(`/rwslinks/tenant/${tenantId}/asset/${assetType}/${assetId}/members`, {
                 method: 'GET',
             })).pipe(
                 filter(resp => resp.status === 200),
@@ -198,7 +198,7 @@ class Service extends BaseService<TenantItem>{
 
     public alarm = {
         count: (params: any) => defer(() => from(
-            request(`/jetlinks/device/alarm/history/_count`, {
+            request(`/rwslinks/device/alarm/history/_count`, {
                 method: 'GET',
                 params,
             })).pipe(

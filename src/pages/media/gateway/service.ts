@@ -6,7 +6,7 @@ import {filter, map} from "rxjs/operators";
 class Service extends BaseService<any> {
 
   public queryProduct = (params: any) => defer(
-    () => from(request(`/jetlinks/device/product/_query/no-paging?paging=false`, {
+    () => from(request(`/rwslinks/device/product/_query/no-paging?paging=false`, {
       method: 'GET',
       params
     })).pipe(
@@ -15,7 +15,7 @@ class Service extends BaseService<any> {
     ));
 
   public _enabled = (id: string) => defer(
-    () => from(request(`/jetlinks/media/gb28181/${id}/_enabled`, {
+    () => from(request(`/rwslinks/media/gb28181/${id}/_enabled`, {
       method: 'POST'
     }))
       .pipe(
@@ -24,7 +24,7 @@ class Service extends BaseService<any> {
       ));
 
   public _disabled = (id: string) => defer(
-    () => from(request(`/jetlinks/media/gb28181/${id}/_disabled`, {
+    () => from(request(`/rwslinks/media/gb28181/${id}/_disabled`, {
       method: 'POST'
     }))
       .pipe(
@@ -33,7 +33,7 @@ class Service extends BaseService<any> {
       ));
 
   public mediaServer = (params: any) => defer(
-    () => from(request(`/jetlinks/media/server/_query/no-paging?paging=false`, {
+    () => from(request(`/rwslinks/media/server/_query/no-paging?paging=false`, {
       method: 'GET',
       params
     }))
@@ -43,7 +43,7 @@ class Service extends BaseService<any> {
       ));
 
   public gatewayInfo = (id: string) => defer(
-    () => from(request(`/jetlinks/media/gb28181/${id}`, {
+    () => from(request(`/rwslinks/media/gb28181/${id}`, {
       method: 'GET',
       errorHandler: () => {
       }
@@ -54,7 +54,7 @@ class Service extends BaseService<any> {
       ));
 
   public saveGateway = (data: any) => defer(
-    () => from(request(`/jetlinks/media/gb28181/`, {
+    () => from(request(`/rwslinks/media/gb28181/`, {
       method: 'PATCH',
       data: data
     }))

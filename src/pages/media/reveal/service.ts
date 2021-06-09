@@ -6,7 +6,7 @@ import { filter, map } from "rxjs/operators";
 class Service extends BaseService<any> {
 
   public groupDevice = (param: any) => defer(
-    () => from(request(`/jetlinks/media/device/_query/no-paging?paging=false`, {
+    () => from(request(`/rwslinks/media/device/_query/no-paging?paging=false`, {
       method: 'GET',
       params: param
     })).pipe(
@@ -15,7 +15,7 @@ class Service extends BaseService<any> {
     ));
 
   public getProduct = (param: any) => defer(
-    () => from(request(`/jetlinks/media/gb28181/_query/no-paging?paging=false`, {
+    () => from(request(`/rwslinks/media/gb28181/_query/no-paging?paging=false`, {
       method: 'GET',
       params: param
     })).pipe(
@@ -23,7 +23,7 @@ class Service extends BaseService<any> {
       map(resp => resp.result)
     ));
   public getChannel = (param: any) => defer(
-    () => from(request(`/jetlinks/media/channel/_query/no-paging?paging=false`, {
+    () => from(request(`/rwslinks/media/channel/_query/no-paging?paging=false`, {
       method: 'GET',
       params: param
     })).pipe(
@@ -31,27 +31,27 @@ class Service extends BaseService<any> {
       map(resp => resp.result)
     ));
   public getPlay = (deviceId: string, channelId: string) => defer(
-    () => from(request(`/jetlinks/media/device/${deviceId}/${channelId}/_start`, {
+    () => from(request(`/rwslinks/media/device/${deviceId}/${channelId}/_start`, {
       method: 'POST'
     })).pipe(
       filter(resp => resp.status === 200),
       map(resp => resp.result)
     ));
   public getStop = (deviceId: string, channelId: string) => defer(
-    () => from(request(`/jetlinks/media/device/${deviceId}/${channelId}/_stop`, {
+    () => from(request(`/rwslinks/media/device/${deviceId}/${channelId}/_stop`, {
       method: 'POST'
     })).pipe(
       filter(resp => resp.status === 200),
       map(resp => resp.result)
     ));
   public getControlStart = (deviceId: string, channelId: string, direct: string, speed: number) => defer(
-    () => from(request(`/jetlinks/media/device/${deviceId}/${channelId}/_ptz/${direct}/${speed}`, { method: 'POST' }))
+    () => from(request(`/rwslinks/media/device/${deviceId}/${channelId}/_ptz/${direct}/${speed}`, { method: 'POST' }))
       .pipe(
         filter(resp => resp.status === 200),
         map(resp => resp.result)
       ));
   public getControlStop = (deviceId: string, channelId: string) => defer(
-    () => from(request(`/jetlinks/media/device/${deviceId}/${channelId}/_ptz/STOP`, { method: 'POST' }))
+    () => from(request(`/rwslinks/media/device/${deviceId}/${channelId}/_ptz/STOP`, { method: 'POST' }))
       .pipe(
         filter(resp => resp.status === 200),
         map(resp => resp.result)

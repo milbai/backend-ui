@@ -156,7 +156,7 @@ const Template: React.FC<Props> = props => {
 
   /*const uploadProps: UploadProps = {
     accept: '.json',
-    action: '/jetlinks/file/static',
+    action: '/rwslinks/file/static',
     headers: {
       'X-Access-Token': getAccessToken(),
     },

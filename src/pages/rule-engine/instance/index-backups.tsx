@@ -173,7 +173,7 @@ const RuleInstanceList: React.FC<Props> = props => {
               <>
                 <a
                   onClick={() => {
-                    window.open(`/jetlinks/rule-editor/index.html#flow/${record.id}`)
+                    window.open(`/rwslinks/rule-editor/index.html#flow/${record.id}`)
                   }}
                 >
                   详情

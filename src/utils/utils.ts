@@ -111,7 +111,7 @@ export const downloadObject = (record: any, fileName: string) => {
 
 export const wrapAPI = (url: string) => {
   if (REACT_APP_ENV === 'dev') {
-    return url.replace('/jetlinks/', proxy.dev['/jetlinks'].target);
+    return url.replace('/rwslinks/', proxy.dev['/rwslinks'].target);
   }
   return url;
 };

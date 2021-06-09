@@ -3,7 +3,7 @@
 API_BASE_PATH=$API_BASE_PATH;
 NAMESERVERS=$(cat /etc/resolv.conf | grep "nameserver" | awk '{print $2}' | tr '\n' ' ')
 if [ -z "$API_BASE_PATH" ]; then
-    API_BASE_PATH="http://jetlinks:8844/";
+    API_BASE_PATH="http://rwslinks:8844/";
 fi
 
 apiUrl="proxy_pass  $API_BASE_PATH\$1;"

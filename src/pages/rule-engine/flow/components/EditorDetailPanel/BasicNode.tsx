@@ -79,7 +79,7 @@ const BasicNode: React.FC<Props> = props => {
     setPolling(true);
     const es = new EventSourcePolyfill(
       wrapAPI(
-        `/jetlinks/rule-engine/debug/${debugSessionId}/logs/?:X_Access_Token=${getAccessToken()}`,
+        `/rwslinks/rule-engine/debug/${debugSessionId}/logs/?:X_Access_Token=${getAccessToken()}`,
       ),
     );
     es.onmessage = (ev: any) => {

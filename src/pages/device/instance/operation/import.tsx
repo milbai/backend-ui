@@ -67,7 +67,7 @@ const Import: React.FC<Props> = props => {
       let dt = 0;
       // todo:后期需优化，更换为：websocket
       const source = new EventSourcePolyfill(
-        wrapAPI(`/jetlinks/device/instance/${product}/import?fileUrl=${fileUrl}&autoDeploy=${autoDeploy}&:X_Access_Token=${getAccessToken()}`)
+        wrapAPI(`/rwslinks/device/instance/${product}/import?fileUrl=${fileUrl}&autoDeploy=${autoDeploy}&:X_Access_Token=${getAccessToken()}`)
       );
       setSource(source);
       source.onmessage = (e: any) => {
@@ -93,7 +93,7 @@ const Import: React.FC<Props> = props => {
 
   const uploadProps: UploadProps = {
     accept: fileType,
-    action: '/jetlinks/file/static',
+    action: '/rwslinks/file/static',
     headers: {
       'X-Access-Token': getAccessToken(),
     },
@@ -116,7 +116,7 @@ const Import: React.FC<Props> = props => {
     const formElement = document.createElement('form');
     formElement.style.display = 'display:none;';
     formElement.method = 'GET';
-    formElement.action = `/jetlinks/device/instance/${product}/template.${type}`;
+    formElement.action = `/rwslinks/device/instance/${product}/template.${type}`;
     const inputElement = document.createElement('input');
     inputElement.type = 'hidden';
     inputElement.name = ':X_Access_Token';

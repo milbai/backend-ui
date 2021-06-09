@@ -76,7 +76,7 @@ const MqttClient: React.FC<Props> = props => {
       // console.log('debugMqtt', data);
       // const eventSource = new EventSourcePolyfill(
       //   wrapAPI(
-      //     `/jetlinks/network/mqtt/client/${item.id}/_subscribe/${
+      //     `/rwslinks/network/mqtt/client/${item.id}/_subscribe/${
       //     subscribeData.type
       //     }/?topics=${encodeURIComponent(
       //       subscribeData.topics,

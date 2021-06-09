@@ -325,7 +325,7 @@ const RuleInstanceList: React.FC<Props> = props => {
                             type="edit"
                             onClick={() => {
                               if (item.modelType === 'node-red') {
-                                window.open(`/jetlinks/rule-editor/index.html#flow/${item.id}`)
+                                window.open(`/rwslinks/rule-editor/index.html#flow/${item.id}`)
                               } else if (item.modelType === 'sql_rule') {
                                 try {
                                   let data = JSON.parse(item.modelMeta);

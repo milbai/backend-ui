@@ -239,14 +239,14 @@ const DeviceInstancePage: React.FC<Props> = props => {
   const startImport = () => {
     // let dt = 0;
     setProcessVisible(true);
-    const activeAPI = `/jetlinks/device-instance/deploy?${getSearchParam()}:X_Access_Token=${getAccessToken()} `;
+    const activeAPI = `/rwslinks/device-instance/deploy?${getSearchParam()}:X_Access_Token=${getAccessToken()} `;
     setAPI(activeAPI);
     setAction('active');
   };
 
   const startSync = () => {
     setProcessVisible(true);
-    const syncAPI = `/jetlinks/device-instance/state/_sync/?${getSearchParam()}:X_Access_Token=${getAccessToken()}`;
+    const syncAPI = `/rwslinks/device-instance/state/_sync/?${getSearchParam()}:X_Access_Token=${getAccessToken()}`;
     setAPI(syncAPI);
     setAction('sync');
   };
@@ -281,7 +281,7 @@ const DeviceInstancePage: React.FC<Props> = props => {
     const formElement = document.createElement('form');
     formElement.style.display = 'display:none;';
     formElement.method = 'post';
-    formElement.action = `/jetlinks/device-instance/export?:X_Access_Token=${getAccessToken()}`;
+    formElement.action = `/rwslinks/device-instance/export?:X_Access_Token=${getAccessToken()}`;
     const params = encodeQueryParam(searchParam);
     Object.keys(params).forEach((key: string) => {
       const inputElement = document.createElement('input');
@@ -297,7 +297,7 @@ const DeviceInstancePage: React.FC<Props> = props => {
 
   const uploadProps: UploadProps = {
     accept: '.xlsx',
-    action: '/jetlinks/file/static',
+    action: '/rwslinks/file/static',
     headers: {
       'X-Access-Token': getAccessToken(),
     },
@@ -306,7 +306,7 @@ const DeviceInstancePage: React.FC<Props> = props => {
       if (info.file.status === 'done') {
         setUploading(false);
         const fileUrl = info.file.response.result;
-        const url = `/jetlinks/device-instance/import?fileUrl=${fileUrl}&:X_Access_Token=${getAccessToken()}`;
+        const url = `/rwslinks/device-instance/import?fileUrl=${fileUrl}&:X_Access_Token=${getAccessToken()}`;
         setAPI(url);
         setAction('import');
         setImportLoading(true);

@@ -3,52 +3,52 @@ import request from '@/utils/request';
 import { PermissionItem } from './data';
 
 export async function list(params?: any) {
-  return request(`/jetlinks/permission/_query`, {
+  return request(`/rwslinks/permission/_query`, {
     method: 'GET',
     params,
   });
 }
 
 export async function listNoPaging(params?: any) {
-  return request(`/jetlinks/permission/_query/no-paging?paging=false`, {
+  return request(`/rwslinks/permission/_query/no-paging?paging=false`, {
     method: 'GET',
     params
   });
 }
 
 export async function detail(id: string) {
-  return request(`/jetlinks/permission/${id}`, {
+  return request(`/rwslinks/permission/${id}`, {
     method: 'GET',
   });
 }
 
 export async function remove(id: string) {
-  return request(`/jetlinks/permission/${id}`, {
+  return request(`/rwslinks/permission/${id}`, {
     method: 'DELETE',
   });
 }
 
 export async function add(params: PermissionItem) {
-  return request(`/jetlinks/permission`, {
+  return request(`/rwslinks/permission`, {
     method: 'PATCH',
     data: params,
   });
 }
 export async function update(params: PermissionItem) {
-  return request(`/jetlinks/permission/${params.id}`, {
+  return request(`/rwslinks/permission/${params.id}`, {
     method: 'PUT',
     data: params,
   });
 }
 
 export async function autzSetting(params: { settingId: string; settingType: string }) {
-  return request(`/jetlinks/autz-setting/${params.settingType}/${params.settingId}`, {
+  return request(`/rwslinks/autz-setting/${params.settingType}/${params.settingId}`, {
     method: 'GET',
   });
 }
 
 export async function setAutz(params: any) {
-  return request(`/jetlinks/autz-setting`, {
+  return request(`/rwslinks/autz-setting`, {
     method: 'PATCH',
     data: params,
   });

@@ -1,17 +1,17 @@
 version: '3.5'
 
 services:
-  jetlinks_build:
+  rwslinks_build:
     build: ../
-    container_name: 'jetlinks_build'
+    container_name: 'rwslinks_build'
     volumes:
       - dist:/usr/src/app/dist
 
-  jetlinks_web:
+  rwslinks_web:
     image: nginx
     ports:
       - 80:80
-    container_name: 'jetlinks_web'
+    container_name: 'rwslinks_web'
     restart: unless-stopped
     volumes:
       - dist:/usr/share/nginx/html:ro

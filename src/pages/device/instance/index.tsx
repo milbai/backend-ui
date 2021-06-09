@@ -366,14 +366,14 @@ const DeviceInstancePage: React.FC<Props> = props => {
   // 激活全部设备
   const startImport = () => {
     setProcessVisible(true);
-    const activeAPI = `/jetlinks/device-instance/deploy?${getSearchParam()}:X_Access_Token=${getAccessToken()} `;
+    const activeAPI = `/rwslinks/device-instance/deploy?${getSearchParam()}:X_Access_Token=${getAccessToken()} `;
     setAPI(activeAPI);
     setAction('active');
   };
 
   const startSync = () => {
     setProcessVisible(true);
-    const syncAPI = `/jetlinks/device-instance/state/_sync/?${getSearchParam()}:X_Access_Token=${getAccessToken()}`;
+    const syncAPI = `/rwslinks/device-instance/state/_sync/?${getSearchParam()}:X_Access_Token=${getAccessToken()}`;
     setAPI(syncAPI);
     setAction('sync');
   };

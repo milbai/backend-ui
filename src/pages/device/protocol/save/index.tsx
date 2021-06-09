@@ -109,7 +109,7 @@ const Save: React.FC<Props> = props => {
   const uploadProps = {
     accept: '.jar,.zip',
     name: 'file',
-    action: `/jetlinks/file/static`,
+    action: `/rwslinks/file/static`,
     showUploadList: false,
     headers: {
       'X-Access-Token': getAccessToken(),

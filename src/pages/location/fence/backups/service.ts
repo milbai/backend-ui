@@ -7,7 +7,7 @@ class Service extends BaseService<any>{
     public propertyType = (deviceId: string, propertyId: string) =>
         defer(() =>
             from(request(
-                `/jetlinks/device/instance/${deviceId}/property/${propertyId}`,
+                `/rwslinks/device/instance/${deviceId}/property/${propertyId}`,
                 { method: 'GET' }
             )).pipe(
                 map(resp => resp.result),
@@ -16,7 +16,7 @@ class Service extends BaseService<any>{
     public exec = (deviceId: string, functionId: string, data: any) =>
         defer(() =>
             from(request(
-                `/jetlinks/device/instance/${deviceId}/function/${functionId}`,
+                `/rwslinks/device/instance/${deviceId}/function/${functionId}`,
                 { method: 'POST', data }
             )).pipe(
                 map(resp => resp.result)

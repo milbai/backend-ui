@@ -136,11 +136,11 @@ export default {
   //   ['transform-remove-console', { exclude: ['error', 'info'] }]
   // ]
   // proxy: {
-  //   '/jetlinks': {
+  //   '/rwslinks': {
   //     // target: 'http://192.168.3.89:8848/',
-  //     target: 'http://2.jetlinks.org:9010/',
+  //     target: 'http://2.rwslinks.org:9010/',
   //     changeOrigin: true,
-  //     pathRewrite: { '^/jetlinks': '' },
+  //     pathRewrite: { '^/rwslinks': '' },
   //   },
   // },
 } as IConfig;

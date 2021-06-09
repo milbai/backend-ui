@@ -30,7 +30,7 @@ class Service extends BaseService<UserDetail>{
         ));
 
     public setMainTenant = (tenant: string) => defer(() => from(
-        request(`/jetlinks/tenant/${tenant}/_main`, {
+        request(`/rwslinks/tenant/${tenant}/_main`, {
             method: 'PUT'
         })).pipe(
             map(resp => resp.result)
@@ -45,13 +45,13 @@ class Service extends BaseService<UserDetail>{
         ));
 
     public notificationProvider = () => defer(() => from(
-        request(`/jetlinks/notifications/providers`)
+        request(`/rwslinks/notifications/providers`)
     )).pipe(
         map(resp => resp.result)
     );
 
     public deviceAlarm = (params: any) => defer(() => from(
-        request(`/jetlinks/device/alarm/_query`, {
+        request(`/rwslinks/device/alarm/_query`, {
             method: 'GET',
             params
         })
@@ -60,7 +60,7 @@ class Service extends BaseService<UserDetail>{
     );
 
     public saveSubscribe = (data: any) => defer(() => from(
-        request(`/jetlinks/notifications/subscribe`, {
+        request(`/rwslinks/notifications/subscribe`, {
             method: 'PATCH',
             data
         })
@@ -70,19 +70,19 @@ class Service extends BaseService<UserDetail>{
 
     public notification = {
         close: (id: string) => defer(() => from(
-            request(`/jetlinks/notifications/subscription/${id}/_disabled`, {
+            request(`/rwslinks/notifications/subscription/${id}/_disabled`, {
                 method: 'PUT',
             })
         )),
 
         open: (id: string) => defer(() => from(
-            request(`/jetlinks/notifications/subscription/${id}/_enabled`, {
+            request(`/rwslinks/notifications/subscription/${id}/_enabled`, {
                 method: 'PUT',
             })
         )),
 
         remove: (id: string) => defer(() => from(
-            request(`/jetlinks/notifications/subscription/${id}`, {
+            request(`/rwslinks/notifications/subscription/${id}`, {
                 method: 'DELETE',
             })
         )),

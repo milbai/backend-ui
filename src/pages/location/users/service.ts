@@ -2,62 +2,62 @@ import request from '@/utils/request';
 import { UserItem } from './data';
 
 export async function list(params?: any) {
-  return request(`/jetlinks/user/employee/_query`, {
+  return request(`/rwslinks/user/employee/_query`, {
     method: 'GET',
     params: params,
   });
 }
 
 export async function listNoPaging(params?: any) {
-  return request(`/jetlinks/user/employee/_query/no-paging`, {
+  return request(`/rwslinks/user/employee/_query/no-paging`, {
     method: 'GET',
     params: params,
   });
 }
 
 export async function listAll(params?: any) {
-  return request(`/jetlinks/user/employee/_query/no-paging?paging=false`, {
+  return request(`/rwslinks/user/employee/_query/no-paging?paging=false`, {
     method: 'GET',
     params: params,
   });
 }
 
 export async function saveOrUpdate(params: UserItem) {
-  return request(`/jetlinks/user/employee/`, {
+  return request(`/rwslinks/user/employee/`, {
     method: 'PATCH',
     data: params,
   });
 }
 
 export async function bond(params?: any) {
-  return request(`/jetlinks/user/employee/bond`, {
+  return request(`/rwslinks/user/employee/bond`, {
     method: 'GET',
     params: params,
   });
 }
 export async function unbond(params?: any) {
-  return request(`/jetlinks/user/employee/unbond`, {
+  return request(`/rwslinks/user/employee/unbond`, {
     method: 'GET',
     params: params,
   });
 }
 
 export async function carddetail(params?: any) {
-  return request(`/jetlinks/user/card/record/_query`, {
+  return request(`/rwslinks/user/card/record/_query`, {
     method: 'GET',
     params: params,
   });
 }
 
 export async function info(id: string) {
-  return request(`/jetlinks/user/employee/${id}`, {
+  return request(`/rwslinks/user/employee/${id}`, {
     method: 'GET',
   });
 }
 
 
 export async function remove(id: string) {
-  return request(`/jetlinks/user/employee/${id}`, {
+  return request(`/rwslinks/user/employee/${id}`, {
     method: 'DELETE',
   });
 }

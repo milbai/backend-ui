@@ -6,7 +6,7 @@ import encodeQueryParam from "@/utils/encodeParam";
 
 class Service extends BaseService<any>{
 
-    public propertiesRealTime = (data: any) => defer(() => from(request(`/jetlinks/dashboard/_multi`, {
+    public propertiesRealTime = (data: any) => defer(() => from(request(`/rwslinks/dashboard/_multi`, {
         method: 'POST',
         data
     })).pipe(
@@ -21,7 +21,7 @@ class Service extends BaseService<any>{
     ));
 
     public getProperty = (id: string, type: string) => defer(() => from(
-        request(`/jetlinks/device/standard/${id}/property/${type}`, {
+        request(`/rwslinks/device/standard/${id}/property/${type}`, {
             method: 'GET',
         })).pipe(
             filter(resp => resp.status === 200),
@@ -29,7 +29,7 @@ class Service extends BaseService<any>{
         ));
 
     public eventCount = (id: string, event: string) => defer(() => from(
-        request(`/jetlinks/device/instance/${id}/event/${event}?format=true`, {
+        request(`/rwslinks/device/instance/${id}/event/${event}?format=true`, {
             method: 'GET',
             params: encodeQueryParam({
                 pageSize: 1
@@ -40,7 +40,7 @@ class Service extends BaseService<any>{
         ));
 
     public updateProperty = (deviceId: string, data: any) => defer(() => from(
-        request(`/jetlinks/device/instance/${deviceId}/property`, {
+        request(`/rwslinks/device/instance/${deviceId}/property`, {
             method: 'PUT',
             data,
         })).pipe(

@@ -23,7 +23,7 @@ const BasicInfo = (props: Props) => {
     const service = new Service('tenant');
     const uploadProps: UploadProps = {
         // accept: ,
-        action: '/jetlinks/file/static',
+        action: '/rwslinks/file/static',
         headers: {
             'X-Access-Token': getAccessToken(),
         },

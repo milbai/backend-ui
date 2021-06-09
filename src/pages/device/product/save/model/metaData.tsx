@@ -67,12 +67,12 @@ const MetaData: React.FC<Props> = props => {
         </p>
       </div>
       <Tabs type="card" onChange={(key: string) => {
-        if (key !== '' && key !== 'JetLinks') {
+        if (key !== '' && key !== 'rwslinks') {
           apis.deviceProdcut.getOtherModel(key, metaData).then(res => {
             setData(JSON.stringify(res.result));
             setOtherMetaData(JSON.stringify(res.result, null, 2))
           })
-        } else if (key === 'JetLinks') {
+        } else if (key === 'rwslinks') {
           apis.deviceProdcut.info(props.productId)
             .then((response: any) => {
               if (response.status === 200) {
@@ -88,7 +88,7 @@ const MetaData: React.FC<Props> = props => {
             });
         }
       }}>
-        <Tabs.TabPane tab="JetLinks" key="JetLinks">
+        <Tabs.TabPane tab="rwslinks" key="rwslinks">
           <div style={{ border: '1px solid #E9E9E9', marginTop: 20 }}>
             <AceEditor
               readOnly={true}

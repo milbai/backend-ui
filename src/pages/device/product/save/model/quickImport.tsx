@@ -108,7 +108,7 @@ const QuickImport: React.FC<Props> = props => {
           <br />
           物模型格式请参考文档：
           <a target='_blank'
-            href='http://doc.jetlinks.cn/basics-guide/device-manager.html#%E8%AE%BE%E5%A4%87%E5%9E%8B%E5%8F%B7'>
+            href='http://doc.rwslinks.cn/basics-guide/device-manager.html#%E8%AE%BE%E5%A4%87%E5%9E%8B%E5%8F%B7'>
             设备型号
           </a>
         </p>
@@ -145,7 +145,7 @@ const QuickImport: React.FC<Props> = props => {
               <span>
                 物模型格式请参考文档：
           <a target='_blank'
-                  href='http://doc.jetlinks.cn/basics-guide/device-manager.html#%E8%AE%BE%E5%A4%87%E5%9E%8B%E5%8F%B7'>
+                  href='http://doc.rwslinks.cn/basics-guide/device-manager.html#%E8%AE%BE%E5%A4%87%E5%9E%8B%E5%8F%B7'>
                   设备型号
           </a>
               </span>
@@ -181,7 +181,7 @@ const QuickImport: React.FC<Props> = props => {
               </Upload>
             </Col>
             <Col span={18}>
-              <Select placeholder="JetLinks物模型" allowClear style={{width: '200px'}} onChange={(value: string) => {
+              <Select placeholder="rwslinks物模型" allowClear style={{width: '200px'}} onChange={(value: string) => {
                 if(value !== '{}' && value !== undefined){
                   setModelId(value)
                 }

@@ -8,7 +8,7 @@ class Service extends BaseService<any>{
     public propertySource = (deviceId: string, propertyId: string) =>
         defer(() =>
             from(request(
-                `/jetlinks/device/instance/${deviceId}/property/${propertyId}`,
+                `/rwslinks/device/instance/${deviceId}/property/${propertyId}`,
                 { method: 'GET' }
             )).pipe(
                 map(resp => resp.result),
@@ -17,7 +17,7 @@ class Service extends BaseService<any>{
     public exec = (deviceId: string, functionId: string, data: any) =>
         defer(() =>
             from(request(
-                `/jetlinks/device/instance/${deviceId}/function/${functionId}`,
+                `/rwslinks/device/instance/${deviceId}/function/${functionId}`,
                 { method: 'POST', data }
             )).pipe(
                 map(resp => resp.result)
@@ -25,7 +25,7 @@ class Service extends BaseService<any>{
 
     public getLayout = (params: any) => defer(() =>
         from(request(
-            `/jetlinks/visualization/${params.type}/${params.target}`,
+            `/rwslinks/visualization/${params.type}/${params.target}`,
             { method: 'GET', }
         )).pipe(
             filter(resp => resp.status),
@@ -34,7 +34,7 @@ class Service extends BaseService<any>{
 
     public getDashboardData = (params: any[]) => defer(() =>
         from(request(
-            `/jetlinks/dashboard/_multi`,
+            `/rwslinks/dashboard/_multi`,
             {
                 method: 'POST',
                 data: params

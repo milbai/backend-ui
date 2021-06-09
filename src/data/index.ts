@@ -5,19 +5,19 @@ import { map, shareReplay } from "rxjs/operators";
 import request from "umi-request";
 
 // const auth$ = ajax({
-//     url: '/jetlinks/authorize/me',
+//     url: '/rwslinks/authorize/me',
 //     method: 'GET',
 //     headers: {
 //         'X-Access-Token': getAccessToken()
 //     }
 // });
-const auth$ = defer(() => from(request(`/jetlinks/authorize/me`, {
+const auth$ = defer(() => from(request(`/rwslinks/authorize/me`, {
     method: 'GET',
 })));
 
-const systemInfo$ = defer(() => from(request('/jetlinks/system/config/front', { method: 'GET' })))
+const systemInfo$ = defer(() => from(request('/rwslinks/system/config/front', { method: 'GET' })))
 // const systemInfo$ = ajax({
-//     url: '/jetlinks/system/config/front',
+//     url: '/rwslinks/system/config/front',
 //     method: 'GET',
 //     headers: {
 //         'X-Access-Token': getAccessToken()

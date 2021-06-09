@@ -5,47 +5,47 @@ import { defer, from, of } from "rxjs";
 import { filter, map, flatMap, toArray } from "rxjs/operators";
 
 export async function list(params: any) {
-    return request(`/jetlinks/open-api/_query`, {
+    return request(`/rwslinks/open-api/_query`, {
         method: 'GET',
         params,
     });
 }
 
 export async function remove(id: string) {
-    return request(`/jetlinks/open-api/${id}`, {
+    return request(`/rwslinks/open-api/${id}`, {
         method: 'DELETE',
     });
 }
 
 export async function add(params: OpenApiItem) {
-    return request(`/jetlinks/open-api`, {
+    return request(`/rwslinks/open-api`, {
         method: 'POST',
         data: params,
     })
 }
 export async function update(params: OpenApiItem) {
-    return request(`/jetlinks/open-api`, {
+    return request(`/rwslinks/open-api`, {
         method: 'PATCH',
         data: params,
     })
 }
 
 export async function authList(params?: any) {
-    return request(`/jetlinks/autz-setting/_query/no-paging`, {
+    return request(`/rwslinks/autz-setting/_query/no-paging`, {
         method: 'GET',
         params,
     });
 }
 
 export async function permissionList(params?: any) {
-    return request(`/jetlinks/permission/_query/no-paging?paging=false`, {
+    return request(`/rwslinks/permission/_query/no-paging?paging=false`, {
         method: 'GET',
         params
     });
 }
 
 export async function autz(params?: any) {
-    return request(`/jetlinks/autz-setting/_query/no-paging`, {
+    return request(`/rwslinks/autz-setting/_query/no-paging`, {
         method: 'GET',
         params,
     });
@@ -54,7 +54,7 @@ class Service extends BaseService<any>{
 
     public permission = {
         query: (params: any) => defer(() => from(
-            request(`/jetlinks/permission/_query/no-paging?paging=false`, {
+            request(`/rwslinks/permission/_query/no-paging?paging=false`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -73,7 +73,7 @@ class Service extends BaseService<any>{
                 toArray()
             )),
         auth: (params: any) => defer(() => from(
-            request(`/jetlinks/autz-setting/_query/no-paging?paging=false`, {
+            request(`/rwslinks/autz-setting/_query/no-paging?paging=false`, {
                 method: 'GET',
                 params
             })).pipe(
@@ -87,7 +87,7 @@ class Service extends BaseService<any>{
                 toArray(),
             )),
         save: (data: any) => defer(() => from(
-            request(`/jetlinks/autz-setting/detail/_save`, {
+            request(`/rwslinks/autz-setting/detail/_save`, {
                 method: 'POST',
                 data
             })).pipe(

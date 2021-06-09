@@ -2,80 +2,80 @@ import request from '@/utils/request';
 import { RuleInstanceItem } from './data.d';
 
 export async function list(params?: any) {
-  return request(`/jetlinks/rule-engine/instance/_query`, {
+  return request(`/rwslinks/rule-engine/instance/_query`, {
     method: 'GET',
     params,
   });
 }
 
 export async function listNoPaging(params?: any) {
-  return request(`/jetlinks/rule-engine/instance/_query/no-paging`, {
+  return request(`/rwslinks/rule-engine/instance/_query/no-paging`, {
     method: 'GET',
     params,
   });
 }
 
 export async function saveOrUpdate(params: RuleInstanceItem) {
-  return request(`/jetlinks/rule-engine/instance/`, {
+  return request(`/rwslinks/rule-engine/instance/`, {
     method: 'PATCH',
     data: params,
   });
 }
 
 export async function info(id: string) {
-  return request(`/jetlinks/rule-engine/instance/${id}`, {
+  return request(`/rwslinks/rule-engine/instance/${id}`, {
     method: 'GET',
   });
 }
 
 export async function remove(id: string) {
-  return request(`/jetlinks/rule-engine/instance/${id}`, {
+  return request(`/rwslinks/rule-engine/instance/${id}`, {
     method: 'DELETE',
   });
 }
 
 export async function start(id: string) {
-  return request(`/jetlinks/rule-engine/instance/${id}/_start`, {
+  return request(`/rwslinks/rule-engine/instance/${id}/_start`, {
     method: 'POST',
   });
 }
 
 export async function stop(id: string) {
-  return request(`/jetlinks/rule-engine/instance/${id}/_stop`, {
+  return request(`/rwslinks/rule-engine/instance/${id}/_stop`, {
     method: 'POST',
   });
 }
 
 export async function createModel(params: RuleInstanceItem) {
-  return request(`/jetlinks/rule-engine/model`, {
+  return request(`/rwslinks/rule-engine/model`, {
     method: 'POST',
     data: params,
   });
 }
 
 export async function log(id: string, params: any) {
-  return request(`/jetlinks/rule-engine/instance/${id}/logs`, {
+  return request(`/rwslinks/rule-engine/instance/${id}/logs`, {
     method: 'GET',
     params,
   });
 }
 
 export async function event(id: string, params: any) {
-  return request(`/jetlinks/rule-engine/instance/${id}/events`, {
+  return request(`/rwslinks/rule-engine/instance/${id}/events`, {
     method: 'GET',
     params,
   });
 }
 
 export async function node(id: string, params: any) {
-  return request(`/jetlinks/rule-engine/instance/${id}/nodes`, {
+  return request(`/rwslinks/rule-engine/instance/${id}/nodes`, {
     method: 'GET',
     params,
   });
 }
 
 export async function create(params: any) {
-  return request(`/jetlinks/rule-editor/flows/_create`, {
+  return request(`/rwslinks/rule-editor/flows/_create`, {
     method: 'POST',
     data: params
   });

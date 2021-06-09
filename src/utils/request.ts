@@ -144,9 +144,9 @@ const request = extend({
 });
 
 request.interceptors.request.use((url, options) => ({
-  // url: url.replace('jetlinks', 'mock'),//使用mock数据
-  // url: 'http://localhost:8000' + url.replace('/jetlinks', ''),
-  // url: 'http://2.jetlinks.org:9010' + url.replace('/jetlinks', ''),
+  // url: url.replace('rwslinks', 'mock'),//使用mock数据
+  // url: 'http://localhost:8000' + url.replace('/rwslinks', ''),
+  // url: 'http://2.rwslinks.org:9010' + url.replace('/rwslinks', ''),
   options: {
     ...options,
     headers: {

@@ -2,34 +2,34 @@ import request from '@/utils/request';
 // import { MqttItem } from './data';
 
 export async function list(params?: any) {
-  return request(`/jetlinks/network/certificate/_query`, {
+  return request(`/rwslinks/network/certificate/_query`, {
     method: 'GET',
     params,
   });
 }
 
 export async function listNoPaging(params?: any) {
-  return request(`/jetlinks/network/certificate/_query/no-paging`, {
+  return request(`/rwslinks/network/certificate/_query/no-paging`, {
     method: 'GET',
     params,
   });
 }
 
 export async function saveOrUpdate(params: any) {
-  return request(`/jetlinks/network/certificate/`, {
+  return request(`/rwslinks/network/certificate/`, {
     method: 'PATCH',
     data: params,
   });
 }
 
 export async function info() {
-  return request(`/jetlinks/network/certificate`, {
+  return request(`/rwslinks/network/certificate`, {
     method: 'GET',
   });
 }
 
 export async function remove(id: string) {
-  return request(`/jetlinks/network/certificate/${id}`, {
+  return request(`/rwslinks/network/certificate/${id}`, {
     method: 'DELETE',
   });
 }

@@ -28,7 +28,7 @@ const Save = (props: Props) => {
 
 
     const uploadProps: UploadProps = {
-        action: '/jetlinks/file/static',
+        action: '/rwslinks/file/static',
         headers: {
             'X-Access-Token': getAccessToken(),
         },

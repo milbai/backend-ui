@@ -16,7 +16,7 @@ export default (): React.ReactNode => (
         }}
       />
       <Typography.Title level={2} style={{ textAlign: 'center' }}>
-        <Icon type="smile" theme="twoTone" /> Jetlinks{' '}
+        <Icon type="smile" theme="twoTone" /> rwslinks{' '}
         <Icon type="heart" theme="twoTone" twoToneColor="#eb2f96" /> You
       </Typography.Title>
     </Card>

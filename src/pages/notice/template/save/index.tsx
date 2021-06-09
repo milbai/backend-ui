@@ -54,7 +54,7 @@ const Save: React.FC<Props> = props => {
   const [provider, setProvider] = useState<string>('');
 
   const uploadProps: UploadProps = {
-    action: '/jetlinks/file/static',
+    action: '/rwslinks/file/static',
     headers: {
       'X-Access-Token': getAccessToken(),
     },

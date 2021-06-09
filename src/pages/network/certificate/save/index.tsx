@@ -84,7 +84,7 @@ const Save: React.FC<Props> = props => {
         <Form.Item key="configs.keystoreBase64" label="密钥库">
           <Upload
             name="file"
-            action="/jetlinks/network/certificate/upload"
+            action="/rwslinks/network/certificate/upload"
             // showUploadList={false}
             headers={{
               'X-Access-Token': getAccessToken(),
@@ -129,7 +129,7 @@ const Save: React.FC<Props> = props => {
         <Form.Item key="configs.trustKeyStoreBase64" label="信任库">
           <Upload
             name="file"
-            action="/jetlinks/network/certificate/upload"
+            action="/rwslinks/network/certificate/upload"
             // listType="picture"
             headers={{
               'X-Access-Token': getAccessToken(),

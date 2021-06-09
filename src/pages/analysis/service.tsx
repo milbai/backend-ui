@@ -8,7 +8,7 @@ export async function fakeChartData() {
 }
 
 export async function getMulti(data: any) {
-  return request(`/jetlinks/dashboard/_multi?:X_Access_Token=${getAccessToken()}`, {
+  return request(`/rwslinks/dashboard/_multi?:X_Access_Token=${getAccessToken()}`, {
     method: 'POST',
     data,
   });

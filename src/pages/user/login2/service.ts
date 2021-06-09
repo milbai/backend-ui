@@ -5,7 +5,7 @@ import BaseService from "@/services/crud";
 
 class Service extends BaseService<any>{
     public captchaConfig = () => defer(
-        () => from(request(`/jetlinks/authorize/captcha/config`, {
+        () => from(request(`/rwslinks/authorize/captcha/config`, {
             method: 'GET',
             errorHandler: () => {
                 // 未开启验证码 不显示验证码
@@ -15,14 +15,14 @@ class Service extends BaseService<any>{
         ));
 
     public getCaptcha = () => defer(
-        () => from(request(`/jetlinks/authorize/captcha/image?width=130&height=40`, {
+        () => from(request(`/rwslinks/authorize/captcha/image?width=130&height=40`, {
             method: 'GET',
         })).pipe(
             map(resp => resp.result)
         ));
 
     public queryCurrent = () => defer(
-        () => from(request('/jetlinks/authorize/me',{
+        () => from(request('/rwslinks/authorize/me',{
             method: 'GET'
         })).pipe(
             map(resp => resp)

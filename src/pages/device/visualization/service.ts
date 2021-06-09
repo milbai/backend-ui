@@ -2,20 +2,20 @@ import request from '@/utils/request';
 import { VisualizationItem } from './data';
 
 export async function saveOrUpdate(params: VisualizationItem) {
-    return request(`/jetlinks/visualization`, {
+    return request(`/rwslinks/visualization`, {
         method: 'PATCH',
         data: params,
     });
 }
 
 export async function getLayout(params: any) {
-    return request(`/jetlinks/visualization/${params.type}/${params.target}`, {
+    return request(`/rwslinks/visualization/${params.type}/${params.target}`, {
         method: 'GET',
     })
 }
 
 export async function getDashboardData(params: any[]) {
-    return request(`/jetlinks/dashboard/_multi`, {
+    return request(`/rwslinks/dashboard/_multi`, {
         method: 'POST',
         data: params
     })
@@ -28,7 +28,7 @@ class Service extends BaseService<any>{
     public propertySource = (deviceId: string, propertyId: string) =>
         defer(() =>
             from(request(
-                `/jetlinks/device/instance/${deviceId}/property/${propertyId}`,
+                `/rwslinks/device/instance/${deviceId}/property/${propertyId}`,
                 { method: 'GET' }
             )).pipe(
                 map(resp => resp.result),
@@ -37,7 +37,7 @@ class Service extends BaseService<any>{
     public exec = (deviceId: string, functionId: string, data: any) =>
         defer(() =>
             from(request(
-                `/jetlinks/device/instance/${deviceId}/function/${functionId}`,
+                `/rwslinks/device/instance/${deviceId}/function/${functionId}`,
                 { method: 'POST', data }
             )).pipe(
                 map(resp => resp.result)

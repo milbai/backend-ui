@@ -1,20 +1,20 @@
 import request from '@/utils/request';
 
 export async function list(params?: any) {
-    return request(`/jetlinks/one-net/product/_query`, {
+    return request(`/rwslinks/one-net/product/_query`, {
         method: 'GET',
         params,
     });
 }
 
 export async function remove(id:string) {
-    return request(`/jetlinks/one-net/product/${id}`, {
+    return request(`/rwslinks/one-net/product/${id}`, {
         method: 'DELETE',
     });
 }
 
 export async function save(params:any) {
-    return request(`/jetlinks/one-net/product`, {
+    return request(`/rwslinks/one-net/product`, {
         method: 'PATCH',
         data: params
     });
@@ -22,14 +22,14 @@ export async function save(params:any) {
 
 //启用
 export async function setEnabled(id: string) {
-    return request(`/jetlinks/one-net/product/${id}/_enable`,{
+    return request(`/rwslinks/one-net/product/${id}/_enable`,{
         method: 'POST'
     })
 }
 
 //禁用
 export async function setDisabled(id: string) {
-    return request(`/jetlinks/one-net/product/${id}/_disable`,{
+    return request(`/rwslinks/one-net/product/${id}/_disable`,{
         method: 'POST'
     })
 }

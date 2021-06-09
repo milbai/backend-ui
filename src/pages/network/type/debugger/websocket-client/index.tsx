@@ -48,7 +48,7 @@ const WebSocketClient: React.FC<Props> = props => {
       // console.log('debugMqtt', data);
       const eventSource = new EventSourcePolyfill(
         wrapAPI(
-          `/jetlinks/network/websocket/client/${item.id}/_subscribe/${
+          `/rwslinks/network/websocket/client/${item.id}/_subscribe/${
           subscribeData.type
           }/?:X_Access_Token=${getAccessToken()}`,
         ),
