@@ -60,7 +60,11 @@ const Save: React.FC<Props> = props => {
                 label="电话"
               >
                 {getFieldDecorator('telephone', {
-                  rules: [{ message: '请输入电话' }],
+                  rules: [
+                    {
+                      pattern: /^1[3|4|5|7|8][0-9]\d{8}$/, message: '请输入正确的手机号'
+                    }
+                  ],
                   initialValue: props.data.telephone
                 })(<Input placeholder="请输入" />)}
               </Form.Item>
@@ -69,7 +73,11 @@ const Save: React.FC<Props> = props => {
                 label="身份证"
               >
                 {getFieldDecorator('cardNumber', {
-                  rules: [{ message: '请输入身份证号' }],
+                  rules: [
+                    {
+                      pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '请输入正确的身份证号'
+                    }
+                  ],
                   initialValue: props.data.cardNumber
                 })(<Input placeholder="请输入" />)}
               </Form.Item>
