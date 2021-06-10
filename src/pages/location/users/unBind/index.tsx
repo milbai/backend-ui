@@ -12,11 +12,7 @@ const UnBind: React.FC<Props> = props => {
     const submitData = () => {
       form.validateFields((err, fileValue) => {
         if (err) return;
-        var id = fileValue.deviceId;
-        if(id.startsWith('ID:') && id.length >= 19) {
-          id = id.substring(3,19);
-        }
-        props.save(id);
+        props.save(fileValue.deviceId);
       });
     };
 
@@ -36,10 +32,10 @@ const UnBind: React.FC<Props> = props => {
               >
                 {getFieldDecorator('deviceId', {
                   rules: [{ required: true, message: '请输入卡号' }]
-                })(<Input placeholder="请输入" onChange={e => {
+                })(<Input placeholder="请输入" maxLength={16} onChange={e => {
                   var id = e.target.value;
-                  if(id.startsWith('ID:') && id.length >= 19) {
-                    id = id.substring(3,19);
+                  if(id.startsWith('ID:')) {
+                    id = id.substring(3);
                     e.target.value = id;
                   }
                 }}/>)}
