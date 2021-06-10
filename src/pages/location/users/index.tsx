@@ -12,6 +12,7 @@ import SearchForm from '@/components/SearchForm';
 import Save1 from "./save/save1";
 import {router} from "umi";
 import UnBind from "./unBind";
+import apis from "@/services";
 
 interface Props {
     employee: any;
@@ -163,20 +164,15 @@ const UserList: React.FC<Props> = props => {
     })
   };
 
-  const unBond = (record: UserItem) => {
-    dispatch({
-      type: 'employee/unbondById',
-      payload: encodeQueryParam({ id: record.deviceId }),
-      callback: (response: any) => {
+  const unBond = (deviceId: string) => {
+    apis.employee.unbondById(deviceId)
+      .then((response: any) => {
         if (response.status === 200) {
+          setUnbindVisible(false);
           message.success("解绑成功");
           handleSearch(searchParam);
-        } else {
-          message.error(`解绑失败，${response.message}`);
         }
-      }
-    });
-
+      });
   };
     const handleDelete = (params: any) => {
         Modal.confirm({
@@ -300,9 +296,8 @@ const UserList: React.FC<Props> = props => {
         {
           unbindVisible &&
           <UnBind
-            data={currentItem}
-            close={() => { setUnbindVisible(false); setCurrentItem({}) }}
-            save={(user: UserItem) => { unBond(user) }}
+            close={() => { setUnbindVisible(false); }}
+            save={(deviceId: string) => { unBond(deviceId) }}
           />
         }
         </PageHeaderWrapper>

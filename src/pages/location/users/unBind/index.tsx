@@ -1,12 +1,10 @@
 import { Form, Modal, Input } from "antd";
 import { FormComponentProps } from "antd/es/form";
 import React from "react";
-import { UserItem } from "../data";
 
 interface Props extends FormComponentProps {
     close: Function;
     save: Function;
-    data: Partial<UserItem>;
 }
 
 const UnBind: React.FC<Props> = props => {
@@ -14,7 +12,7 @@ const UnBind: React.FC<Props> = props => {
     const submitData = () => {
       form.validateFields((err, fileValue) => {
         if (err) return;
-        props.save({ deviceId: fileValue.deviceId });
+        props.save(fileValue.deviceId);
       });
     };
 
@@ -33,8 +31,7 @@ const UnBind: React.FC<Props> = props => {
                 label="卡号"
               >
                 {getFieldDecorator('deviceId', {
-                  rules: [{ required: true, message: '请输入卡号' }],
-                  initialValue: props.data.deviceId,
+                  rules: [{ required: true, message: '请输入卡号' }]
                 })(<Input placeholder="请输入" />)}
               </Form.Item>
             </Form>
