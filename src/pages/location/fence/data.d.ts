@@ -9,4 +9,5 @@ export interface FenceItem {
   insideAlarm: boolean;
   insideTimeout: number;
   employees: string;
+  state: boolean;
 }

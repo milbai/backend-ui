@@ -36,7 +36,7 @@ const Save: React.FC<Props> = props => {
       if(fileValue.employees) {
         fileValue.employees = fileValue.employees.toString();
       }
-      props.save({ id: props.data.id, ...fileValue });
+      props.save({ id: props.data.id, state: !!props.data.state, ...fileValue });
     });
   };
 

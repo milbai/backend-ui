@@ -40,6 +40,9 @@ export function createFengmap(callback, setCurrentItem) {
 }
 
 export function addPolygonMarker(data) {
+  var group = map.getFMGroup(map.focusGroupID);
+  var layer = group.getOrCreateLayer('polygonMarker');
+  layer.removeAll();
   fenceList = data;
   //console.log(data);
   const fenceCoords = [
@@ -78,8 +81,6 @@ export function addPolygonMarker(data) {
     }
   }
   function addPolygonMarker(coords, index) {
-    var group = map.getFMGroup(map.focusGroupID);
-    var layer = group.getOrCreateLayer('polygonMarker');
     var polygonMarker = new fengmap.FMPolygonMarker({
       alpha: .8,             //设置透明度
       color: '#CD5A5A',

@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { ColumnProps, PaginationConfig, SorterResult } from 'antd/es/table';
-import {Button, Card, Divider, message, Modal, Table, Tag} from 'antd';
+import {Button, Card, Divider, message, Modal, Popconfirm, Table, Tag} from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import styles from '@/utils/table.less';
 import { connect } from 'dva';
@@ -80,8 +80,8 @@ const FenceList: React.FC<Props> = props => {
       width: 150,
       ellipsis: true,
       render: (text, record) =>
-        <Tag color={record.begin && record.end && record.begin < moment().valueOf() && moment().valueOf() < record.end ?
-          '#108ee9' : '#f50'}>{record.begin && record.end && record.begin < moment().valueOf() && moment().valueOf() < record.end ?
+        <Tag color={record.state ?
+          '#108ee9' : '#f50'}>{record.state ?
           '开启' : '关闭'}</Tag>,
     },
     {
@@ -90,7 +90,22 @@ const FenceList: React.FC<Props> = props => {
         <Fragment>
           <a onClick={() => edit(record)}>编辑</a>
           <Divider type="vertical" />
-          <a onClick={() => handleDelete(record)}>删除</a>
+          {record.state ? (
+            <Popconfirm
+              title="确认关闭？"
+              onConfirm={() => {
+                handle_switch(record);
+              }}
+            >
+              <a>关闭</a>
+            </Popconfirm>
+          ) : (
+            <span>
+              <a onClick={() => handle_switch(record)}>开启</a>
+              <Divider type="vertical" />
+              <a onClick={() => handleDelete(record)}>删除</a>
+            </span>
+          )}
         </Fragment>
       ),
     },
@@ -150,6 +165,22 @@ const FenceList: React.FC<Props> = props => {
         });
       },
     })
+  };
+
+  const handle_switch = (record: FenceItem) => {
+    record.state = !record.state;
+    dispatch({
+      type: 'fence/insert',
+      payload: encodeQueryParam(record),
+      callback: (response: any) => {
+        if (response.status === 200) {
+          message.success("操作成功");
+          handleSearch(searchParam);
+        } else {
+          message.error(`操作失败，${response.message}`);
+        }
+      }
+    });
   };
 
   const onTableChange = (pagination: PaginationConfig, filters: any, sorter: SorterResult<any>, extra: any) => {
