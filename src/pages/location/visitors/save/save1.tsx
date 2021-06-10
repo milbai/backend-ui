@@ -43,7 +43,13 @@ const Save1: React.FC<Props> = props => {
           {getFieldDecorator('deviceId', {
             rules: [{ required: true, message: '请输入卡号' }],
             initialValue: props.data.deviceId,
-          })(<Input placeholder="请输入" />)}
+          })(<Input placeholder="请输入" onChange={e => {
+            var id = e.target.value;
+            if(id.startsWith('ID:') && id.length >= 19) {
+              id = id.substring(3,19);
+              e.target.value = id;
+            }
+          }}/>)}
         </Form.Item>
       </Form>
     </Modal>
