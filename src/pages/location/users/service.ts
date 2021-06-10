@@ -48,6 +48,12 @@ export async function unbondById(id: string) {
   });
 }
 
+export async function getBinderById(id: string) {
+  return request(`/rwslinks/user/employee/deviceId/${id}`, {
+    method: 'GET',
+  });
+}
+
 export async function carddetail(params?: any) {
   return request(`/rwslinks/user/card/record/_query`, {
     method: 'GET',

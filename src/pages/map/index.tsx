@@ -59,6 +59,16 @@ const Location: React.FC<Props> = props => {
     return result;
   };
 
+  const getBinder = (deviceId: string) => {
+    apis.employee.getBinderById(deviceId)
+      .then((response: any) => {
+        if (response.status === 200 && response.result && response.result.name) {
+          document.getElementById('binder_name').innerHTML = response.result.name;
+        }
+      });
+    return '获取中...';
+  };
+
   const getFenceData = () => {
     defer(
       () => from(apis.employee.listAll(encodeQueryParam({ terms: {type: 1} }))).pipe(
@@ -144,6 +154,8 @@ const Location: React.FC<Props> = props => {
           创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
           <Divider className={styles.fengge} />
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
+          <Divider className={styles.fengge} />
+          绑定人员<span id="binder_name" className={styles.vRight}>{ getBinder(currentItem.id) }</span>
         </div>
       )}
       {currentItem.area && (
