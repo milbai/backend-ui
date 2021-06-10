@@ -12,7 +12,11 @@ const UnBind: React.FC<Props> = props => {
     const submitData = () => {
       form.validateFields((err, fileValue) => {
         if (err) return;
-        props.save(fileValue.deviceId);
+        var id = fileValue.deviceId;
+        if(id.startsWith('ID:') && id.length >= 19) {
+          id = id.substring(3,19);
+        }
+        props.save(id);
       });
     };
 
