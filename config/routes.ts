@@ -56,6 +56,13 @@ export const routes = [
                             component: './location/users/Carddetail',
                           },
                           {
+                            hideInMenu: true,
+                            path: '/location/user/path',
+                            name: '路径规划',
+                            // authority: ['location-user', 'access-logger', 'admin'],
+                            component: './location/users/Cardpath',
+                          },
+                          {
                             path: '/location/visitor',
                             name: '访客信息',
                             iconfont: 'icon-erji-zuhuguanli',
@@ -86,7 +93,6 @@ export const routes = [
                                 // authority: ['location-trajectory', 'access-logger', 'admin'],
                                 component: './location/trajectory',
                             },
-                        
                         ]
                     },
                     {

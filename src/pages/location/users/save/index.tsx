@@ -14,7 +14,16 @@ const Save: React.FC<Props> = props => {
     const submitData = () => {
       form.validateFields((err, fileValue) => {
         if (err) return;
-        props.save({ id: props.data.id, type: 1, ...fileValue });
+        props.save({ id: props.data.id, type: 1,
+          begin: props.data.begin,
+          end: props.data.end,
+          startPointX: props.data.startPointX,
+          startPointY: props.data.startPointY,
+          endPointX: props.data.endPointX,
+          endPointY: props.data.endPointY,
+          state: props.data.state,
+          pathPoints: props.data.pathPoints,
+          ...fileValue });
       });
     };
 

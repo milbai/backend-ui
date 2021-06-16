@@ -77,6 +77,13 @@ const UserList: React.FC<Props> = props => {
                 <Fragment>
                     <a onClick={() => edit(record)}>编辑</a>
                     <Divider type="vertical" />
+                  <a onClick={() => {
+                    router.push({
+                      pathname: '/location/user/path',
+                      query: { name: record.name, id: record.id },
+                    })
+                  }}>路径</a>
+                  <Divider type="vertical" />
                     <a onClick={() => {
                       router.push({
                         pathname: '/location/user/detail',

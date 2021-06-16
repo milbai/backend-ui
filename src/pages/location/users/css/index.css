@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.mapout {
+  margin: 0;
+  height: calc(100vh - 289px);
+  overflow: hidden;
+  font-size: 14px;
+  font-family: "Microsoft YaHei", 微软雅黑, "MicrosoftJhengHei", 华文细黑,
+  STHeiti, MingLiu;
+}
+
+.fengMap {
+  position: absolute;
+  width: 100%;
+  top: 200px;
+  bottom: 0;
+  overflow: hidden;
+  touch-action: none;
+  -ms-touch-action: none;
+}
+
+.mapmask {
+  position: absolute;
+  left: 0;
+  height: 5%;
+  right: 0;
+  bottom: 0;
+  background-color: #28303B;
+  overflow: hidden;
+  touch-action: none;
+  -ms-touch-action: none;
+}
