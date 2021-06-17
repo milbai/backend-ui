@@ -35,7 +35,7 @@ export const routes = [
                     {
                         name: '定位管理',
                         path: 'location',
-                        icon: 'table',
+                        icon: 'borderOuter',
                         tenant: ['admin', 'member'],
                         iconfont: 'icon-shezhi',
                         // authority: ['location-user', 'location-visitor', 'location-fence', 'location-trajectory', 'access-logger', 'member', 'admin'],
@@ -66,7 +66,7 @@ export const routes = [
                             path: '/location/visitor',
                             name: '访客信息',
                             iconfont: 'icon-erji-zuhuguanli',
-                            icon: 'team',
+                            icon: 'userDelete',
                             // authority: ['location-visitor', 'access-logger', 'admin'],
                             component: './location/visitors',
                           },

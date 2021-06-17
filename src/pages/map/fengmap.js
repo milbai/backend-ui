@@ -14,6 +14,9 @@ export function createFengmap(callback, setCurrentItem) {
     defaultMapScaleLevel: 17,          // 默认比例尺级别设置为19级
     appName: '陈头岗地铁停车场',
     key: '40308d481d2d806bcd2e5fb346c2dc45',
+    defaultViewMode: fengmap.FMViewMode.MODE_2D,
+    // defaultControlsPose: fengmap.FMDirection.NORTH,
+    defaultControlsPose: 0,     //角度值。
   };
   map = new fengmap.FMMap(mapOptions);
   map.openMapById(fmapID, function (error) {
@@ -73,6 +76,13 @@ export function addPolygonMarker(data) {
       { x: 12609645.15114645, y: 2634464.339464341, z: 56 },
       { x: 12609998.237355687, y: 2634466.8285023263, z: 56 },
       { x: 12610002.36026345, y: 2634620.025391266, z: 56 },
+    ],
+    //出场线
+    [
+      { x: 12610038.671650294, y: 2634635.777639212, z: 56 },
+      { x: 12610035.285046501, y: 2634466.6918881186, z: 56 },
+      { x: 12610117.767852884, y: 2634470.7921805014, z: 56 },
+      { x: 12610110.052573442, y: 2634623.166006285, z: 56 },
     ]
   ];
   for(var i = 0; i < fenceCoords.length; i++) {
