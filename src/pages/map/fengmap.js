@@ -103,7 +103,7 @@ export function updateMarkers(data) {
     var im = new fengmap.FMImageMarker({
       x: parseFloat(data[i].longitude),
       y: parseFloat(data[i].latitude),
-      url: './fengmap/images/blueImageMarker.png',
+      url: './fengmap/images/' + data[i].productId + '.png',
       //设置图片显示尺寸
       size: 32,
       //标注高度，大于model的高度

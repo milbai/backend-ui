@@ -174,9 +174,9 @@ const DeviceInstancePage: React.FC<Props> = props => {
     },
     {
       title: '状态',
-      dataIndex: 'state',
+      //dataIndex: 'state',
       width: '90px',
-      render: record => record ? <Badge status={statusMap.get(record.value)} text={record.text} /> : '',
+      render: record => (record.productId != 'videoMontior' && record.productId != 'M401A' && record.state) ? <Badge status={statusMap.get(record.state.value)} text={record.state.text} /> : '',
       filters: [
         {
           text: '未启用',
@@ -581,11 +581,11 @@ const DeviceInstancePage: React.FC<Props> = props => {
               <Col sm={4} xs={24}>
                 <Info title="全部设备" value={numeral(deviceCount.deviceTotal).format('0,0')} />
               </Col>
-              <Col sm={4} xs={24}>
+              <Col sm={4} xs={24} style={{ visibility: 'hidden' }}>
                 <Info title={<Badge status={statusMap.get('online')} text="在线" />}
                   value={numeral(deviceCount.onlineCount).format('0,0')} />
               </Col>
-              <Col sm={4} xs={24}>
+              <Col sm={4} xs={24} style={{ visibility: 'hidden' }}>
                 <Info title={<Badge status={statusMap.get('offline')} text="离线" />}
                   value={numeral(deviceCount.offlineCount).format('0,0')} />
               </Col>

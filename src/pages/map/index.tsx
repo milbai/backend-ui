@@ -12,6 +12,7 @@ import { createFengmap, addPolygonMarker, updateMarkers } from './fengmap'
 import styles from './css/index.css';
 import {connect} from "dva";
 import {ConnectState, Dispatch} from "@/models/connect";
+import VideoPlayer from "@/components/VideoPlayer/VideoPlayer";
 
 interface Props {
   dispatch: Dispatch;
@@ -112,17 +113,20 @@ const Location: React.FC<Props> = props => {
 
   const getData = () => {
     //蓝牙胸卡 CM100
+    //视频监控 videoMontior
+    //声光报警器 TGSG-190
     defer(
-      () => from(apis.deviceInstance.listAll(encodeQueryParam({ terms: {productId: 'CM100'} }))).pipe(
+      () => from(apis.deviceInstance.listAll(encodeQueryParam({ terms: {} }))).pipe(
         filter(resp => resp.status === 200),
         map(resp => resp.result)
       )).subscribe((data) => {
-      const tempCm100 = data.filter((item: any) => {
+      const temp = data.filter((item: any) => {
         item.createTime = item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : '';
         item.registryTime = item.registryTime ? moment(item.registryTime).format('YYYY-MM-DD HH:mm:ss') : '';
-        return item.state && item.state.value === 'online';
+        return (item.productId === 'CM100' && item.state && item.state.value === 'online') ||
+          item.productId === 'videoMontior' || item.productId === 'TGSG-190';
       });
-      updateMarkers(tempCm100);
+      updateMarkers(temp);
     });
   };
 
@@ -146,7 +150,7 @@ const Location: React.FC<Props> = props => {
       <div className={styles.fengMap} id="fengmap"></div>
       <div className={styles.mapmask}></div>
       {currentItem.productId === "CM100" && (
-        <div id="cm100_modal" className={styles.fenceModal}>
+        <div className={styles.fenceModal}>
           产品名称<span className={styles.vRight}>{currentItem.productName}</span>
           <Divider className={styles.fengge} />
           设备名称<span className={styles.vRight}>{currentItem.name}</span>
@@ -156,6 +160,32 @@ const Location: React.FC<Props> = props => {
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
           <Divider className={styles.fengge} />
           绑定人员<span id="binder_name" className={styles.vRight}>{ getBinder(currentItem.id) }</span>
+        </div>
+      )}
+      {currentItem.productId === "videoMontior" && (
+        <div className={styles.fenceModal}>
+          产品名称<span className={styles.vRight}>{currentItem.productName}</span>
+          <Divider className={styles.fengge} />
+          设备名称<span className={styles.vRight}>{currentItem.name}</span>
+          <Divider className={styles.fengge} />
+          创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
+          <Divider className={styles.fengge} />
+          注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
+          <Divider className={styles.fengge} />
+          <VideoPlayer src={currentItem.describe} width={280} />
+        </div>
+      )}
+      {currentItem.productId === "TGSG-190" && (
+        <div className={styles.fenceModal}>
+          产品名称<span className={styles.vRight}>{currentItem.productName}</span>
+          <Divider className={styles.fengge} />
+          设备名称<span className={styles.vRight}>{currentItem.name}</span>
+          <Divider className={styles.fengge} />
+          创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
+          <Divider className={styles.fengge} />
+          注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
+          <Divider className={styles.fengge} />
+          开关<Switch className={styles.vRight} defaultChecked />
         </div>
       )}
       {currentItem.area && (
