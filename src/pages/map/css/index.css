@@ -31,6 +31,16 @@
   width: 300px;
 }
 
+.videoModal {
+  position: absolute;
+  right: 0;
+  top: 20px;
+  background-color:rgba(8,20,42,0.6);
+  color: white;
+  padding: 10px;
+  width: 400px;
+}
+
 .vRight {
   float: right;
 }

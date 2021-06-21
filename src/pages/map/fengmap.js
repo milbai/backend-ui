@@ -1,4 +1,6 @@
 import fengmap from 'fengmap';
+import videojs from "video.js";
+var myVideo;
 var map;
 var fenceList, cm100List;
 
@@ -37,6 +39,16 @@ export function createFengmap(callback, setCurrentItem) {
     } else if(nodeType === 31) {
       setTimeout(function () {
         setCurrentItem(cm100List[target.index]);
+        if(cm100List[target.index].productId === "videoMontior") {
+          if(myVideo)
+            myVideo.dispose();
+          myVideo = videojs("myVideo", {});
+          myVideo.src({
+            src: cm100List[target.index].describe,
+            type: 'application/x-mpegURL'
+          });
+          myVideo.play();
+        }
       }, 0);
     }
   });

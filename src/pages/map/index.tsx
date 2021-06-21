@@ -12,7 +12,7 @@ import { createFengmap, addPolygonMarker, updateMarkers } from './fengmap'
 import styles from './css/index.css';
 import {connect} from "dva";
 import {ConnectState, Dispatch} from "@/models/connect";
-import VideoPlayer from "@/components/VideoPlayer/VideoPlayer";
+import 'video.js/dist/video-js.css';
 
 interface Props {
   dispatch: Dispatch;
@@ -167,16 +167,16 @@ const Location: React.FC<Props> = props => {
         </div>
       )}
       {currentItem.productId === "videoMontior" && (
-        <div className={styles.fenceModal}>
+        <div className={styles.videoModal}>
           产品名称<span className={styles.vRight}>{currentItem.productName}</span>
           <Divider className={styles.fengge} />
           设备名称<span className={styles.vRight}>{currentItem.name}</span>
           <Divider className={styles.fengge} />
-          创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
-          <Divider className={styles.fengge} />
-          注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
-          <Divider className={styles.fengge} />
-          <VideoPlayer src={currentItem.describe} width={280} />
+          <video id="myVideo" className="video-js vjs-default-skin vjs-big-play-centered"
+                 controls preload="auto" data-setup="{}"
+                 style={{width: '380px'}}
+          >
+          </video>
         </div>
       )}
       {currentItem.productId === "TGSG-190" && (
