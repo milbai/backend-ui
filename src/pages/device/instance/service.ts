@@ -28,6 +28,12 @@ export async function info(id: string) {
   });
 }
 
+export async function switchTGSG190(deviceId: string, data: string) {
+  return request(`/rwslinks/device-instance/${deviceId}/command/${data}`, {
+    method: 'GET',
+  });
+}
+
 export async function saveOrUpdate(params: DeviceInstance) {
   return request(`/rwslinks/device-instance`, {
     method: 'PATCH',

@@ -49,6 +49,18 @@ const Location: React.FC<Props> = props => {
     });
   };
 
+  const handle_switchTGSG190 = (b: boolean) => {
+    apis.deviceInstance.switchTGSG190(currentItem.id, b ? 'D10003' : 'D10000')
+      .then(response => {
+        if (response.status === 200) {
+          message.success("操作成功");
+        } else {
+          message.error(`操作失败，${response.message}`);
+        }
+      })
+      .catch(() => {});
+  };
+
   const getEmployeeName = (employees: string) => {
     if(!employees)
       return '';
@@ -189,7 +201,9 @@ const Location: React.FC<Props> = props => {
           <Divider className={styles.fengge} />
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
           <Divider className={styles.fengge} />
-          开关<Switch className={styles.vRight} defaultChecked />
+          开关<Switch className={styles.vRight} defaultChecked onChange={(b) => {
+          handle_switchTGSG190(b);
+        }} />
         </div>
       )}
       {currentItem.area && (
