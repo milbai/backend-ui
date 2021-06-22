@@ -3,6 +3,7 @@ import videojs from "video.js";
 var myVideo;
 var map;
 var fenceList, cm100List;
+var selected = -1;
 
 export function createFengmap(callback, setCurrentItem) {
   var fmapID = '1384053067182067713';
@@ -31,13 +32,25 @@ export function createFengmap(callback, setCurrentItem) {
     var nodeType = event.nodeType;
     var target = event.target;
     if(!nodeType || !target || (nodeType !== 36 && nodeType !== 31)) {
+      if(selected > -1) {
+        selected = -1;
+        updateMarkers(cm100List);
+      }
       setCurrentItem({});
       return;
     }
     if(nodeType === 36) {
+      if(selected > -1) {
+        selected = -1;
+        updateMarkers(cm100List);
+      }
       setCurrentItem(fenceList[target.index]);
     } else if(nodeType === 31) {
       setTimeout(function () {
+        if(selected !==  target.index) {
+          selected = target.index;
+          updateMarkers(cm100List);
+        }
         setCurrentItem(cm100List[target.index]);
         if(cm100List[target.index].productId === "videoMontior") {
           if(myVideo)
@@ -125,7 +138,7 @@ export function updateMarkers(data) {
     var im = new fengmap.FMImageMarker({
       x: parseFloat(data[i].longitude),
       y: parseFloat(data[i].latitude),
-      url: './fengmap/images/' + data[i].productId + '.png',
+      url: './fengmap/images/' + data[i].productId + (selected === i ? '_select' : '') + '.png',
       //设置图片显示尺寸
       size: 32,
       //标注高度，大于model的高度
