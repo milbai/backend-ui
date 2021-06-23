@@ -21,16 +21,19 @@ interface Props {
 interface State {
   currentItem: any;
   tempEmployee: any;
+  TGSG190state: boolean;
 }
 
 const Location: React.FC<Props> = props => {
   const { dispatch } = props;
   const initState: State = {
     currentItem: {},
-    tempEmployee: {}
+    tempEmployee: {},
+    TGSG190state: false
   };
   const [currentItem, setCurrentItem] = useState(initState.currentItem);
   const [tempEmployee, setTempEmployee] = useState(initState.tempEmployee);
+  const [TGSG190state, setTGSG190state] = useState(initState.TGSG190state);
 
   const handle_switch = (b: boolean) => {
     currentItem.state = b;
@@ -53,6 +56,7 @@ const Location: React.FC<Props> = props => {
     apis.deviceInstance.switchTGSG190(currentItem.id, b ? 'D10003' : 'D10000')
       .then(response => {
         if (response.status === 200) {
+          setTGSG190state(b);
           message.success("操作成功");
         } else {
           message.error(`操作失败，${response.message}`);
@@ -80,6 +84,29 @@ const Location: React.FC<Props> = props => {
         }
       });
     return '获取中...';
+  };
+
+  const getTGSG_state = (deviceId: string) => {
+    apis.deviceInstance
+      .logs(deviceId, encodeQueryParam({
+        pageSize: 1,
+        pageIndex: 0,
+        terms: { type$IN: "reportProperty", deviceId: deviceId },
+        sorts: {
+          field: 'createTime',
+          order: 'desc',
+        },
+      }))
+      .then(response => {
+        if (response.status === 200 && response.result && response.result.data && response.result.data.length) {
+          var content = JSON.parse(response.result.data[0].content);
+          if(content["switch_voice"] === 'On' || content["switch_light"] === 'On') {
+            setTGSG190state(true);
+          }
+        }
+      })
+      .catch(() => {});
+    setTGSG190state(false);
   };
 
   const getFenceData = () => {
@@ -148,7 +175,7 @@ const Location: React.FC<Props> = props => {
 
   useEffect(() => {
     var requestData;
-    createFengmap(mapDone, setCurrentItem);
+    createFengmap(mapDone, setCurrentItem, getTGSG_state);
 
     function mapDone() {
       //console.log('地图加载完成！');
@@ -201,7 +228,7 @@ const Location: React.FC<Props> = props => {
           <Divider className={styles.fengge} />
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
           <Divider className={styles.fengge} />
-          开关<Switch className={styles.vRight} defaultChecked onChange={(b) => {
+          开关<Switch className={styles.vRight} checked={TGSG190state} onChange={(b) => {
           handle_switchTGSG190(b);
         }} />
         </div>

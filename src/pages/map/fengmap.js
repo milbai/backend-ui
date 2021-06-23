@@ -5,7 +5,7 @@ var map;
 var fenceList, cm100List;
 var selected = -1;
 
-export function createFengmap(callback, setCurrentItem) {
+export function createFengmap(callback, setCurrentItem, getTGSG_state) {
   var fmapID = '1384053067182067713';
   var mapOptions = {
     container: document.getElementById('fengmap'),
@@ -61,6 +61,9 @@ export function createFengmap(callback, setCurrentItem) {
             type: 'application/x-mpegURL'
           });
           myVideo.play();
+        }
+        if(cm100List[target.index].productId === "TGSG-190") {
+          getTGSG_state(cm100List[target.index].id);
         }
       }, 0);
     }
