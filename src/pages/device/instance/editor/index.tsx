@@ -280,8 +280,8 @@ const Editor: React.FC<Props> = props => {
         <span style={{paddingRight: 20}}>
           设备：{data.name}
         </span>
-        {data.productId != 'videoMontior' && data.productId != 'M401A' && statusMap.get(data.state?.value)}
-        {data.productId != 'videoMontior' && data.productId != 'M401A' && (data.state?.value === 'online' ? (
+        {data.productId != 'videoMonitor' && data.productId != 'M401A' && statusMap.get(data.state?.value)}
+        {data.productId != 'videoMonitor' && data.productId != 'M401A' && (data.state?.value === 'online' ? (
           <Popconfirm title="确认让此设备断开连接？" onConfirm={() => {
             disconnectDevice(data.id);
           }}>

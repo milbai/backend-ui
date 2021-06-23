@@ -52,7 +52,7 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
           updateMarkers(cm100List);
         }
         setCurrentItem(cm100List[target.index]);
-        if(cm100List[target.index].productId === "videoMontior") {
+        if(cm100List[target.index].productId === "videoMonitor") {
           if(myVideo)
             myVideo.dispose();
           myVideo = videojs("myVideo", {});
