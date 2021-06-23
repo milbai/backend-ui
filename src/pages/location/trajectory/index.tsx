@@ -30,7 +30,7 @@ const Trajectory: React.FC<Props> = props => {
 
   useEffect(() => {
     defer(
-      () => from(apis.deviceInstance.listAll(encodeQueryParam({ terms: {productId: 'CM100'} }))).pipe(
+      () => from(apis.deviceInstance.listAll(encodeQueryParam({ terms: {productId: 'CM100-GB'} }))).pipe(
         filter(resp => resp.status === 200),
         map(resp => resp.result)
       )).subscribe((data) => {

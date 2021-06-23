@@ -128,7 +128,7 @@ const Location: React.FC<Props> = props => {
   };
 
   const getData = () => {
-    //蓝牙胸卡 CM100
+    //蓝牙胸卡 CM100-GB
     //视频监控 videoMontior
     //声光报警器 TGSG-190
     defer(
@@ -139,7 +139,7 @@ const Location: React.FC<Props> = props => {
       const temp = data.filter((item: any) => {
         item.createTime = item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : '';
         item.registryTime = item.registryTime ? moment(item.registryTime).format('YYYY-MM-DD HH:mm:ss') : '';
-        return (item.productId === 'CM100' && item.state && item.state.value === 'online') ||
+        return (item.productId === 'CM100-GB' && item.state && item.state.value === 'online') ||
           item.productId === 'videoMontior' || item.productId === 'TGSG-190';
       });
       updateMarkers(temp);
@@ -165,7 +165,7 @@ const Location: React.FC<Props> = props => {
     <div className={styles.mapout}>
       <div className={styles.fengMap} id="fengmap"></div>
       <div className={styles.mapmask}></div>
-      {currentItem.productId === "CM100" && (
+      {currentItem.productId === "CM100-GB" && (
         <div className={styles.fenceModal}>
           产品名称<span className={styles.vRight}>{currentItem.productName}</span>
           <Divider className={styles.fengge} />
