@@ -23,6 +23,7 @@ const Save: React.FC<Props> = props => {
           endPointY: props.data.endPointY,
           state: props.data.state,
           pathPoints: props.data.pathPoints,
+          pathName: props.data.pathName,
           ...fileValue });
       });
     };

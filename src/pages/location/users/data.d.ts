@@ -16,4 +16,5 @@ export interface UserItem {
   endPointX: number;
   endPointY: number;
   state: boolean;
+  pathName: string;
 }

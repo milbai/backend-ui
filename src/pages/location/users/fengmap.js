@@ -1,4 +1,45 @@
 import fengmap from 'fengmap';
+const pathCoords = [
+  //路径A
+  [
+    {
+      x: 12609660.80118657,
+      y: 2634442.1487091887,
+      groupID: 1
+    },
+    {
+      x: 12609402.214538816,
+      y: 2634455.7488843687,
+      groupID: 1
+    }
+  ],
+  //路径B
+  [
+    {
+      x: 12609825.660507778,
+      y: 2634623.0528911646,
+      groupID: 1
+    },
+    {
+      x: 12609467.82787416,
+      y: 2634634.2942902,
+      groupID: 1
+    }
+  ],
+  //路径C
+  [
+    {
+      x: 12609660.80118657,
+      y: 2634442.1487091887,
+      groupID: 1
+    },
+    {
+      x: 12609467.82787416,
+      y: 2634634.2942902,
+      groupID: 1
+    }
+  ]
+];
 //定义全局map变量
 var map = null;
 //定义路径规划对象
@@ -15,10 +56,6 @@ var coords = [];
 //定义markert图层数组
 var layers = [];
 export var naviData = null;
-var cannotClick = true;
-export function setCannotClick(b) {
-  cannotClick = b;
-}
 export function createFengmap(data) {
   var fmapID = '1384053067182067713';
   var mapOptions = {
@@ -45,10 +82,8 @@ export function createFengmap(data) {
      * https://developer.fengmap.com/docs/js/v2.7.1/fengmap.FMNaviAnalyser.html
      **/
     naviAnalyser = new fengmap.FMNaviAnalyser(map);
-    if(data.pathPoints) {
-      drawNaviLine(data);
-    } else {
-      cannotClick = false;
+    if(data.pathName) {
+      drawNaviLine(data.pathName);
     }
   });
 
@@ -56,9 +91,8 @@ export function createFengmap(data) {
    * 地图点击事件
    * 第一次点击选取为起点，第二次点击选取为终点，再次点击路径规划按钮重新选取起点、终点
    * */
+  /*
   map.on('mapClickNode', function (event) {
-    if(cannotClick)
-      return;
     if (event.target && event.target.nodeType == fengmap.FMNodeType.MODEL && naviAnalyser) {
       //封装点击坐标，模型中心点坐标
       var coord = {
@@ -104,29 +138,33 @@ export function createFengmap(data) {
       clickCount++;
     }
   });
+  */
 }
 
 /**
  * 画导航线
  * https://developer.fengmap.com/docs/js/v2.7.1/fengmap.FMNaviAnalyser.html
  * */
-function drawNaviLine(data) {
-  if(data) {
-    coords = [
-      {
-        x: data.startPointX,
-        y: data.startPointY,
-        groupID: 1
-      },
-      {
-        x: data.endPointX,
-        y: data.endPointY,
-        groupID: 1
+export function drawNaviLine(pathName) {
+  if(pathName) {
+    //重置路径规划
+    resetNaviRoute();
+
+    coords = pathCoords[function () {
+      switch (pathName) {
+        case '路径A':
+          return 0;
+        case '路径B':
+          return 1;
+        case '路径C':
+          return 2;
       }
-    ];
+    }()];
     addMarker(coords[0], 'start');
     addMarker(coords[1], 'end');
     clickCount = 2;
+  } else {
+    console.log(coords);
   }
 
   //根据已加载的fengmap.FMMap导航分析，判断路径规划是否成功

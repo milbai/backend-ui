@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {Button, Card, Col, DatePicker, Form, message, Row, Switch} from "antd";
+import {Button, Card, Col, DatePicker, Form, message, Row, Select, Switch} from "antd";
 import {PageHeaderWrapper} from "@ant-design/pro-layout";
-import { createFengmap, naviData, setCannotClick } from './fengmap'
+import {createFengmap, drawNaviLine, naviData} from './fengmap'
 import styles from './css/index.css';
 import { FormComponentProps } from "antd/lib/form";
 import {useEffect} from "react";
@@ -50,10 +50,6 @@ const Cardpath: React.FC<Props> = props => {
   const onSave = () => {
     form.validateFields((err, params) => {
       if (err) return;
-      if(!naviData) {
-        message.error('请设置路径的起点和终点！');
-        return;
-      }
       currentItem.begin = moment(params.createTime$BTW[0]).valueOf();
       currentItem.end = moment(params.createTime$BTW[1]).valueOf();
       currentItem.startPointX = naviData.startPointX;
@@ -61,12 +57,12 @@ const Cardpath: React.FC<Props> = props => {
       currentItem.endPointX = naviData.endPointX;
       currentItem.endPointY = naviData.endPointY;
       currentItem.pathPoints = naviData.pathPoints;
+      currentItem.pathName = params.pathName;
       apis.employee
         .saveOrUpdate(encodeQueryParam(currentItem))
         .then(response => {
           if (response.status === 200) {
             message.success("保存成功");
-            setCannotClick(true);
             setShowVisible(true);
           } else {
             message.error(`保存失败，${response.message}`);
@@ -98,13 +94,18 @@ const Cardpath: React.FC<Props> = props => {
       <Card bordered={false}>
         <div>
           <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
-            {currentItem.pathPoints && showVisible ? (<Row gutter={{ md: 8, lg: 4, xl: 48 }}>
-              <Col md={8} sm={18}>
+            {currentItem.pathName && showVisible ? (<Row gutter={{ md: 8, lg: 4, xl: 48 }}>
+                <Col md={4} sm={8}>
+                  <Form.Item label="路径：">
+                    {currentItem.pathName}
+                  </Form.Item>
+                </Col>
+              <Col md={6} sm={14}>
                 <Form.Item label="开始时间：">
                   {moment(currentItem.begin).format('YYYY-MM-DD HH:mm:ss')}
                 </Form.Item>
               </Col>
-              <Col md={8} sm={18}>
+              <Col md={6} sm={14}>
                 <Form.Item label="结束时间：">
                   {moment(currentItem.end).format('YYYY-MM-DD HH:mm:ss')}
                 </Form.Item>
@@ -115,7 +116,6 @@ const Cardpath: React.FC<Props> = props => {
                     <Button
                       type="primary"
                       onClick={() => {
-                        setCannotClick(false);
                         setShowVisible(false);
                       }}
                     >
@@ -131,6 +131,20 @@ const Cardpath: React.FC<Props> = props => {
               </Col>
             </Row>) :
             (<Row gutter={{ md: 8, lg: 4, xl: 48 }}>
+              <Col md={8} sm={12}>
+                <Form.Item label="路径">
+                  {getFieldDecorator('pathName', {
+                    rules: [{ required: true, message: '请选择路径' }],
+                    initialValue: currentItem.pathName,
+                  })(<Select placeholder="请选择" onChange={value => {
+                    drawNaviLine(value);
+                  }}>
+                    <Select.Option value="路径A" key='path1'>路径A</Select.Option>
+                    <Select.Option value="路径B" key='path2'>路径B</Select.Option>
+                    <Select.Option value="路径C" key='path3'>路径C</Select.Option>
+                  </Select>)}
+                </Form.Item>
+              </Col>
               <Col md={8} sm={24}>
                 <Form.Item label="时间">
                   {getFieldDecorator('createTime$BTW', {
@@ -145,7 +159,7 @@ const Cardpath: React.FC<Props> = props => {
                   )}
                 </Form.Item>
               </Col>
-              <Col md={6} sm={24}>
+              <Col md={6} sm={12}>
                 <div style={{ overflow: 'hidden' }}>
                   <div style={{ float: 'right', marginBottom: 24 }}>
                     <Button
