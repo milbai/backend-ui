@@ -86,6 +86,27 @@ const Location: React.FC<Props> = props => {
     return '获取中...';
   };
 
+  const getAN303 = (deviceId: string) => {
+    apis.deviceInstance
+      .logs(deviceId, encodeQueryParam({
+        pageSize: 1,
+        pageIndex: 0,
+        terms: { type$IN: "reportProperty", deviceId: deviceId },
+        sorts: {
+          field: 'createTime',
+          order: 'desc',
+        },
+      }))
+      .then(response => {
+        if (response.status === 200 && response.result && response.result.data && response.result.data.length) {
+          var content = JSON.parse(response.result.data[0].content);
+          document.getElementById('an303').innerHTML = response.result.data[0].content;
+        }
+      })
+      .catch(() => {});
+    return '获取中...';
+  };
+
   const getTGSG_state = (deviceId: string) => {
     apis.deviceInstance
       .logs(deviceId, encodeQueryParam({
@@ -167,7 +188,8 @@ const Location: React.FC<Props> = props => {
         item.createTime = item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : '';
         item.registryTime = item.registryTime ? moment(item.registryTime).format('YYYY-MM-DD HH:mm:ss') : '';
         return (item.productId === 'CM100-GB' && item.state && item.state.value === 'online') ||
-          item.productId === 'videoMonitor' || item.productId === 'TGSG-190';
+          item.productId === 'videoMonitor' || item.productId === 'TGSG-190' ||
+          (item.productId === 'AN303' && item.state && item.state.value === 'online');
       });
       updateMarkers(temp);
     });
@@ -203,6 +225,19 @@ const Location: React.FC<Props> = props => {
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
           <Divider className={styles.fengge} />
           绑定人员<span id="binder_name" className={styles.vRight}>{ getBinder(currentItem.id) }</span>
+        </div>
+      )}
+      {currentItem.productId === "AN303" && (
+        <div className={styles.fenceModal}>
+          产品名称<span className={styles.vRight}>{currentItem.productName}</span>
+          <Divider className={styles.fengge} />
+          设备名称<span className={styles.vRight}>{currentItem.name}</span>
+          <Divider className={styles.fengge} />
+          创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
+          <Divider className={styles.fengge} />
+          注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
+          <Divider className={styles.fengge} />
+          温湿度<span id="an303" className={styles.vRight}>{ getAN303(currentItem.id) }</span>
         </div>
       )}
       {currentItem.productId === "videoMonitor" && (

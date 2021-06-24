@@ -21,24 +21,6 @@ interface State {
   showVisible: boolean;
 }
 
-const paths = [
-  [
-    //路径1，走廊: start - end
-    { x: 12609730.584668012, y: 2634680.204680953, z: 56},
-    { x: 12609628.452463193, y: 2634483.8905584496, z: 56}
-  ],
-  [
-    // 路径2，月检站：start - end
-    { x: 12609729.815250406, y: 2634669.4546577465, z: 56 },
-    { x: 12609350.735470776, y: 2634668.477778039, z: 56 }
-  ],
-  [
-    // 路径3，维修线：start - end
-    { x: 12609730.584668012, y: 2634680.204680953, z: 56 },
-    { x: 12609353.564902872, y: 2634639.0095029576, z: 56 }
-  ]
-];
-
 const Cardpath: React.FC<Props> = props => {
   const {
     location: { query },
@@ -157,9 +139,9 @@ const Cardpath: React.FC<Props> = props => {
                   })(<Select placeholder="请选择" onChange={value => {
                     drawNaviLine(value);
                   }}>
-                    <Select.Option value="路径A" key='path1'>路径A</Select.Option>
-                    <Select.Option value="路径B" key='path2'>路径B</Select.Option>
-                    <Select.Option value="路径C" key='path3'>路径C</Select.Option>
+                    <Select.Option value="走廊" key='path1'>走廊</Select.Option>
+                    <Select.Option value="月检站" key='path2'>月检站</Select.Option>
+                    <Select.Option value="维修线" key='path3'>维修线</Select.Option>
                   </Select>)}
                 </Form.Item>
               </Col>

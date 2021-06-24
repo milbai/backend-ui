@@ -1,5 +1,39 @@
 import fengmap from 'fengmap';
 const pathCoords = [
+  //走廊
+  [
+    {
+      x: 12609730.584668012, y: 2634680.204680953,
+      groupID: 1
+    },
+    {
+      x: 12609628.452463193, y: 2634483.8905584496,
+      groupID: 1
+    }
+  ],
+  //月检站
+  [
+    {
+      x: 12609729.815250406, y: 2634669.4546577465,
+      groupID: 1
+    },
+    {
+      x: 12609350.735470776, y: 2634668.477778039,
+      groupID: 1
+    }
+  ],
+  //维修线
+  [
+    {
+      x: 12609730.584668012, y: 2634680.204680953,
+      groupID: 1
+    },
+    {
+      x: 12609353.564902872, y: 2634639.0095029576,
+      groupID: 1
+    }
+  ],
+  /*我的随便demo
   //路径A
   [
     {
@@ -38,7 +72,8 @@ const pathCoords = [
       y: 2634634.2942902,
       groupID: 1
     }
-  ]
+  ],
+  */
 ];
 //定义全局map变量
 var map = null;
@@ -152,12 +187,14 @@ export function drawNaviLine(pathName) {
 
     coords = pathCoords[function () {
       switch (pathName) {
-        case '路径A':
+        case '走廊':
           return 0;
-        case '路径B':
+        case '月检站':
           return 1;
-        case '路径C':
+        case '维修线':
           return 2;
+        default:
+          return 0;
       }
     }()];
     addMarker(coords[0], 'start');
