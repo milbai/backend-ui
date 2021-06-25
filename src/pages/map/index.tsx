@@ -100,7 +100,8 @@ const Location: React.FC<Props> = props => {
       .then(response => {
         if (response.status === 200 && response.result && response.result.data && response.result.data.length) {
           var content = JSON.parse(response.result.data[0].content);
-          document.getElementById('an303').innerHTML = response.result.data[0].content;
+          document.getElementById('an303_wendu').innerHTML = content.temperature;
+          document.getElementById('an303_shidu').innerHTML = content.humidity;
         }
       })
       .catch(() => {});
@@ -237,7 +238,9 @@ const Location: React.FC<Props> = props => {
           <Divider className={styles.fengge} />
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
           <Divider className={styles.fengge} />
-          温湿度<span id="an303" className={styles.vRight}>{ getAN303(currentItem.id) }</span>
+          温度<span id="an303_wendu" className={styles.vRight}>{ getAN303(currentItem.id) }</span>
+          <Divider className={styles.fengge} />
+          湿度<span id="an303_shidu" className={styles.vRight}>获取中...</span>
         </div>
       )}
       {currentItem.productId === "videoMonitor" && (
