@@ -368,6 +368,14 @@ export const routes = [
                                 authority: ['device-gateway', 'admin'],
                                 component: './network/gateway',
                             },
+                          {
+                            path: '/network/access',
+                            name: '接入管理',
+                            icon: 'cloud-server',
+                            iconfont: 'icon-shebei',
+                            authority: ['device-gateway', 'admin'],
+                            component: './network/access',
+                          },
                         ],
                     },
                     // {
