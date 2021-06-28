@@ -8,7 +8,7 @@ import {filter, map} from "rxjs/operators";
 import {useState} from "react";
 import moment from "moment";
 
-import { createFengmap, addPolygonMarker, updateMarkers } from './fengmap'
+import { createFengmap, addPolygonMarker, setDevicesData } from './fengmap'
 import styles from './css/index.css';
 import {connect} from "dva";
 import {ConnectState, Dispatch} from "@/models/connect";
@@ -188,11 +188,37 @@ const Location: React.FC<Props> = props => {
       const temp = data.filter((item: any) => {
         item.createTime = item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : '';
         item.registryTime = item.registryTime ? moment(item.registryTime).format('YYYY-MM-DD HH:mm:ss') : '';
-        return (item.productId === 'CM100-GB' && item.state && item.state.value === 'online') ||
-          item.productId === 'videoMonitor' || item.productId === 'TGSG-190' ||
+        return item.productId === 'videoMonitor' || item.productId === 'TGSG-190' ||
           (item.productId === 'AN303' && item.state && item.state.value === 'online');
       });
-      updateMarkers(temp);
+      setDevicesData({
+        data: temp,
+        type: 2
+      });
+    });
+  };
+
+  const getCM100Data = () => {
+    defer(
+      () => from(apis.deviceInstance.list_bond(encodeQueryParam({ terms: {} }))).pipe(
+        filter(resp => resp.status === 200),
+        map(resp => resp.result)
+      )).subscribe((data) => {
+        var temp = [];
+        for(var i = 0; i < data.length; i++) {
+          var item = data[i];
+          if(item.device && item.device.productId === 'CM100-GB' && item.device.state && item.device.state.value === 'online' &&
+            item.user && item.user.name) {
+            item.device.userName = item.user.name;
+            item.device.createTime = item.device.createTime ? moment(item.device.createTime).format('YYYY-MM-DD HH:mm:ss') : '';
+            item.device.registryTime = item.device.registryTime ? moment(item.device.registryTime).format('YYYY-MM-DD HH:mm:ss') : '';
+            temp.push(item.device);
+          }
+        }
+      setDevicesData({
+        data: temp,
+        type: 1
+      });
     });
   };
 
@@ -204,7 +230,8 @@ const Location: React.FC<Props> = props => {
       //console.log('地图加载完成！');
       getFenceData();
       getData();
-      requestData = setInterval(() => getData(), 3000);
+      getCM100Data();
+      requestData = setInterval(() => getCM100Data(), 3000);
     }
     return () => {
       clearInterval(requestData);
@@ -225,7 +252,7 @@ const Location: React.FC<Props> = props => {
           <Divider className={styles.fengge} />
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
           <Divider className={styles.fengge} />
-          绑定人员<span id="binder_name" className={styles.vRight}>{ getBinder(currentItem.id) }</span>
+          绑定人员<span id="binder_name" className={styles.vRight}>{ currentItem.userName }</span>
         </div>
       )}
       {currentItem.productId === "AN303" && (

@@ -4,6 +4,7 @@ var myVideo;
 var map;
 var fenceList, cm100List;
 var selected = -1;
+var devicesData = {};
 
 export function createFengmap(callback, setCurrentItem, getTGSG_state) {
   var fmapID = '1384053067182067713';
@@ -131,12 +132,22 @@ export function addPolygonMarker(data) {
   }
 }
 
-export function updateMarkers(data) {
+export function setDevicesData(data) {
+  devicesData[data.type] = data.data;
+  var arr = [];
+  for(let key in devicesData) {
+    arr = arr.concat(devicesData[key]);
+  }
+  cm100List = arr;
+  updateMarkers(cm100List);
+}
+
+function updateMarkers(data) {
   var group = map.getFMGroup(map.focusGroupID);
   var layer = group.getOrCreateLayer('imageMarker');
   layer.removeAll();
   //console.log(data);
-  cm100List = data;
+  //cm100List = data;
   for(var i = 0; i < data.length; i++) {
     var im = new fengmap.FMImageMarker({
       x: parseFloat(data[i].longitude),
