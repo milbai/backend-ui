@@ -197,3 +197,18 @@ export async function deleteBinds(deviceId: string | undefined, bindType: string
     method: 'DELETE',
   });
 }
+
+//获取音频列表
+export async function getAudioList() {
+  return request(`/rwslinks/device/instance/audio/record`, {
+    method: 'GET',
+  });
+}
+
+//打开关闭音频
+export async function handle_audio(data: any) {
+  return request(`/rwslinks/device/instance/command/audio`, {
+    method: 'POST',
+    data,
+  });
+}

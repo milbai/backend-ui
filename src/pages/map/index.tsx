@@ -13,6 +13,7 @@ import styles from './css/index.css';
 import {connect} from "dva";
 import {ConnectState, Dispatch} from "@/models/connect";
 import 'video.js/dist/video-js.css';
+import Save from "./save";
 
 interface Props {
   dispatch: Dispatch;
@@ -22,6 +23,8 @@ interface State {
   currentItem: any;
   tempEmployee: any;
   TGSG190state: boolean;
+  AudioSetting: any;
+  audioVisible: boolean;
 }
 
 const Location: React.FC<Props> = props => {
@@ -29,11 +32,15 @@ const Location: React.FC<Props> = props => {
   const initState: State = {
     currentItem: {},
     tempEmployee: {},
-    TGSG190state: false
+    TGSG190state: false,
+    AudioSetting: {},
+    audioVisible: false,
   };
   const [currentItem, setCurrentItem] = useState(initState.currentItem);
   const [tempEmployee, setTempEmployee] = useState(initState.tempEmployee);
   const [TGSG190state, setTGSG190state] = useState(initState.TGSG190state);
+  const [AudioSetting, setAudioSetting] = useState(initState.AudioSetting);
+  const [audioVisible, setAudioVisible] = useState(initState.audioVisible);
 
   const handle_switch = (b: boolean) => {
     currentItem.state = b;
@@ -65,6 +72,21 @@ const Location: React.FC<Props> = props => {
       .catch(() => {});
   };
 
+  const getAudioList = () => {
+    apis.deviceInstance.getAudioList()
+      .then(response => {
+        if (response.status === 200 && response.result) {
+          setAudioSetting({
+            audio_list: response.result,//多选 信息
+            audio_channal: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],//单选 通道
+            audio_zone: [1,2,3,4],//多选 分区
+          });
+        } else {
+        }
+      })
+      .catch(() => {});
+  };
+
   const getEmployeeName = (employees: string) => {
     if(!employees)
       return '';
@@ -84,6 +106,37 @@ const Location: React.FC<Props> = props => {
         }
       });
     return '获取中...';
+  };
+
+  const handle_audio = (setting: any) => {
+    var data = {
+      "company": "BL",
+      "token": "",
+      "data": {
+        "channal": setting.channal
+      },
+      "return_message": ""
+    };
+    if(setting.play) {
+      data.data["musicid"] = setting.musicid;
+      data.data["zone"] = setting.zone;
+      data["actioncode"] = "prerecord_play_request";
+    } else {
+      data["actioncode"] = "prerecord_play_stop_request";
+    }
+
+    apis.deviceInstance
+      .handle_audio(encodeQueryParam(data))
+      .then(response => {
+        if (response.status === 200) {
+          setAudioSetting(setting);
+          setAudioVisible(false);
+          message.success("操作成功");
+        } else {
+          message.error(`操作失败，${response.message}`);
+        }
+      })
+      .catch(() => {});
   };
 
   const getAN303 = (deviceId: string) => {
@@ -188,7 +241,7 @@ const Location: React.FC<Props> = props => {
       const temp = data.filter((item: any) => {
         item.createTime = item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : '';
         item.registryTime = item.registryTime ? moment(item.registryTime).format('YYYY-MM-DD HH:mm:ss') : '';
-        return item.productId === 'videoMonitor' || item.productId === 'TGSG-190' ||
+        return item.productId === 'videoMonitor' || item.productId === 'TGSG-190' || item.productId === 'audioBroadcast' ||
           (item.productId === 'AN303' && item.state && item.state.value === 'online');
       });
       setDevicesData({
@@ -231,6 +284,7 @@ const Location: React.FC<Props> = props => {
       getFenceData();
       getData();
       getCM100Data();
+      getAudioList();
       requestData = setInterval(() => getCM100Data(), 3000);
     }
     return () => {
@@ -253,6 +307,27 @@ const Location: React.FC<Props> = props => {
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
           <Divider className={styles.fengge} />
           绑定人员<span id="binder_name" className={styles.vRight}>{ currentItem.userName }</span>
+        </div>
+      )}
+      {currentItem.productId === "audioBroadcast" && (
+        <div className={styles.fenceModal}>
+          产品名称<span className={styles.vRight}>{currentItem.productName}</span>
+          <Divider className={styles.fengge} />
+          设备名称<span className={styles.vRight}>{currentItem.name}</span>
+          <Divider className={styles.fengge} />
+          创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
+          <Divider className={styles.fengge} />
+          注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
+          <Divider className={styles.fengge} />
+          操作
+          <a className={styles.vRight} onClick={() => {
+            AudioSetting.play = false;
+            setAudioVisible(true);
+          }}>停止</a>
+          <a style={{ marginRight: '20px' }} className={styles.vRight} onClick={() => {
+            AudioSetting.play = true;
+            setAudioVisible(true);
+          }}>播放</a>
         </div>
       )}
       {currentItem.productId === "AN303" && (
@@ -323,6 +398,15 @@ const Location: React.FC<Props> = props => {
           可进入员工<span className={styles.vRight}>{getEmployeeName(currentItem.employees)}</span>
         </div>
       )}
+
+      {
+        audioVisible &&
+        <Save
+          data={AudioSetting}
+          close={() => { setAudioVisible(false) }}
+          save={(setting: any) => handle_audio(setting) }
+        />
+      }
     </div>
   </div>
 };
