@@ -166,7 +166,8 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
 
 
   return (
-    localStorage.getItem('hide_menu') === 'true' ?
+    (props.location?.query?.auth === 'callfromauthorizesystem' ||
+    localStorage.getItem('hide_menu') === 'true') ?
       <Authorized authority={authorized!.authority} noMatch={noMatch} >
         {children}
       </Authorized > : <ProLayout
