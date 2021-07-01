@@ -10,18 +10,31 @@ import { FormComponentProps } from "antd/lib/form";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { AlarmLog } from "../alarm/data";
 
-interface Props extends FormComponentProps{ }
+interface Props extends FormComponentProps{
+  location: any;
+}
 const Alarmlog: React.FC<Props> = props => {
     const {
         form: {getFieldDecorator},
         form,
       } = props;
+  const {
+    location: { query }
+  } = props;
     const [loading, setLoading] = useState(false);
     const [solveVisible, setSolveVisible] = useState(false);
     const [solveAlarmLogId, setSolveAlarmLogId] = useState();
     const [result, setResult] = useState<any>({});
     const productList = useRef<any[]>([]);
-    const [searchParam, setSearchParam] = useState({
+    const [searchParam, setSearchParam] = useState(
+      query.alarmId ? {
+        pageSize: 10,
+        terms: {deviceId: query.alarmId},
+        sorts: {
+          order: "descend",
+          field: "alarmTime"
+        }
+      } : {
         pageSize: 10,
         sorts: {
             order: "descend",
@@ -141,7 +154,7 @@ const Alarmlog: React.FC<Props> = props => {
     ];
     return (
         <PageHeaderWrapper title="告警记录">
-            <Card bordered={false} style={{ marginBottom: 16 }}>
+          {!query.alarmId && (<Card bordered={false} style={{ marginBottom: 16 }}>
                 <div>
                     <div>
 
@@ -176,7 +189,7 @@ const Alarmlog: React.FC<Props> = props => {
                         />
                     </div>
                 </div>
-            </Card>
+            </Card>)}
             <Card>
                 <ProTable
                     loading={loading}
