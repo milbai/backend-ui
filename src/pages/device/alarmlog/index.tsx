@@ -29,7 +29,7 @@ const Alarmlog: React.FC<Props> = props => {
     const [searchParam, setSearchParam] = useState(
       query.alarmId ? {
         pageSize: 10,
-        terms: {deviceId: query.alarmId},
+        terms: {id: query.alarmId},
         sorts: {
           order: "descend",
           field: "alarmTime"
