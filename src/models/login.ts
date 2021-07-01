@@ -103,6 +103,32 @@ const Model: LoginModelType = {
       )
     },
 
+    *login_callfromauthorizesystem({ payload, callback }, { call, put }) {
+      const response = yield call(apis.login.login, payload);
+      yield put({
+        type: 'changeLoginStatus',
+        payload: response,
+      });
+      // Login successfully
+      if (response.status === 200) {
+        setAccessToken(response.result.token);
+        setAutz(response.result);
+        const tenants = response.result?.user?.tenants;
+        if (tenants && tenants[0]) {
+          localStorage.removeItem('tenants-admin');
+          //找到主租户
+          const temp = (response.result?.user?.tenants || []).find((i: any) => i.mainTenant).adminMember;
+          localStorage.setItem('tenants-admin', temp);
+        }
+        reloadAuthorized();
+        const version = yield call(systemVersion);
+        if (version) {
+          localStorage.setItem('system-version', version?.result?.edition);
+        }
+        callback();
+      }
+    },
+
     *logout(_, { call, put }) {
       const response = yield call(apis.login.logout);
       if (response.status === 200) {

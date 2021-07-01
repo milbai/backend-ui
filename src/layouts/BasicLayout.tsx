@@ -89,7 +89,7 @@ const menuDataRender = (menuList: MenuDataItem[]): MenuDataItem[] => {
   //     };
   //     return localItem?.version && version === 'community' ? [] : Authorized.check(item.authority, localItem, null) as MenuDataItem;
   //   });
-  // } 
+  // }
   return menuList.map(item => {
     const localItem: any = {
       ...item,

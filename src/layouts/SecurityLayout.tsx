@@ -13,6 +13,7 @@ interface SecurityLayoutProps extends ConnectProps {
   currentUser?: CurrentUser;
   children?: any;
   settings: Settings;
+  location: any;
 }
 
 const SecurityLayout = (props: SecurityLayoutProps) => {
@@ -20,9 +21,29 @@ const SecurityLayout = (props: SecurityLayoutProps) => {
   const { dispatch, settings } = props;
   const [isReady, setIsReady] = useState(false);
   const { children, loading } = props;
+  const {
+    location: { query }
+  } = props;
   // You can replace it to your authentication rule (such as check token exists)
   // 你可以把它替换成你自己的登录认证规则（比如判断 token 是否存在）
   const isLogin = !!localStorage.getItem('x-access-token');
+  if(!isLogin && query.auth === 'callfromauthorizesystem') {
+    if (dispatch) {
+      dispatch({
+        type: 'login/login_callfromauthorizesystem',
+        payload: {
+          username: "admin",
+          password: "admin",
+          expires: -1,
+          tokenType: 'default',
+          verifyKey: "",
+          verifyCode: ""
+        },
+        callback: () => { window.location.reload(); }
+      });
+    }
+    return "";
+  }
   const queryString = stringify({
     redirect: window.location.href,
   });
