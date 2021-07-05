@@ -139,7 +139,7 @@ const Location: React.FC<Props> = props => {
       .catch(() => {});
   };
 
-  const getAN303 = (deviceId: string) => {
+  const getDeviceInfo = (deviceId: string) => {
     apis.deviceInstance
       .logs(deviceId, encodeQueryParam({
         pageSize: 1,
@@ -153,8 +153,30 @@ const Location: React.FC<Props> = props => {
       .then(response => {
         if (response.status === 200 && response.result && response.result.data && response.result.data.length) {
           var content = JSON.parse(response.result.data[0].content);
-          document.getElementById('an303_wendu').innerHTML = content.temperature;
-          document.getElementById('an303_shidu').innerHTML = content.humidity;
+          if(response.result.data[0].productId === 'AN303') {
+            document.getElementById('an303_wendu').innerHTML = content.temperature;
+            document.getElementById('an303_shidu').innerHTML = content.humidity;
+          } else if(response.result.data[0].productId === 'GT-CX400') {
+            document.getElementById('cx400_nongdu').innerHTML = content.gas_density + content.gas_unit;
+            document.getElementById('cx400_status').innerHTML = function () {
+              switch (content.sensor_status) {
+                case 'normal':
+                  return '正常';
+                case 'low':
+                  return '低报';
+                case 'high':
+                  return '高报';
+                case 'fail':
+                  return '故障';
+                case 'fault':
+                  return '错误';
+                case 'storage_err':
+                  return '存储故障';
+                default:
+                  return content.sensor_status;
+              }
+            }();
+          }
         }
       })
       .catch(() => {});
@@ -242,7 +264,8 @@ const Location: React.FC<Props> = props => {
         item.createTime = item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : '';
         item.registryTime = item.registryTime ? moment(item.registryTime).format('YYYY-MM-DD HH:mm:ss') : '';
         return item.productId === 'videoMonitor' || item.productId === 'TGSG-190' || item.productId === 'audioBroadcast' ||
-          (item.productId === 'AN303' && item.state && item.state.value === 'online');
+          (item.productId === 'AN303' && item.state && item.state.value === 'online') ||
+          (item.productId === 'GT-CX400' && item.state && item.state.value === 'online');
       });
       setDevicesData({
         data: temp,
@@ -340,9 +363,24 @@ const Location: React.FC<Props> = props => {
           <Divider className={styles.fengge} />
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
           <Divider className={styles.fengge} />
-          温度<span id="an303_wendu" className={styles.vRight}>{ getAN303(currentItem.id) }</span>
+          温度<span id="an303_wendu" className={styles.vRight}>{ getDeviceInfo(currentItem.id) }</span>
           <Divider className={styles.fengge} />
           湿度<span id="an303_shidu" className={styles.vRight}>获取中...</span>
+        </div>
+      )}
+      {currentItem.productId === "GT-CX400" && (
+        <div className={styles.fenceModal}>
+          产品名称<span className={styles.vRight}>{currentItem.productName}</span>
+          <Divider className={styles.fengge} />
+          设备名称<span className={styles.vRight}>{currentItem.name}</span>
+          <Divider className={styles.fengge} />
+          创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
+          <Divider className={styles.fengge} />
+          注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
+          <Divider className={styles.fengge} />
+          气体浓度<span id="cx400_nongdu" className={styles.vRight}>{ getDeviceInfo(currentItem.id) }</span>
+          <Divider className={styles.fengge} />
+          状态<span id="cx400_status" className={styles.vRight}>获取中...</span>
         </div>
       )}
       {currentItem.productId === "videoMonitor" && (
