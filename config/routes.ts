@@ -102,6 +102,7 @@ export const routes = [
                         tenant: ['admin', 'member'],
                         iconfont: 'icon-tongjifenxi',
                         component: './analysis',
+                        version: 'pro',
                     },
                     {
                         path: 'system',
@@ -371,6 +372,7 @@ export const routes = [
                           {
                             path: '/network/access',
                             name: '接入管理',
+                            version: 'pro',
                             icon: 'cloud-server',
                             iconfont: 'icon-shebei',
                             authority: ['device-gateway', 'admin'],
@@ -543,6 +545,7 @@ export const routes = [
                                 icon: 'ordered-list',
                                 iconfont: 'icon-xitongrizhi',
                                 authority: ['system-logger', 'admin'],
+                                version: 'pro',
                                 component: './logger/system',
                             },
                         ],
