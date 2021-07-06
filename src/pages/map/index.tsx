@@ -157,7 +157,7 @@ const Location: React.FC<Props> = props => {
             document.getElementById('an303_wendu').innerHTML = content.temperature;
             document.getElementById('an303_shidu').innerHTML = content.humidity;
           } else if(response.result.data[0].productId === 'GT-CX400') {
-            document.getElementById('cx400_nongdu').innerHTML = content.gas_density + content.gas_unit;
+            document.getElementById('cx400_nongdu').innerHTML = content.gas_density + " " + content.gas_unit;
             document.getElementById('cx400_status').innerHTML = function () {
               switch (content.sensor_status) {
                 case 'normal':
