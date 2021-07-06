@@ -88,7 +88,6 @@ const Save: React.FC<Props> = props => {
             <Select.Option value="维修线" key='area2'>维修线</Select.Option>
             <Select.Option value="停车日检库A区" key='area3'>停车日检库A区</Select.Option>
             <Select.Option value="停车日检库B区" key='area4'>停车日检库B区</Select.Option>
-            <Select.Option value="出场线" key='area5'>出场线</Select.Option>
           </Select>)}
         </Form.Item>
         <Form.Item label="开始时间">

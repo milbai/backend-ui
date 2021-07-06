@@ -223,7 +223,7 @@ const Location: React.FC<Props> = props => {
         const tempFence = data;
         var temp = [];
         for(var i = 0; i < tempFence.length; i++) {
-          if (temp[0] && temp[1] && temp[2] && temp[3] && temp[4]) {
+          if (temp[0] && temp[1] && temp[2] && temp[3]) {
             break;
           }
           if(!temp[0] && tempFence[i].area === '月检线' && tempFence[i].state) {
@@ -240,10 +240,6 @@ const Location: React.FC<Props> = props => {
           }
           if(!temp[3] && tempFence[i].area === '停车日检库B区' && tempFence[i].state) {
             temp[3] = tempFence[i];
-            continue;
-          }
-          if (!temp[4] && tempFence[i].area === '出场线' && tempFence[i].state) {
-            temp[4] = tempFence[i];
           }
         }
         addPolygonMarker(temp);
