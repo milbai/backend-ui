@@ -1,5 +1,5 @@
 import { Icon, Tooltip, Tag, message } from 'antd';
-import React, { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import { connect } from 'dva';
 // import { formatMessage } from 'umi-plugin-react/locale';
 import { ConnectProps, ConnectState } from '@/models/connect';
@@ -10,6 +10,9 @@ import Avatar from './AvatarDropdown';
 import styles from './index.less';
 import NoticeIconView from './NoticeIconView';
 import encodeQueryParam from '@/utils/encodeParam';
+import {router} from "umi";
+import alarm_img from '../../../public/fengmap/images/alarm.gif';
+import apis from "@/services";
 
 export type SiderTheme = 'light' | 'dark';
 export interface GlobalHeaderRightProps extends ConnectProps {
@@ -23,8 +26,18 @@ const ENVTagColor = {
   pre: '#87d068',
 };
 
+interface State {
+  alarmVisible: boolean;
+}
+
 const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = props => {
   const { theme, layout, dispatch } = props;
+
+  const initState: State = {
+    alarmVisible: false,
+  };
+  const [alarmVisible, setAlarmVisible] = useState(initState.alarmVisible);
+
   let className = styles.right;
 
   if (theme === 'dark' && layout === 'topmenu') {
@@ -40,6 +53,17 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = props => {
       });
     }
   }
+
+  useEffect(() => {
+    apis.deviceAlarm.findAlarmLogCount(encodeQueryParam({ terms: {state: "newer"} }))
+      .then((response: any) => {
+        if (response.status === 200 && response.result > 0) {
+          setAlarmVisible(true);
+        }
+      }).catch(() => {
+    });
+  }, []);
+
   return (
     <div className={className}>
       {/* <HeaderSearch
@@ -73,6 +97,19 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = props => {
           <Icon type="question-circle-o" />
         </a>
       </Tooltip> */}
+      {
+        alarmVisible && <img
+          className={styles.action}
+          style={{ height: '35px' }}
+          src={alarm_img}
+          onClick={() => {
+            router.push({
+              pathname: '/device/alarm',
+            })
+          }}
+        >
+        </img>
+      }
       <span onClick={() => { fetchData() }}>
         <NoticeIconView />
       </span>
