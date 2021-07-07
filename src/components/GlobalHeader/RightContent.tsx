@@ -110,9 +110,13 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = props => {
         >
         </img>
       }
-      <span onClick={() => { fetchData() }}>
-        <NoticeIconView />
+      {
+        false && <span onClick={() => {
+          fetchData()
+        }}>
+        <NoticeIconView/>
       </span>
+      }
       <Avatar />
       {REACT_APP_ENV && <Tag color={ENVTagColor[REACT_APP_ENV]}>{REACT_APP_ENV}</Tag>}
       {/* <SelectLang className={styles.action} /> */}
