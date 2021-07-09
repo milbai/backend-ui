@@ -46,20 +46,24 @@ const errorHandler = (error: { response: Response }): Response | undefined => {
   // });
   if (response) {
     if (response.status === 401) {
-      notification.error({
-        key: 'error',
-        message: '未登录或登录已过期，请重新登录。',
-      });
-      const { redirect } = getPageQuery();
-      if (window.location.pathname !== '/user/login' && !redirect) {
-        router.replace({
-          pathname: '/user/login',
-          search: stringify({
-            redirect: window.location.href,
-          }),
-        });
+      if(getPageQuery().auth === 'callfromauthorizesystem') {
+        localStorage.removeItem('x-access-token');
       } else {
-        router.push('/user/login');
+        notification.error({
+          key: 'error',
+          message: '未登录或登录已过期，请重新登录。',
+        });
+        const { redirect } = getPageQuery();
+        if (window.location.pathname !== '/user/login' && !redirect) {
+          router.replace({
+            pathname: '/user/login',
+            search: stringify({
+              redirect: window.location.href,
+            }),
+          });
+        } else {
+          router.push('/user/login');
+        }
       }
     }
     else if (response.status === 400) {
