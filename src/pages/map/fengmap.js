@@ -10,8 +10,8 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
   var fmapID = '1384053067182067713';
   var mapOptions = {
     container: document.getElementById('fengmap'),
-    mapServerURL: './fengmap/data/' + fmapID,
-    mapThemeURL: './fengmap/data/theme',
+    //mapServerURL: './fengmap/data/' + fmapID,
+    //mapThemeURL: './fengmap/data/theme',
     defaultThemeName: '3b91d03288204d02368dd4f68fc1f189',
     mapScaleLevelRange: [16, 23],       // 比例尺级别范围， 16级到23级
     // mapScaleRange: [200, 4000]      // 自定义比例尺范围，单位（厘米）

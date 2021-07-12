@@ -259,9 +259,12 @@ const Location: React.FC<Props> = props => {
       const temp = data.filter((item: any) => {
         item.createTime = item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : '';
         item.registryTime = item.registryTime ? moment(item.registryTime).format('YYYY-MM-DD HH:mm:ss') : '';
+        /*
         return item.productId === 'videoMonitor' || item.productId === 'TGSG-190' || item.productId === 'audioBroadcast' ||
           (item.productId === 'AN303' && item.state && item.state.value === 'online') ||
           (item.productId === 'GT-CX400' && item.state && item.state.value === 'online');
+        */
+        return item.productId === 'M401A';
       });
       setDevicesData({
         data: temp,
@@ -300,21 +303,32 @@ const Location: React.FC<Props> = props => {
 
     function mapDone() {
       //console.log('地图加载完成！');
-      getFenceData();
+      //getFenceData();
       getData();
-      getCM100Data();
-      getAudioList();
-      requestData = setInterval(() => getCM100Data(), 3000);
+      //getCM100Data();
+      //getAudioList();
+      //requestData = setInterval(() => getCM100Data(), 3000);
     }
-    return () => {
-      clearInterval(requestData);
-    };
+    //return () => {
+    //  clearInterval(requestData);
+    //};
   }, []);
 
   return <div>
     <div className={styles.mapout}>
       <div className={styles.fengMap} id="fengmap"></div>
       <div className={styles.mapmask}></div>
+      {currentItem.productId === "M401A" && (
+        <div className={styles.fenceModal}>
+          产品名称<span className={styles.vRight}>{currentItem.productName}</span>
+          <Divider className={styles.fengge} />
+          设备名称<span className={styles.vRight}>{currentItem.name}</span>
+          <Divider className={styles.fengge} />
+          创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
+          <Divider className={styles.fengge} />
+          注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
+        </div>
+      )}
       {currentItem.productId === "CM100-GB" && (
         <div className={styles.fenceModal}>
           产品名称<span className={styles.vRight}>{currentItem.productName}</span>
