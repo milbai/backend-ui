@@ -17,6 +17,9 @@ export function createFengmap() {
     defaultMapScaleLevel: 17,          // 默认比例尺级别设置为19级
     appName: '陈头岗地铁停车场',
     key: '40308d481d2d806bcd2e5fb346c2dc45',
+    defaultViewMode: fengmap.FMViewMode.MODE_2D,
+    // defaultControlsPose: fengmap.FMDirection.NORTH,
+    defaultControlsPose: 0,     //角度值。
   };
   map = new fengmap.FMMap(mapOptions);
   map.openMapById(fmapID, function (error) {

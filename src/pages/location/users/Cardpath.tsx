@@ -139,7 +139,7 @@ const Cardpath: React.FC<Props> = props => {
                   })(<Select placeholder="请选择" onChange={value => {
                     drawNaviLine(value);
                   }}>
-                    <Select.Option value="走廊" key='path1'>走廊</Select.Option>
+                    {/* <Select.Option value="走廊" key='path1'>走廊</Select.Option> */}
                     <Select.Option value="月检站" key='path2'>月检站</Select.Option>
                     <Select.Option value="维修线" key='path3'>维修线</Select.Option>
                   </Select>)}
