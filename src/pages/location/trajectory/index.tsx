@@ -43,6 +43,10 @@ const Trajectory: React.FC<Props> = props => {
     form.validateFields((err, params) => {
       if (err) return;
       if (params.createTime$BTW) {
+        if(params.createTime$BTW[1].valueOf() - params.createTime$BTW[0].valueOf() > 3 * 24 * 3600 * 1000) {
+          message.error('时间范围不能大于3日！');
+          return;
+        }
         const formatDate = params.createTime$BTW.map((e: Moment) =>
           moment(e).format('YYYY-MM-DD HH:mm:ss'),
         );
@@ -66,6 +70,7 @@ const Trajectory: React.FC<Props> = props => {
       .then(response => {
         if (response.status === 200 && response.result.data) {
           clearMap();
+          console.log(response.result.data);
           if(response.result.data.length) {
             updateMap(response.result.data);
           } else {
@@ -99,7 +104,9 @@ const Trajectory: React.FC<Props> = props => {
               </Col>
               <Col md={10} sm={24}>
                 <Form.Item label="日期">
-                  {getFieldDecorator('createTime$BTW')(
+                  {getFieldDecorator('createTime$BTW', {
+                    rules: [{ required: true, message: '请选择时间范围' }]
+                  })(
                     <DatePicker.RangePicker
                       showTime={{ format: 'HH:mm' }}
                       format="YYYY-MM-DD HH:mm"
