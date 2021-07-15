@@ -43,11 +43,6 @@ function updateLocation(cb) {
 }
 
 export function updateMap(data) {
-  clearMap();
-  addMarkerFunc(data);
-}
-
-function addMarkerFunc(data) {
   var naviResults = [
     {
       groupId: 1,

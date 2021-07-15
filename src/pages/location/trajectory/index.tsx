@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Button, Card, Col, DatePicker, Form, Row, Select} from "antd";
+import {Button, Card, Col, DatePicker, Form, message, Row, Select} from "antd";
 import {PageHeaderWrapper} from "@ant-design/pro-layout";
 import { createFengmap, clearMap, updateMap } from './fengmap'
 import styles from './css/index.css';
@@ -64,9 +64,12 @@ const Trajectory: React.FC<Props> = props => {
     apis.deviceInstance
       .logs(param.terms.deviceId, encodeQueryParam(param))
       .then(response => {
-        if (response.status === 200) {
-          if(response.result.data && response.result.data.length) {
+        if (response.status === 200 && response.result.data) {
+          clearMap();
+          if(response.result.data.length) {
             updateMap(response.result.data);
+          } else {
+            message.info('无轨迹记录');
           }
         }
       })
