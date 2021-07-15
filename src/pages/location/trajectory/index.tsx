@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {Button, Card, Col, DatePicker, Form, message, Row, Select} from "antd";
+import {Button, Card, Col, DatePicker, Form, message, Radio, Row, Select} from "antd";
 import {PageHeaderWrapper} from "@ant-design/pro-layout";
-import { createFengmap, clearMap, updateMap } from './fengmap'
+import { createFengmap, clearMap, updateMap, set_freq } from './fengmap'
 import styles from './css/index.css';
 import { FormComponentProps } from "antd/lib/form";
 import {useEffect} from "react";
@@ -38,6 +38,11 @@ const Trajectory: React.FC<Props> = props => {
     });
     createFengmap();
   }, []);
+
+  function setSpeed(e:any) {
+    const {value} = e.target;
+    set_freq(parseInt(value));
+  }
 
   const onSearch = () => {
     form.validateFields((err, params) => {
@@ -147,6 +152,29 @@ const Trajectory: React.FC<Props> = props => {
     <div className={styles.mapout}>
       <div className={styles.fengMap} id="fengmap"></div>
       <div className={styles.mapmask}></div>
+      <div style={{
+        position: "absolute",
+        top: "203px",
+        right: "3px"
+      }}>
+        <Radio.Group defaultValue="400" onChange={setSpeed}>
+          <Radio.Button value="1600">
+            1倍
+          </Radio.Button>
+          <Radio.Button value="800">
+            2倍
+          </Radio.Button>
+          <Radio.Button value="400">
+            4倍
+          </Radio.Button>
+          <Radio.Button value="200">
+            8倍
+          </Radio.Button>
+          <Radio.Button value="100">
+            16倍
+          </Radio.Button>
+        </Radio.Group>
+      </div>
     </div>
   </div>
 };

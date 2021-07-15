@@ -26,8 +26,12 @@ export function createFengmap() {
 var _mockdata = [];
 var _callback;
 var _update;
-var _freq = 100;
+var _freq = 400;
 var _index = 0;
+
+export function set_freq(value) {
+  _freq = value;
+}
 
 function updateLocation(cb) {
   _callback = function () {
