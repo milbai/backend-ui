@@ -30,7 +30,8 @@ const Trajectory: React.FC<Props> = props => {
 
   useEffect(() => {
     defer(
-      () => from(apis.deviceInstance.listAll(encodeQueryParam({ terms: {productId: 'CM100-GB'} }))).pipe(
+      () => from(apis.employee.listAll(encodeQueryParam({ terms: {type: 1} }))).pipe(
+      //() => from(apis.deviceInstance.listAll(encodeQueryParam({ terms: {productId: 'CM100-GB'} }))).pipe(
         filter(resp => resp.status === 200),
         map(resp => resp.result)
       )).subscribe((data) => {
@@ -93,11 +94,14 @@ const Trajectory: React.FC<Props> = props => {
           <Form labelCol={{ span: 6 }} wrapperCol={{ span: 18 }}>
             <Row gutter={{ md: 8, lg: 4, xl: 48 }}>
               <Col md={8} sm={24}>
-                <Form.Item label="设备名称">
+                <Form.Item label="人员">
                   {getFieldDecorator('deviceId', {
-                    rules: [{ required: true, message: '请选择设备' }]
+                    rules: [{ required: true, message: '请选择人员' }]
                   })(
-                    <Select>
+                    <Select showSearch={true} allowClear={true}
+                             filterOption={(inputValue, option) =>
+                               option?.props?.children?.toUpperCase()?.indexOf(inputValue.toUpperCase()) !== -1
+                             }>
                       {cm100List.map(item => (
                         <Select.Option key={item.id} value={item.id}>
                           {item.name}
