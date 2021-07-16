@@ -1,6 +1,10 @@
 import fengmap from 'fengmap';
 var map;
 var locationMarker;
+//textmarker对象
+var tm = null;
+//marker图层
+var layer = null;
 export function createFengmap() {
   var fmapID = '1384053067182067713';
   var mapOptions = {
@@ -91,14 +95,45 @@ export function updateMap(data) {
       });
       //添加定位点marker
       map.addLocationMarker(locationMarker);
+
+      //文字标注
+
+      //获取当前聚焦楼层
+      var group = map.getFMGroup(map.focusGroupID);
+      //返回当前层中第一个textMarkerLayer,如果没有，则自动创建
+      layer = group.getOrCreateLayer('textMarker');
+      tm = new fengmap.FMTextMarker({
+        //标注x坐标点
+        x: data.x,
+        //标注y坐标点
+        y: data.y,
+        //标注值
+        name: data.x,
+        //文本标注填充色
+        fillcolor: "255,0,0",
+        //文本标注字体大小
+        fontsize: 20,
+        //文本标注边线颜色
+        strokecolor: "255,255,0"
+      });
+
+      //文本标注层添加文本Marker
+      layer.addMarker(tm);
     } else {
-      console.log(data.x);
       //移动locationMarker
       locationMarker.moveTo({
         x: data.x,
         y: data.y,
         groupID: 1
       });
+
+      //移动tm
+      tm.moveTo({
+        x: data.x,
+        y: data.y
+      });
+      // 修改文本标注
+      tm.name = data.x;
     }
   });
 }
@@ -131,5 +166,10 @@ export function clearMap() {
   if (locationMarker) {
     map.removeLocationMarker(locationMarker);
     locationMarker = null;
+  }
+
+  //删除layer上所有Marker
+  if (layer) {
+    layer.removeAll();
   }
 }
