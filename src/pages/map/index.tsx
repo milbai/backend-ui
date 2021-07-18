@@ -259,12 +259,12 @@ const Location: React.FC<Props> = props => {
       const temp = data.filter((item: any) => {
         item.createTime = item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : '';
         item.registryTime = item.registryTime ? moment(item.registryTime).format('YYYY-MM-DD HH:mm:ss') : '';
-        /*
+
         return item.productId === 'videoMonitor' || item.productId === 'TGSG-190' || item.productId === 'audioBroadcast' ||
           (item.productId === 'AN303' && item.state && item.state.value === 'online') ||
           (item.productId === 'GT-CX400' && item.state && item.state.value === 'online');
-        */
-        return item.productId === 'M401A';
+
+        //return item.productId === 'M401A';
       });
       setDevicesData({
         data: temp,
@@ -303,15 +303,15 @@ const Location: React.FC<Props> = props => {
 
     function mapDone() {
       //console.log('地图加载完成！');
-      //getFenceData();
+      getFenceData();
       getData();
-      //getCM100Data();
-      //getAudioList();
-      //requestData = setInterval(() => getCM100Data(), 3000);
+      getCM100Data();
+      getAudioList();
+      requestData = setInterval(() => getCM100Data(), 3000);
     }
-    //return () => {
-    //  clearInterval(requestData);
-    //};
+    return () => {
+      clearInterval(requestData);
+    };
   }, []);
 
   return <div>
