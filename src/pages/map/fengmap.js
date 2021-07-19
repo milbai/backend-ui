@@ -122,9 +122,10 @@ export function addPolygonMarker(data) {
   }
   function addPolygonMarker(coords, index) {
     var polygonMarker = new fengmap.FMPolygonMarker({
-      alpha: .8,             //设置透明度
+      alpha: 0,             //设置透明度
       color: '#CD5A5A',
-      lineWidth: 0,      //设置边框线的宽度
+      lineColor: '#FFFFFF',
+      lineWidth: 3,      //设置边框线的宽度
       height: 6,    //设置高度*/
       points: coords //多边形坐标点
     });
