@@ -98,7 +98,7 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = props => {
         </a>
       </Tooltip> */}
       {
-        alarmVisible && <img
+        false && alarmVisible && <img
           className={styles.action}
           style={{ height: '35px' }}
           src={alarm_img}
