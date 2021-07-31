@@ -22,6 +22,13 @@ export async function list_bond(params?: any) {
   });
 }
 
+export async function list_bond1(params?: any) {
+  return request(`/rwslinks/device-instance/chestCard/workOrder/list`, {
+    method: 'GET',
+    params: params,
+  });
+}
+
 export async function count(params: any) {
   return request(`/rwslinks/device-instance/_count`, {
     method: 'GET',

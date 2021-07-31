@@ -275,11 +275,30 @@ const Location: React.FC<Props> = props => {
 
   const getCM100Data = () => {
     defer(
-      () => from(apis.deviceInstance.list_bond(encodeQueryParam({ terms: {} }))).pipe(
+      () => from(apis.deviceInstance.list_bond1(encodeQueryParam({ terms: {} }))).pipe(
         filter(resp => resp.status === 200),
         map(resp => resp.result)
       )).subscribe((data) => {
         var temp = [];
+        var inCharge = {};
+        //获取负责人
+        for(var i = 0; i < data.length; i++) {
+          if(data[i].inCharge === 1) {
+            inCharge[data[i].appNo] = {
+              name: data[i].name,
+              telephone: data[i].telephone
+            };
+          }
+        }
+        for(var j = 0; j < data.length; j++) {
+          var item = data[j];
+          item.productId = "CM100-GB";
+          item.id = data[j].deviceId;
+          item.inCharge_name = inCharge[data[j].appNo] ? inCharge[data[j].appNo].name : '无数据';
+          item.inCharge_telephone = inCharge[data[j].appNo] ? inCharge[data[j].appNo].telephone : '无数据';
+          temp.push(item);
+        }
+        /*老的bond
         for(var i = 0; i < data.length; i++) {
           var item = data[i];
           if(item.device && item.device.productId === 'CM100-GB' && item.device.state && item.device.state.value === 'online' &&
@@ -290,6 +309,7 @@ const Location: React.FC<Props> = props => {
             temp.push(item.device);
           }
         }
+        */
       setDevicesData({
         data: temp,
         type: 1
@@ -331,15 +351,13 @@ const Location: React.FC<Props> = props => {
       )}
       {currentItem.productId === "CM100-GB" && (
         <div className={styles.fenceModal}>
-          产品名称<span className={styles.vRight}>{currentItem.productName}</span>
+          人员<span className={styles.vRight}>{currentItem.name}</span>
           <Divider className={styles.fengge} />
-          设备名称<span className={styles.vRight}>{currentItem.name}</span>
+          电话<span className={styles.vRight}>{currentItem.telephone}</span>
           <Divider className={styles.fengge} />
-          创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
+          负责人<span className={styles.vRight}>{currentItem.inCharge_name}</span>
           <Divider className={styles.fengge} />
-          注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
-          <Divider className={styles.fengge} />
-          绑定人员<span id="binder_name" className={styles.vRight}>{ currentItem.userName }</span>
+          电话<span className={styles.vRight}>{currentItem.inCharge_telephone}</span>
         </div>
       )}
       {currentItem.productId === "audioBroadcast" && (
