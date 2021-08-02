@@ -38,6 +38,10 @@ const Trajectory: React.FC<Props> = props => {
       setCm100List(data);
     });
     createFengmap();
+
+    return () => {
+      clearMap();
+    };
   }, []);
 
   function setSpeed(e:any) {
@@ -48,16 +52,14 @@ const Trajectory: React.FC<Props> = props => {
   const onSearch = () => {
     form.validateFields((err, params) => {
       if (err) return;
-      if (params.createTime$BTW) {
-        if(params.createTime$BTW[1].valueOf() - params.createTime$BTW[0].valueOf() > 3 * 24 * 3600 * 1000) {
-          message.error('时间范围不能大于3日！');
-          return;
-        }
-        const formatDate = params.createTime$BTW.map((e: Moment) =>
-          moment(e).format('YYYY-MM-DD HH:mm:ss'),
-        );
-        params.createTime$BTW = formatDate.join(',');
+      if(params.createTime$BTW[1].valueOf() - params.createTime$BTW[0].valueOf() > 3 * 24 * 3600 * 1000) {
+        message.error('时间范围不能大于3日！');
+        return;
       }
+      const formatDate = params.createTime$BTW.map((e: Moment) =>
+        moment(e).format('YYYY-MM-DD HH:mm:ss'),
+      );
+      params.createTime$BTW = formatDate.join(',');
       loadLogData({
         pageSize: 10000,
         pageIndex: 0,
@@ -71,13 +73,18 @@ const Trajectory: React.FC<Props> = props => {
   };
 
   const loadLogData = (param: any) => {
+    var userId = param.terms.userId;
+    delete param.terms.userId;
     apis.deviceInstance
-      .logs(param.terms.deviceId, encodeQueryParam(param))
+      .logs1(userId, encodeQueryParam(param))
       .then(response => {
         if (response.status === 200 && response.result.data) {
           clearMap();
-          console.log(response.result.data);
+          //console.log(response.result.data);
           if(response.result.data.length) {
+            for(var i = 0; i < response.result.data.length; i++) {
+              response.result.data[i].createTime = response.result.data[i].createTime ? moment(response.result.data[i].createTime).format('YYYY-MM-DD HH:mm:ss') : ''
+            }
             updateMap(response.result.data);
           } else {
             message.info('无轨迹记录');
@@ -95,7 +102,7 @@ const Trajectory: React.FC<Props> = props => {
             <Row gutter={{ md: 8, lg: 4, xl: 48 }}>
               <Col md={8} sm={24}>
                 <Form.Item label="人员">
-                  {getFieldDecorator('deviceId', {
+                  {getFieldDecorator('userId', {
                     rules: [{ required: true, message: '请选择人员' }]
                   })(
                     <Select showSearch={true} allowClear={true}

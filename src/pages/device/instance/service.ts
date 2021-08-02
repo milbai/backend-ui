@@ -75,6 +75,13 @@ export async function logs(deviceId: string, params: any) {
   });
 }
 
+export async function logs1(userId: string, params: any) {
+  return request(`/rwslinks/device-instance/trajectory/${userId}/logs`, {
+    method: 'GET',
+    params,
+  });
+}
+
 export async function properties(productId: string, id: string) {
   return request(`/rwslinks/device-instance/${id}/properties/latest`, {
     method: 'GET',
