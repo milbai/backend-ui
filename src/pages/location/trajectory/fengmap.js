@@ -2,9 +2,9 @@ import fengmap from 'fengmap';
 var map;
 var locationMarker;
 //textmarker对象
-var tm = null;
+//var tm = null;
 //marker图层
-var layer = null;
+//var layer = null;
 export function createFengmap() {
   var fmapID = '1384053067182067713';
   var mapOptions = {
@@ -30,123 +30,116 @@ export function createFengmap() {
   });
 }
 
-var _mockdata = [];
-var _callback;
 var _update = null;
-var _freq = 400;
-var _index = 0;
 
-export function set_freq(value) {
-  _freq = value;
-  if(_mockdata.length) {
-    if (_update) {
-      clearInterval(_update);
-      updateLocation();
-    }
+function renderLocation(data) {
+  if (!locationMarker) {
+    locationMarker = new fengmap.FMLocationMarker({
+      //x坐标值
+      x: data.x,
+      //y坐标值
+      y: data.y,
+      //图片地址
+      url: './fengmap/images/bluedot.png',
+      //楼层id
+      groupID: 1,
+      //图片尺寸
+      size: 16,
+      //marker标注高度
+      height: 3,
+      /*
+      callback: function () {
+        //回调函数
+        //console.log('定位点marker加载完成！');
+        if(tm) {
+          tm.name = data.time;
+          tm.setPosition(data.x, data.y, 1, 5);
+        }
+      }
+      */
+    });
+    //添加定位点marker
+    map.addLocationMarker(locationMarker);
+  } else {
+    //移动locationMarker
+    locationMarker.moveTo({
+      x: data.x,
+      y: data.y,
+      groupID: 1,
+      /*
+      callback: function () {
+        if(tm) {
+          tm.name = data.time;
+          tm.setPosition(data.x, data.y, 1, 5);
+        }
+      }
+      */
+    });
+  }
+
+  /*
+  //文字标注
+  if (!tm) {
+    //获取当前聚焦楼层
+    var group = map.getFMGroup(map.focusGroupID);
+    //返回当前层中第一个textMarkerLayer,如果没有，则自动创建
+    layer = group.getOrCreateLayer('textMarker');
+    tm = new fengmap.FMTextMarker({
+      //标注x坐标点
+      x: data.x,
+      //标注y坐标点
+      y: data.y,
+      //标注值
+      name: data.time,
+      //文本标注填充色
+      //fillcolor: "255,0,0",
+      fillcolor: "255,255,255",
+      //文本标注字体大小
+      fontsize: 16,
+      //文本标注边线颜色
+      strokecolor: "255,255,0"
+    });
+
+    //文本标注层添加文本Marker
+    layer.addMarker(tm);
+  }
+  */
+}
+
+function step(currentItem, setCurrentItem) {
+  setCurrentItem({
+    play: currentItem.play,
+    index: currentItem.index,
+    data: currentItem.data,
+    speed: currentItem.speed
+  });
+  return renderLocation(currentItem.data[currentItem.index]);
+}
+
+export function updateLocation(currentItem, setCurrentItem) {
+  if (_update) {
+    clearInterval(_update);
+    _update = null;
+  }
+  step(currentItem, setCurrentItem);
+  if(currentItem.play) {
+    _update = setInterval(function () {
+      currentItem.index++;
+      if(currentItem.index > currentItem.data.length - 1) {
+        currentItem.index = 0;
+      }
+      step(currentItem, setCurrentItem);
+    }, currentItem.speed);
   }
 }
 
-function updateLocation() {
-  _callback = function () {
-    var _data;
-    if (_index > _mockdata.length - 1) {
-      _index = 0;
-    }
-    _data = _mockdata[_index];
-    _index++;
-    //console.log(_index);
-    function cb(data) {
-
-      if (!locationMarker) {
-        locationMarker = new fengmap.FMLocationMarker({
-          //x坐标值
-          x: data.x,
-          //y坐标值
-          y: data.y,
-          //图片地址
-          url: './fengmap/images/bluedot.png',
-          //楼层id
-          groupID: 1,
-          //图片尺寸
-          size: 16,
-          //marker标注高度
-          height: 3,
-          callback: function () {
-            //回调函数
-            //console.log('定位点marker加载完成！');
-            if(tm) {
-              tm.name = data.time;
-              tm.setPosition(data.x, data.y, 1, 5);
-            }
-          }
-        });
-        //添加定位点marker
-        map.addLocationMarker(locationMarker);
-      } else {
-        //移动locationMarker
-        locationMarker.moveTo({
-          x: data.x,
-          y: data.y,
-          groupID: 1,
-          callback: function () {
-            if(tm) {
-              tm.name = data.time;
-              tm.setPosition(data.x, data.y, 1, 5);
-            }
-          }
-        });
-      }
-
-      //文字标注
-      if (!tm) {
-        //获取当前聚焦楼层
-        var group = map.getFMGroup(map.focusGroupID);
-        //返回当前层中第一个textMarkerLayer,如果没有，则自动创建
-        layer = group.getOrCreateLayer('textMarker');
-        tm = new fengmap.FMTextMarker({
-          //标注x坐标点
-          x: data.x,
-          //标注y坐标点
-          y: data.y,
-          //标注值
-          name: data.time,
-          //文本标注填充色
-          //fillcolor: "255,0,0",
-          fillcolor: "255,255,255",
-          //文本标注字体大小
-          fontsize: 16,
-          //文本标注边线颜色
-          strokecolor: "255,255,0"
-        });
-
-        //文本标注层添加文本Marker
-        layer.addMarker(tm);
-      }
-    }
-    return cb(_data)
-  };
-  _update = setInterval(_callback, _freq);
-}
-
-export function updateMap(data) {
+export function updateMap(currentItem, setCurrentItem) {
   var naviResults = [
     {
       groupId: 1,
-      points: []
+      points: currentItem.data
     }
   ];
-
-  for(var i = data.length - 1; i >= 0 ; i--) {
-    var p = JSON.parse(data[i].content);
-    if(p.badgePos_x >= 12609225.960729167 && p.badgePos_x <= 12610032.132511862 &&
-      p.badgePos_y >= 2634433.8295556237 && p.badgePos_y <= 2634690.610197519)
-      naviResults[0].points.push({
-        x: p.badgePos_x,
-        y: p.badgePos_y,
-        z: 3,
-        time: data[i].createTime
-      });
-  }
 
   drawLines(naviResults, {
     lineWidth: 5,
@@ -154,8 +147,9 @@ export function updateMap(data) {
     color: '#FF0000'}
   );
 
-  _mockdata = naviResults[0].points;
-  updateLocation();
+  currentItem.play = true;
+  currentItem.index = 0;
+  updateLocation(currentItem, setCurrentItem);
 }
 
 function drawLines(results, lineStyle) {
@@ -177,12 +171,10 @@ function drawLines(results, lineStyle) {
   }
 }
 
-export function clearMap() {
+export function clearMap(currentItem, setCurrentItem) {
   if (_update) {
     clearInterval(_update);
     _update = null;
-    _mockdata = [];
-    _index = 0;
   }
   map.clearLineMark();
   if (locationMarker) {
@@ -190,6 +182,13 @@ export function clearMap() {
     locationMarker = null;
   }
 
+  setCurrentItem({
+    play: false,
+    index: 0,
+    data: [],
+    speed: currentItem.speed
+  });
+  /*
   //删除layer上所有Marker
   if (layer) {
     layer.removeAll();
@@ -197,4 +196,5 @@ export function clearMap() {
   if(tm) {
     tm = null;
   }
+  */
 }

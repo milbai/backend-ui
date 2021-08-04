@@ -1,7 +1,7 @@
 import * as React from 'react';
-import {Button, Card, Col, DatePicker, Form, message, Radio, Row, Select} from "antd";
+import {Button, Card, Col, DatePicker, Form, Icon, message, Radio, Row, Select, Slider} from "antd";
 import {PageHeaderWrapper} from "@ant-design/pro-layout";
-import { createFengmap, clearMap, updateMap, set_freq } from './fengmap'
+import { createFengmap, clearMap, updateMap, updateLocation } from './fengmap'
 import styles from './css/index.css';
 import { FormComponentProps } from "antd/lib/form";
 import {useEffect} from "react";
@@ -11,22 +11,32 @@ import encodeQueryParam from "@/utils/encodeParam";
 import {filter, map} from "rxjs/operators";
 import {useState} from "react";
 import moment, {Moment} from "moment";
+import {connect} from "dva";
+import {ConnectState} from "@/models/connect";
 
 interface Props extends FormComponentProps {
 }
 interface State {
   cm100List: any;
+  currentItem: any;
 }
 
 const Trajectory: React.FC<Props> = props => {
   const initState: State = {
-    cm100List: []
+    cm100List: [],
+    currentItem: {
+      play: false,
+      speed: 400,
+      data: [],
+      index: 0
+    },
   };
   const {
     form: { getFieldDecorator },
     form,
   } = props;
   const [cm100List, setCm100List] = useState(initState.cm100List);
+  const [currentItem, setCurrentItem] = useState(initState.currentItem);
 
   useEffect(() => {
     defer(
@@ -40,13 +50,18 @@ const Trajectory: React.FC<Props> = props => {
     createFengmap();
 
     return () => {
-      clearMap();
+      clearMap(currentItem, setCurrentItem);
     };
   }, []);
 
   function setSpeed(e:any) {
     const {value} = e.target;
-    set_freq(parseInt(value));
+    if(currentItem.speed === parseInt(value))
+      return;
+    currentItem.speed = parseInt(value);
+    if(currentItem.data.length) {
+      updateLocation(currentItem, setCurrentItem);
+    }
   }
 
   const onSearch = () => {
@@ -60,6 +75,7 @@ const Trajectory: React.FC<Props> = props => {
         moment(e).format('YYYY-MM-DD HH:mm:ss'),
       );
       params.createTime$BTW = formatDate.join(',');
+      //params.createTime$BTW = "2021-08-02 10:00:00,2021-08-02 12:00:00";
       loadLogData({
         pageSize: 10000,
         pageIndex: 0,
@@ -79,13 +95,23 @@ const Trajectory: React.FC<Props> = props => {
       .logs1(userId, encodeQueryParam(param))
       .then(response => {
         if (response.status === 200 && response.result.data) {
-          clearMap();
-          //console.log(response.result.data);
+          clearMap(currentItem, setCurrentItem);
           if(response.result.data.length) {
-            for(var i = 0; i < response.result.data.length; i++) {
-              response.result.data[i].createTime = response.result.data[i].createTime ? moment(response.result.data[i].createTime).format('YYYY-MM-DD HH:mm:ss') : ''
+            var data = response.result.data;
+            var points = [];
+            for(var i = data.length - 1; i >= 0 ; i--) {
+              var p = JSON.parse(data[i].content);
+              if(p.badgePos_x >= 12609225.960729167 && p.badgePos_x <= 12610032.132511862 &&
+                p.badgePos_y >= 2634433.8295556237 && p.badgePos_y <= 2634690.610197519)
+                points.push({
+                  x: p.badgePos_x,
+                  y: p.badgePos_y,
+                  z: 3,
+                  time: data[i].createTime ? moment(data[i].createTime).format('YYYY-MM-DD HH:mm:ss') : ''
+                });
             }
-            updateMap(response.result.data);
+            currentItem.data = points;
+            updateMap(currentItem, setCurrentItem);
           } else {
             message.info('无轨迹记录');
           }
@@ -147,7 +173,7 @@ const Trajectory: React.FC<Props> = props => {
                       style={{ marginLeft: 8 }}
                       onClick={() => {
                         form.resetFields();
-                        clearMap();
+                        clearMap(currentItem, setCurrentItem);
                       }}
                     >
                       重置
@@ -186,8 +212,48 @@ const Trajectory: React.FC<Props> = props => {
           </Radio.Button>
         </Radio.Group>
       </div>
+      {
+        currentItem.data.length && (
+          <div style={{
+            position: "absolute",
+            bottom: "0",
+            right: "20%",
+            width: "60%",
+          }}>
+            <Icon
+              type={ currentItem.play ? "pause-circle" : "play-circle"}
+              onClick={() => {
+                currentItem.play = !currentItem.play;
+                updateLocation(currentItem, setCurrentItem);
+              }}
+              style={{
+                color: "#91D5FF",
+                fontSize: "28px",
+                float: "left",
+                marginTop: "5px"
+              }}
+            />
+            <Slider
+              tooltipVisible
+              tipFormatter={(value) => {
+                return currentItem.data[value] ? currentItem.data[value].time : null
+              }}
+              value={currentItem.index}
+              min={0}
+              max={currentItem.data.length - 1}
+              onChange={(value) => {
+                currentItem.index = value;
+                updateLocation(currentItem, setCurrentItem);
+              }}
+              style={{
+                marginLeft: "40px"
+              }}
+            />
+          </div>)
+      }
     </div>
   </div>
 };
 
-export default Form.create<Props>()(Trajectory);
+export default connect(({}: ConnectState) => ({
+}))(Form.create<Props>()(Trajectory))
