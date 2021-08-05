@@ -54,6 +54,7 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = props => {
     }
   }
 
+  /*
   useEffect(() => {
     apis.deviceAlarm.findAlarmLogCount(encodeQueryParam({ terms: {state: "newer"} }))
       .then((response: any) => {
@@ -63,6 +64,7 @@ const GlobalHeaderRight: React.SFC<GlobalHeaderRightProps> = props => {
       }).catch(() => {
     });
   }, []);
+  */
 
   return (
     <div className={className}>

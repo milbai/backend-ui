@@ -34,13 +34,22 @@ const Alarmlog: React.FC<Props> = props => {
           order: "descend",
           field: "alarmTime"
         }
-      } : {
-        pageSize: 10,
-        sorts: {
+      } : (
+        query.deviceId ? {
+          pageSize: 10,
+          terms: {deviceId: query.deviceId},
+          sorts: {
             order: "descend",
             field: "alarmTime"
+          }
+        } : {
+          pageSize: 10,
+          sorts: {
+            order: "descend",
+            field: "alarmTime"
+          }
         }
-    });
+      ));
     useEffect(() => {
         handleSearch(searchParam);
         apis.deviceProdcut.queryNoPagin(
@@ -154,7 +163,7 @@ const Alarmlog: React.FC<Props> = props => {
     ];
     return (
         <PageHeaderWrapper title="告警记录">
-          {!query.alarmId && (<Card bordered={false} style={{ marginBottom: 16 }}>
+          {!(query.alarmId || query.deviceId) && (<Card bordered={false} style={{ marginBottom: 16 }}>
                 <div>
                     <div>
 

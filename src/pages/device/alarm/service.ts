@@ -38,6 +38,13 @@ export async function findAlarmLog(params: any) {
   });
 }
 
+export async function findAlarmLog1(params: any) {
+  return request(`/rwslinks/device/alarm/history/_query/no-paging?paging=false`, {
+    method: 'GET',
+    params,
+  });
+}
+
 export async function findAlarmLogCount(params: any) {
   return request(`/rwslinks/device/alarm/history/_count`, {
     method: 'GET',

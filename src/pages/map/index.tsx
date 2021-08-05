@@ -8,12 +8,13 @@ import {filter, map} from "rxjs/operators";
 import {useState} from "react";
 import moment from "moment";
 
-import { createFengmap, addPolygonMarker, setDevicesData } from './fengmap'
+import { createFengmap, addPolygonMarker, setDevicesData, setAlarms } from './fengmap'
 import styles from './css/index.css';
 import {connect} from "dva";
 import {ConnectState, Dispatch} from "@/models/connect";
 import 'video.js/dist/video-js.css';
 import Save from "./save";
+import {router} from "umi";
 
 interface Props {
   dispatch: Dispatch;
@@ -25,6 +26,7 @@ interface State {
   TGSG190state: boolean;
   AudioSetting: any;
   audioVisible: boolean;
+  alarmDevices: any;
 }
 
 const Location: React.FC<Props> = props => {
@@ -35,12 +37,14 @@ const Location: React.FC<Props> = props => {
     TGSG190state: false,
     AudioSetting: {},
     audioVisible: false,
+    alarmDevices: {},
   };
   const [currentItem, setCurrentItem] = useState(initState.currentItem);
   const [tempEmployee, setTempEmployee] = useState(initState.tempEmployee);
   const [TGSG190state, setTGSG190state] = useState(initState.TGSG190state);
   const [AudioSetting, setAudioSetting] = useState(initState.AudioSetting);
   const [audioVisible, setAudioVisible] = useState(initState.audioVisible);
+  const [alarmDevices, setAlarmDevices] = useState(initState.alarmDevices);
 
   const handle_switch = (b: boolean) => {
     currentItem.state = b;
@@ -317,6 +321,26 @@ const Location: React.FC<Props> = props => {
     });
   };
 
+  const getAlarmLogList = () => {
+    apis.deviceAlarm.findAlarmLog1(encodeQueryParam({ terms: {state: "newer"} }))
+      .then((response: any) => {
+        if (response.status === 200 && response.result) {
+          var alarms = {};
+          for(var i = 0; i < response.result.length; i++) {
+            var id = response.result[i].deviceId;
+            if(alarms[id]) {
+              alarms[id]++;
+            } else {
+              alarms[id] = 1;
+            }
+          }
+          setAlarms(alarms);
+          setAlarmDevices(alarms);
+        }
+      })
+      .catch(() => {});
+  };
+
   useEffect(() => {
     var requestData;
     createFengmap(mapDone, setCurrentItem, getTGSG_state);
@@ -327,6 +351,7 @@ const Location: React.FC<Props> = props => {
       getData();
       getCM100Data();
       getAudioList();
+      getAlarmLogList();
       requestData = setInterval(() => getCM100Data(), 3000);
     }
     return () => {
@@ -347,6 +372,15 @@ const Location: React.FC<Props> = props => {
           创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
           <Divider className={styles.fengge} />
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
+          {alarmDevices[currentItem.id] && (
+            <div>
+              <Divider className={styles.fengge} />
+              告警
+              <a className={styles.vRight} onClick={() => {
+                router.push('/device/alarm?deviceId=' + currentItem.id);
+              }}>处理({alarmDevices[currentItem.id]})</a>
+            </div>
+          )}
         </div>
       )}
       {currentItem.productId === "CM100-GB" && (
@@ -358,6 +392,15 @@ const Location: React.FC<Props> = props => {
           负责人<span className={styles.vRight}>{currentItem.inCharge_name}</span>
           <Divider className={styles.fengge} />
           电话<span className={styles.vRight}>{currentItem.inCharge_telephone}</span>
+          {alarmDevices[currentItem.id] && (
+            <div>
+              <Divider className={styles.fengge} />
+              告警
+              <a className={styles.vRight} onClick={() => {
+                router.push('/device/alarm?deviceId=' + currentItem.id);
+              }}>处理({alarmDevices[currentItem.id]})</a>
+            </div>
+          )}
         </div>
       )}
       {currentItem.productId === "audioBroadcast" && (
@@ -379,6 +422,15 @@ const Location: React.FC<Props> = props => {
             AudioSetting.play = true;
             setAudioVisible(true);
           }}>播放</a>
+          {alarmDevices[currentItem.id] && (
+            <div>
+              <Divider className={styles.fengge} />
+              告警
+              <a className={styles.vRight} onClick={() => {
+                router.push('/device/alarm?deviceId=' + currentItem.id);
+              }}>处理({alarmDevices[currentItem.id]})</a>
+            </div>
+          )}
         </div>
       )}
       {currentItem.productId === "AN303" && (
@@ -394,6 +446,15 @@ const Location: React.FC<Props> = props => {
           温度<span id="an303_wendu" className={styles.vRight}>{ getDeviceInfo(currentItem.id) }</span>
           <Divider className={styles.fengge} />
           湿度<span id="an303_shidu" className={styles.vRight}>获取中...</span>
+          {alarmDevices[currentItem.id] && (
+            <div>
+              <Divider className={styles.fengge} />
+              告警
+              <a className={styles.vRight} onClick={() => {
+                router.push('/device/alarm?deviceId=' + currentItem.id);
+              }}>处理({alarmDevices[currentItem.id]})</a>
+            </div>
+          )}
         </div>
       )}
       {currentItem.productId === "GT-CX400" && (
@@ -409,6 +470,15 @@ const Location: React.FC<Props> = props => {
           气体浓度<span id="cx400_nongdu" className={styles.vRight}>{ getDeviceInfo(currentItem.id) }</span>
           <Divider className={styles.fengge} />
           状态<span id="cx400_status" className={styles.vRight}>获取中...</span>
+          {alarmDevices[currentItem.id] && (
+            <div>
+              <Divider className={styles.fengge} />
+              告警
+              <a className={styles.vRight} onClick={() => {
+                router.push('/device/alarm?deviceId=' + currentItem.id);
+              }}>处理({alarmDevices[currentItem.id]})</a>
+            </div>
+          )}
         </div>
       )}
       {currentItem.productId === "videoMonitor" && (
@@ -422,6 +492,15 @@ const Location: React.FC<Props> = props => {
                  style={{width: '380px'}}
           >
           </video>
+          {alarmDevices[currentItem.id] && (
+            <div>
+              <Divider className={styles.fengge} />
+              告警
+              <a className={styles.vRight} onClick={() => {
+                router.push('/device/alarm?deviceId=' + currentItem.id);
+              }}>处理({alarmDevices[currentItem.id]})</a>
+            </div>
+          )}
         </div>
       )}
       {currentItem.productId === "TGSG-190" && (
@@ -437,6 +516,15 @@ const Location: React.FC<Props> = props => {
           开关<Switch className={styles.vRight} checked={TGSG190state} onChange={(b) => {
           handle_switchTGSG190(b);
         }} />
+          {alarmDevices[currentItem.id] && (
+            <div>
+              <Divider className={styles.fengge} />
+              告警
+              <a className={styles.vRight} onClick={() => {
+                router.push('/device/alarm?deviceId=' + currentItem.id);
+              }}>处理({alarmDevices[currentItem.id]})</a>
+            </div>
+          )}
         </div>
       )}
       {currentItem.area && (

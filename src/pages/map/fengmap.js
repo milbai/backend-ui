@@ -5,6 +5,11 @@ var map;
 var fenceList, cm100List;
 var selected = null;
 var devicesData = {};
+var alarmDevices = {};
+
+export function setAlarms(alarms) {
+  alarmDevices = alarms;
+}
 
 export function createFengmap(callback, setCurrentItem, getTGSG_state) {
   var fmapID = '1384053067182067713';
@@ -154,7 +159,17 @@ function updateMarkers(data) {
     var im = new fengmap.FMImageMarker({
       x: parseFloat(data[i].longitude),
       y: parseFloat(data[i].latitude),
-      url: './fengmap/images/' + data[i].productId + (selected === data[i].id ? '_select' : '') + '.png',
+      url: function(){
+        var url = './fengmap/images/' + data[i].productId;
+        if(alarmDevices[data[i].id]) {
+          url += '_alarm';
+        }
+        if(selected === data[i].id) {
+          url += '_select';
+        }
+        url += '.png';
+        return url;
+      }(),
       //设置图片显示尺寸
       size: selected === data[i].id ? 48 : 32,
       //标注高度，大于model的高度
