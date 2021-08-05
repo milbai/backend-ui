@@ -348,11 +348,11 @@ const Location: React.FC<Props> = props => {
 
     function mapDone() {
       //console.log('地图加载完成！');
+      getAlarmLogList();
       getFenceData();
       getData();
       getCM100Data();
       getAudioList();
-      getAlarmLogList();
       requestData = setInterval(() => getCM100Data(), 3000);
     }
     return () => {
