@@ -45,6 +45,13 @@ export async function findAlarmLog1(params: any) {
   });
 }
 
+export async function findAlarmLog2(params: any) {
+  return request(`/rwslinks/device/alarm/history/4map`, {
+    method: 'GET',
+    params,
+  });
+}
+
 export async function findAlarmLogCount(params: any) {
   return request(`/rwslinks/device/alarm/history/_count`, {
     method: 'GET',

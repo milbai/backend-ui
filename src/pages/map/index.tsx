@@ -322,7 +322,8 @@ const Location: React.FC<Props> = props => {
   };
 
   const getAlarmLogList = () => {
-    apis.deviceAlarm.findAlarmLog1(encodeQueryParam({ terms: {state: "newer"} }))
+    apis.deviceAlarm.findAlarmLog2(encodeQueryParam({}))
+    //apis.deviceAlarm.findAlarmLog1(encodeQueryParam({ terms: {state: "newer"} }))
       .then((response: any) => {
         if (response.status === 200 && response.result) {
           var alarms = {};
@@ -378,7 +379,7 @@ const Location: React.FC<Props> = props => {
               告警
               <a className={styles.vRight} onClick={() => {
                 router.push('/device/alarm?deviceId=' + currentItem.id);
-              }}>处理({alarmDevices[currentItem.id]})</a>
+              }}>查看</a>
             </div>
           )}
         </div>
@@ -398,7 +399,7 @@ const Location: React.FC<Props> = props => {
               告警
               <a className={styles.vRight} onClick={() => {
                 router.push('/device/alarm?deviceId=' + currentItem.id);
-              }}>处理({alarmDevices[currentItem.id]})</a>
+              }}>查看</a>
             </div>
           )}
         </div>
@@ -428,7 +429,7 @@ const Location: React.FC<Props> = props => {
               告警
               <a className={styles.vRight} onClick={() => {
                 router.push('/device/alarm?deviceId=' + currentItem.id);
-              }}>处理({alarmDevices[currentItem.id]})</a>
+              }}>查看</a>
             </div>
           )}
         </div>
@@ -452,7 +453,7 @@ const Location: React.FC<Props> = props => {
               告警
               <a className={styles.vRight} onClick={() => {
                 router.push('/device/alarm?deviceId=' + currentItem.id);
-              }}>处理({alarmDevices[currentItem.id]})</a>
+              }}>查看</a>
             </div>
           )}
         </div>
@@ -476,7 +477,7 @@ const Location: React.FC<Props> = props => {
               告警
               <a className={styles.vRight} onClick={() => {
                 router.push('/device/alarm?deviceId=' + currentItem.id);
-              }}>处理({alarmDevices[currentItem.id]})</a>
+              }}>查看</a>
             </div>
           )}
         </div>
@@ -498,7 +499,7 @@ const Location: React.FC<Props> = props => {
               告警
               <a className={styles.vRight} onClick={() => {
                 router.push('/device/alarm?deviceId=' + currentItem.id);
-              }}>处理({alarmDevices[currentItem.id]})</a>
+              }}>查看</a>
             </div>
           )}
         </div>
@@ -522,7 +523,7 @@ const Location: React.FC<Props> = props => {
               告警
               <a className={styles.vRight} onClick={() => {
                 router.push('/device/alarm?deviceId=' + currentItem.id);
-              }}>处理({alarmDevices[currentItem.id]})</a>
+              }}>查看</a>
             </div>
           )}
         </div>
