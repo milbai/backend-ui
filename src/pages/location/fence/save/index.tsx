@@ -85,12 +85,12 @@ const Save: React.FC<Props> = props => {
             initialValue: props.data?.area,
           })(<Select placeholder="请选择">
             <Select.Option value="月检线" key='area1'>月检线</Select.Option>
-            <Select.Option value="维修线" key='area2'>维修线</Select.Option>
+            <Select.Option value="出场线" key='area2'>出场线</Select.Option>
             <Select.Option value="停车日检库A区" key='area3'>停车日检库A区</Select.Option>
             <Select.Option value="停车日检库B区" key='area4'>停车日检库B区</Select.Option>
           </Select>)}
         </Form.Item>
-        <Form.Item label="开始时间">
+        {/* <Form.Item label="开始时间">
           {getFieldDecorator('begin', {
             initialValue: props.data.begin ? moment(props.data.begin) : null,
           })(<DatePicker showTime />)}
@@ -99,9 +99,9 @@ const Save: React.FC<Props> = props => {
           {getFieldDecorator('end', {
             initialValue: props.data.end ? moment(props.data.end) : null,
           })(<DatePicker showTime />)}
-        </Form.Item>
+        </Form.Item> */}
 
-        <Form.Item label="离开报警" key="outsideAlarm">
+        <Form.Item label="未离开报警" key="outsideAlarm">
           {getFieldDecorator('outsideAlarm', {
             valuePropName: 'checked',
             initialValue: props.data.outsideAlarm,
@@ -125,13 +125,13 @@ const Save: React.FC<Props> = props => {
           })(<InputNumber min={0} />)} 分钟
         </Form.Item>
 
-        <Form.Item label="可进入员工" key="employees">
+        {/* <Form.Item label="可进入员工" key="employees">
           {getFieldDecorator('employees', {
             initialValue: props.data.employees ? props.data.employees.split(',') : [],
           })(<Select mode='multiple'>
             {employeeList.map((item: any) => <Select.Option value={item.id || item} key={item.id || item}>{item.name || item}</Select.Option>)}
           </Select>)}
-        </Form.Item>
+        </Form.Item> */}
       </Form>
     </Modal>
   );

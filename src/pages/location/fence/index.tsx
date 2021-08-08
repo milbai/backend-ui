@@ -50,31 +50,31 @@ const FenceList: React.FC<Props> = props => {
     },
     {
       title: '告警名称',
-      width: 180,
+      width: 380,
       render: (text, record) =>
         (<Fragment>
           {record.insideAlarm ? (<Tag color='#108ee9'>未进入</Tag>) : ''}
           {record.outsideAlarm ? (<Tag color='#108ee9'>离开</Tag>) : ''}
         </Fragment>),
     },
-    {
-      title: '开始时间',
-      dataIndex: 'begin',
-      width: 200,
-      sorter: true,
-      ellipsis: true,
-      defaultSortOrder: 'descend',
-      render: text => text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '',
-    },
-    {
-      title: '结束时间',
-      dataIndex: 'end',
-      width: 200,
-      sorter: true,
-      ellipsis: true,
-      defaultSortOrder: 'descend',
-      render: text => text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '',
-    },
+    // {
+    //   title: '开始时间',
+    //   dataIndex: 'begin',
+    //   width: 200,
+    //   sorter: true,
+    //   ellipsis: true,
+    //   defaultSortOrder: 'descend',
+    //   render: text => text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '',
+    // },
+    // {
+    //   title: '结束时间',
+    //   dataIndex: 'end',
+    //   width: 200,
+    //   sorter: true,
+    //   ellipsis: true,
+    //   defaultSortOrder: 'descend',
+    //   render: text => text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '',
+    // },
     {
       title: '围栏状态',
       width: 150,
@@ -90,15 +90,17 @@ const FenceList: React.FC<Props> = props => {
         <Fragment>
           <a onClick={() => edit(record)}>编辑</a>
           <Divider type="vertical" />
-          {record.state ? (
-            <Popconfirm
-              title="确认关闭？"
-              onConfirm={() => {
-                handle_switch(record);
-              }}
-            >
-              <a>关闭</a>
-            </Popconfirm>
+          {record.state ? 
+          (
+            // <Popconfirm
+            //   title="确认关闭？"
+            //   onConfirm={() => {
+            //     handle_switch(record);
+            //   }}
+            // >
+            //   <a>关闭</a>
+            // </Popconfirm>
+              <a onClick={() => handle_switch(record)}>关闭</a>
           ) : (
             <span>
               <a onClick={() => handle_switch(record)}>开启</a>
