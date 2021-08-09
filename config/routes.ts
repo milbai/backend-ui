@@ -327,6 +327,22 @@ export const routes = [
                                 tenant: ['admin', 'member'],
                                 authority: ['device-alarm', 'admin'],
                                 component: './device/alarmlog',
+                            },
+                            {
+                                path: '/device/alarm-product',
+                                name: '批量设置',
+                                icon: 'alert',
+                                tenant: ['admin', 'member'],
+                                authority: ['device-alarm', 'admin'],
+                                component: './device/alarm-product',
+                            },
+                            {
+                                path: '/device/alarm-device',
+                                name: '单项设置',
+                                icon: 'alert',
+                                tenant: ['admin', 'member'],
+                                authority: ['device-alarm', 'admin'],
+                                component: './device/alarm-device',
                             }
                         ],
                     },

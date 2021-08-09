@@ -3,53 +3,44 @@ import ProTable from "@/pages/system/permission/component/ProTable";
 import apis from "@/services";
 import encodeQueryParam from "@/utils/encodeParam";
 import { PageHeaderWrapper } from "@ant-design/pro-layout";
-import { Card, Divider, message, Modal, Tag, Input, Form } from "antd";
+import { Card, Divider, message, Modal, Tag, Input, Form, Select } from "antd";
 import { ColumnProps } from "antd/lib/table";
 import moment from "moment";
 import { FormComponentProps } from "antd/lib/form";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { AlarmLog } from "../alarm/data";
 
-interface Props extends FormComponentProps{
-  location: any;
+interface Props extends FormComponentProps {
+    location: any;
 }
 const Alarmlog: React.FC<Props> = props => {
     const {
-        form: {getFieldDecorator},
+        form: { getFieldDecorator },
         form,
-      } = props;
-  const {
-    location: { query }
-  } = props;
+    } = props;
+    const {
+        location: { query }
+    } = props;
     const [loading, setLoading] = useState(false);
     const [solveVisible, setSolveVisible] = useState(false);
     const [solveAlarmLogId, setSolveAlarmLogId] = useState();
     const [result, setResult] = useState<any>({});
     const productList = useRef<any[]>([]);
     const [searchParam, setSearchParam] = useState(
-      query.alarmId ? {
-        pageSize: 10,
-        terms: {id: query.alarmId},
-        sorts: {
-          order: "descend",
-          field: "alarmTime"
-        }
-      } : (
-        query.deviceId ? {
-          pageSize: 10,
-          terms: {deviceId: query.deviceId},
-          sorts: {
-            order: "descend",
-            field: "alarmTime"
-          }
+        query.alarmId ? {
+            pageSize: 10,
+            terms: { id: query.alarmId },
+            sorts: {
+                order: "descend",
+                field: "alarmTime"
+            }
         } : {
-          pageSize: 10,
-          sorts: {
-            order: "descend",
-            field: "alarmTime"
-          }
-        }
-      ));
+            pageSize: 10,
+            sorts: {
+                order: "descend",
+                field: "alarmTime"
+            }
+        });
     useEffect(() => {
         handleSearch(searchParam);
         apis.deviceProdcut.queryNoPagin(
@@ -98,13 +89,13 @@ const Alarmlog: React.FC<Props> = props => {
             dataIndex: 'deviceName',
         },
         {
-            title: '告警名称',
+            title: '告警条件',
             dataIndex: 'alarmName',
         },
         {
             title: '告警时间',
             dataIndex: 'alarmTime',
-            width: '300px',
+            width: '200px',
             render: (text: any) => text ? moment(text).format('YYYY-MM-DD HH:mm:ss') : '/',
             sorter: true,
             defaultSortOrder: 'descend'
@@ -118,7 +109,7 @@ const Alarmlog: React.FC<Props> = props => {
         },
         {
             title: '操作',
-            width: '120px',
+            width: '220px',
             align: 'center',
             render: (record: any) => (
                 <Fragment>
@@ -157,13 +148,24 @@ const Alarmlog: React.FC<Props> = props => {
                             }}>处理</a>
                         )
                     }
+                    {
+                        record.state !== 'solve' ? <Divider type="vertical" /> : ''
+                    }
+                    {
+                        record.state !== 'solve' && (
+                            <a onClick={() => {
+                                setSolveAlarmLogId(record.id);
+                                setSolveVisible(true);
+                            }}>位置</a>
+                        )
+                    }
                 </Fragment>
             )
         },
     ];
     return (
         <PageHeaderWrapper title="告警记录">
-          {!(query.alarmId || query.deviceId) && (<Card bordered={false} style={{ marginBottom: 16 }}>
+            {!query.alarmId && (<Card bordered={false} style={{ marginBottom: 16 }}>
                 <div>
                     <div>
 
@@ -213,10 +215,11 @@ const Alarmlog: React.FC<Props> = props => {
             </Card>
             {solveVisible && (
                 <Modal
-                    title='告警处理结果'
+                    // title='告警处理结果'
+                    title='告警设备位置'
                     visible
-                    okText="确定"
-                    cancelText="取消"
+                    // okText="确定"
+                    // cancelText="取消"
                     width='700px'
                     onOk={() => {
                         alarmSolve();
@@ -227,6 +230,15 @@ const Alarmlog: React.FC<Props> = props => {
                     }}
                 >
                     <Form labelCol={{ span: 3 }} wrapperCol={{ span: 21 }} key="solve_form">
+                        <Form.Item label="报警类型">
+                            {getFieldDecorator('area', {
+                                rules: [{ required: true, message: '请选择围栏区域' }],
+                                initialValue: props.data?.area,
+                            })(<Select placeholder="请选择">
+                                <Select.Option value="误报" key='area1'>误报</Select.Option>
+                                <Select.Option value="事故" key='area2'>事故</Select.Option>
+                            </Select>)}
+                        </Form.Item>
                         <Form.Item key="description" label="处理结果">
                             {getFieldDecorator('description', {
                                 rules: [
