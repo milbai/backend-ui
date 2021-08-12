@@ -34,13 +34,22 @@ const Alarmlog: React.FC<Props> = props => {
                 order: "descend",
                 field: "alarmTime"
             }
+      } : (
+        query.deviceId ? {
+          pageSize: 10,
+          terms: {deviceId: query.deviceId},
+          sorts: {
+            order: "descend",
+            field: "alarmTime"
+          }
         } : {
             pageSize: 10,
             sorts: {
                 order: "descend",
                 field: "alarmTime"
             }
-        });
+        }
+      ));
     useEffect(() => {
         handleSearch(searchParam);
         apis.deviceProdcut.queryNoPagin(
@@ -66,7 +75,7 @@ const Alarmlog: React.FC<Props> = props => {
         form.validateFields((err, fileValue) => {
             if (err) return;
 
-            apis.deviceAlarm.alarmLogSolve(solveAlarmLogId, fileValue.description)
+            apis.deviceAlarm.alarmLogSolve(solveAlarmLogId, { type: fileValue.type, description : fileValue.description})
                 .then((response: any) => {
                     if (response.status === 200) {
                         message.success('保存成功');
@@ -127,6 +136,8 @@ const Alarmlog: React.FC<Props> = props => {
                                 {record.state === 'solve' && (
                                     <>
                                         <br /><br />
+                                        <span style={{ fontSize: 16 }}>报警类型：{record.type}</span>
+                                        <br />
                                         <span style={{ fontSize: 16 }}>处理结果：</span>
                                         <br />
                                         <p>{record.description}</p>
@@ -165,7 +176,7 @@ const Alarmlog: React.FC<Props> = props => {
     ];
     return (
         <PageHeaderWrapper title="告警记录">
-            {!query.alarmId && (<Card bordered={false} style={{ marginBottom: 16 }}>
+          {!(query.alarmId || query.deviceId) && (<Card bordered={false} style={{ marginBottom: 16 }}>
                 <div>
                     <div>
 
@@ -215,11 +226,11 @@ const Alarmlog: React.FC<Props> = props => {
             </Card>
             {solveVisible && (
                 <Modal
-                    // title='告警处理结果'
-                    title='告警设备位置'
+                    title='告警处理结果'
+                    //title='告警设备位置'
                     visible
-                    // okText="确定"
-                    // cancelText="取消"
+                    okText="确定"
+                    cancelText="取消"
                     width='700px'
                     onOk={() => {
                         alarmSolve();
@@ -231,12 +242,12 @@ const Alarmlog: React.FC<Props> = props => {
                 >
                     <Form labelCol={{ span: 3 }} wrapperCol={{ span: 21 }} key="solve_form">
                         <Form.Item label="报警类型">
-                            {getFieldDecorator('area', {
+                            {getFieldDecorator('type', {
                                 rules: [{ required: true, message: '请选择围栏区域' }],
-                                initialValue: props.data?.area,
+                                initialValue: '误报',
                             })(<Select placeholder="请选择">
-                                <Select.Option value="误报" key='area1'>误报</Select.Option>
-                                <Select.Option value="事故" key='area2'>事故</Select.Option>
+                                <Select.Option value="误报" key='miss'>误报</Select.Option>
+                                <Select.Option value="事故" key='accident'>事故</Select.Option>
                             </Select>)}
                         </Form.Item>
                         <Form.Item key="description" label="处理结果">
