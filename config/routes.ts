@@ -336,6 +336,15 @@ export const routes = [
                                 authority: ['device-alarm', 'admin'],
                                 component: './device/alarm-product',
                             },
+                          {
+                            hideInMenu: true,
+                            path: '/device/alarm-product/save/:id',
+                            name: '产品详情',
+                            tenant: ['admin', 'member'],
+                            iconfont: 'icon-shebei',
+                            authority: ['device-alarm', 'admin'],
+                            component: './device/alarm-product/save/Detail',
+                          },
                             {
                                 path: '/device/alarm-device',
                                 name: '单项设置',
@@ -343,7 +352,16 @@ export const routes = [
                                 tenant: ['admin', 'member'],
                                 authority: ['device-alarm', 'admin'],
                                 component: './device/alarm-device',
-                            }
+                            },
+                          {
+                            hideInMenu: true,
+                            path: '/device/alarm-device/save/:id',
+                            name: '告警设置',
+                            tenant: ['admin', 'member'],
+                            iconfont: 'icon-shebei1',
+                            authority: ['device-alarm', 'admin'],
+                            component: './device/alarm-device/editor',
+                          },
                         ],
                     },
                     {
