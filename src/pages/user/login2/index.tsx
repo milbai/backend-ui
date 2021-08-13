@@ -29,6 +29,7 @@ const Login: React.FC<Props> = props => {
   const [current, setCurrent] = useState<boolean>(false);
 
   const handleSubmit = () => {
+    localStorage.removeItem('hide_menu');
     dispatch({
       type: 'login/login',
       payload: {
