@@ -15,7 +15,7 @@ import {ConnectState, Dispatch} from "@/models/connect";
 import 'video.js/dist/video-js.css';
 import Save from "./save";
 import {router} from "umi";
-import {createWebSocket} from "@/pages/map/websocket";
+//import {createWebSocket} from "@/pages/map/websocket";
 
 interface Props {
   dispatch: Dispatch;
@@ -354,8 +354,11 @@ const Location: React.FC<Props> = props => {
       getData();
       getCM100Data();
       getAudioList();
-      createWebSocket(getAlarmLogList);
-      requestData = setInterval(() => getCM100Data(), 3000);
+      //createWebSocket(getAlarmLogList);
+      requestData = setInterval(() => {
+        getAlarmLogList();
+        getCM100Data();
+      }, 3000);
     }
     return () => {
       clearInterval(requestData);
