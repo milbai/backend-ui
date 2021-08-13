@@ -145,8 +145,9 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
       });
     }
     const hide_menu = props.location?.query?.hide_menu;
-    if (hide_menu) {
-      localStorage.setItem('hide_menu', hide_menu);
+    if (hide_menu || props.location?.query?.auth === 'callfromauthorizesystem') {
+      //localStorage.setItem('hide_menu', hide_menu);
+      localStorage.setItem('hide_menu', "true");
     }
   }, []);
 
@@ -166,8 +167,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
 
 
   return (
-    (props.location?.query?.auth === 'callfromauthorizesystem' ||
-    localStorage.getItem('hide_menu') === 'true') ?
+    localStorage.getItem('hide_menu') === 'true' ?
       <Authorized authority={authorized!.authority} noMatch={noMatch} >
         {children}
       </Authorized > : <ProLayout
