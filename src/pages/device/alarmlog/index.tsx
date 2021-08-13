@@ -148,6 +148,11 @@ const Alarmlog: React.FC<Props> = props => {
                             cancelText: '关闭',
                         })
                     }}>详情</a>
+                  <Divider type="vertical" />
+                  <a onClick={() => {
+                    setSolveAlarmLogId(record.id);
+                    setSolveVisible(true);
+                  }}>位置</a>
                     {
                         record.state !== 'solve' ? <Divider type="vertical" /> : ''
                     }
@@ -157,17 +162,6 @@ const Alarmlog: React.FC<Props> = props => {
                                 setSolveAlarmLogId(record.id);
                                 setSolveVisible(true);
                             }}>处理</a>
-                        )
-                    }
-                    {
-                        record.state !== 'solve' ? <Divider type="vertical" /> : ''
-                    }
-                    {
-                        record.state !== 'solve' && (
-                            <a onClick={() => {
-                                setSolveAlarmLogId(record.id);
-                                setSolveVisible(true);
-                            }}>位置</a>
                         )
                     }
                 </Fragment>
