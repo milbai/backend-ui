@@ -3,12 +3,14 @@ import ProTable from "@/pages/system/permission/component/ProTable";
 import apis from "@/services";
 import encodeQueryParam from "@/utils/encodeParam";
 import { PageHeaderWrapper } from "@ant-design/pro-layout";
-import { Card, Divider, message, Modal, Tag, Input, Form, Select } from "antd";
+import { Card, Divider, message, Modal, Tag, Input, Form, Select, Icon } from "antd";
 import { ColumnProps } from "antd/lib/table";
 import moment from "moment";
 import { FormComponentProps } from "antd/lib/form";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { AlarmLog } from "../alarm/data";
+import {createFengmap, updateMarkers} from "@/pages/device/alarmlog/fengmap";
+import styles from "./css/index.css";
 
 interface Props extends FormComponentProps {
     location: any;
@@ -59,6 +61,7 @@ const Alarmlog: React.FC<Props> = props => {
                     productList.current = resp.result;
                 }
             });
+        createFengmap();
     }, []);
     const handleSearch = (params?: any) => {
         setSearchParam(params);
@@ -150,8 +153,16 @@ const Alarmlog: React.FC<Props> = props => {
                     }}>详情</a>
                   <Divider type="vertical" />
                   <a onClick={() => {
-                    setSolveAlarmLogId(record.id);
-                    setSolveVisible(true);
+                    apis.deviceInstance.info(record.deviceId)
+                      .then(response => {
+                        if (response.status === 200 && response.result) {
+                          updateMarkers(response.result);
+                          document.getElementById('mymap').style.visibility = "visible";
+                        } else {
+                          message.error(`获取位置信息失败，${response.message}`);
+                        }
+                      })
+                      .catch(() => {});
                   }}>位置</a>
                     {
                         record.state !== 'solve' ? <Divider type="vertical" /> : ''
@@ -170,6 +181,23 @@ const Alarmlog: React.FC<Props> = props => {
     ];
     return (
         <PageHeaderWrapper title="告警记录">
+          <div id={"mymap"} className={styles.mapout} style={{visibility: "hidden"}}>
+            <div className={styles.fengMap} id="fengmap"></div>
+            <div className={styles.mapmask}></div>
+            <Icon
+              type="close"
+              onClick={() => {
+                document.getElementById('mymap').style.visibility = "hidden";
+              }}
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "20px",
+                color: "#91D5FF",
+                fontSize: "38px"
+              }}
+            />
+          </div>
           {!(query.alarmId || query.deviceId) && (<Card bordered={false} style={{ marginBottom: 16 }}>
                 <div>
                     <div>
