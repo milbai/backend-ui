@@ -161,6 +161,33 @@ const Location: React.FC<Props> = props => {
           if(response.result.data[0].productId === 'AN303') {
             document.getElementById('an303_wendu').innerHTML = content.temperature;
             document.getElementById('an303_shidu').innerHTML = content.humidity;
+          } else if(response.result.data[0].productId === 'JTY-GF-NT8141') {
+            document.getElementById('yangan_battery').innerHTML = content.battery;
+            document.getElementById('yangan_nongdu').innerHTML = content.smokedencityvalue;
+            document.getElementById('yangan_status').innerHTML = function () {
+              switch (content.type) {
+                case 'alarm':
+                  return '报警';
+                case 'muted':
+                  return '静音';
+                case 'lowbattery':
+                  return '低压';
+                case 'fail':
+                  return '故障';
+                case 'normal':
+                  return '正常';
+                case 'open':
+                  return '拆除';
+                case 'close':
+                  return '安装';
+                case 'battery normal and alarm test':
+                  return '正常电压时测试报警';
+                case 'battery low and alarm test':
+                  return '低电压时测试报警';
+                default:
+                  return content.type;
+              }
+            }();
           } else if(response.result.data[0].productId === 'GT-CX400') {
             document.getElementById('cx400_nongdu').innerHTML = content.gas_density + " " + content.gas_unit;
             document.getElementById('cx400_status').innerHTML = function () {
@@ -267,6 +294,7 @@ const Location: React.FC<Props> = props => {
 
         return item.productId === 'videoMonitor' || item.productId === 'TGSG-190' || item.productId === 'audioBroadcast' ||
           (item.productId === 'AN303' && item.state && item.state.value === 'online') ||
+          (item.productId === 'JTY-GF-NT8141' && item.state && item.state.value === 'online') ||
           (item.productId === 'GT-CX400' && item.state && item.state.value === 'online');
 
         //return item.productId === 'M401A';
@@ -452,6 +480,32 @@ const Location: React.FC<Props> = props => {
           温度<span id="an303_wendu" className={styles.vRight}>{ getDeviceInfo(currentItem.id) }</span>
           <Divider className={styles.fengge} />
           湿度<span id="an303_shidu" className={styles.vRight}>获取中...</span>
+          {alarmDevices[currentItem.id] && (
+            <div>
+              <Divider className={styles.fengge} />
+              告警
+              <a className={styles.vRight} onClick={() => {
+                router.push('/device/alarm?deviceId=' + currentItem.id);
+              }}>查看</a>
+            </div>
+          )}
+        </div>
+      )}
+      {currentItem.productId === "JTY-GF-NT8141" && (
+        <div className={styles.fenceModal}>
+          产品名称<span className={styles.vRight}>{currentItem.productName}</span>
+          <Divider className={styles.fengge} />
+          设备名称<span className={styles.vRight}>{currentItem.name}</span>
+          <Divider className={styles.fengge} />
+          创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
+          <Divider className={styles.fengge} />
+          注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
+          <Divider className={styles.fengge} />
+          电量<span id="yangan_battery" className={styles.vRight}>{ getDeviceInfo(currentItem.id) }</span>
+          <Divider className={styles.fengge} />
+          烟雾浓度<span id="yangan_nongdu" className={styles.vRight}>获取中...</span>
+          <Divider className={styles.fengge} />
+          状态<span id="yangan_status" className={styles.vRight}>获取中...</span>
           {alarmDevices[currentItem.id] && (
             <div>
               <Divider className={styles.fengge} />
