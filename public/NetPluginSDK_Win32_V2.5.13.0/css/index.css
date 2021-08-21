@@ -320,7 +320,9 @@
 /*控件*/
 .ocxStyle {
     width: 1000px;
+  /*
     margin: 30px auto;
+   */
 }
 #playerContainer{
     width: 800px;
