@@ -201,12 +201,20 @@ var Index = function ($) {
             var _this = this;
             //局域网登录
             $("#locallogin").on("click", function () {
+              /*
                 _this.ip = $("#cameraIp").val();
                 _this.port = Number($("#port").val());
                 _this.username = $("#localusername").val();
                 _this.password = _this.base64encode($("#localpassword").val());
                 _this.protocol = Number($("#localprotocol").val());
                 _this.devicetype = $("#localdeviceType").val();
+                */
+              _this.ip = GetQueryString("cameraIp");
+              _this.port = 80;
+              _this.username = "admin";
+              _this.password = _this.base64encode("ctg2020+");
+              _this.protocol = 1;
+              _this.devicetype = 501;
                 var loginJsonMap = {
                     "szIPAddr": _this.ip,
                     "dwPort": _this.port,
@@ -215,6 +223,7 @@ var Index = function ($) {
                     "dwLoginProto": _this.protocol,
                     "dwDeviceType": _this.devicetype
                 };
+                console.log(loginJsonMap);
                 //var loginJsonstring = JSON.stringify(loginJsonMap);
                 _this.login(loginJsonMap);
             });
@@ -402,8 +411,9 @@ var Index = function ($) {
                         that.locallognsucPage();
                         //屏蔽云登录
                         $("#cloudLogin").attr("disabled", true);
+                      $("#startvideo").click();
                     }
-                    that.msgtipshow(msg, icon);
+                    //that.msgtipshow(msg, icon);
                 })
             }
         },
@@ -620,7 +630,7 @@ var Index = function ($) {
                         that.msgtipshow($.lang.tip["userlogoutSuc"], TIPS_TYPE.SUCCEED);
                     }
                 })
-				
+
                 that.loginoutbtnstyle();
                 //退出之后登录操作input输入框值为空
                 $("#cameraIp").val("");
@@ -639,7 +649,7 @@ var Index = function ($) {
                 $("#snapshoturldiv").addClass("hidden");
                 $("#downloadpathurldiv").addClass("hidden");
                 that.loginoutstopvideo();
-				
+
                 //放开云登录限制
                 $("#cloudLogin").attr("disabled", false);
                 that.initloginoutbtn();
@@ -1074,7 +1084,9 @@ var Index = function ($) {
         startVideo: function () {
             var msg;
             var icon;
-            var channelValue = Number($("#DevchannelID").val());
+            //var channelValue = Number($("#DevchannelID").val());
+            var channelValue = Number(GetQueryString("DevchannelID"));
+            console.log(channelValue);
             var ResourceId = 0;
             var that = this;
             if (channelValue == "") {
