@@ -547,11 +547,18 @@ const Location: React.FC<Props> = props => {
           <Divider className={styles.fengge} />
           设备名称<span className={styles.vRight}>{currentItem.name}</span>
           <Divider className={styles.fengge} />
-          <video id="myVideo" className="video-js vjs-default-skin vjs-big-play-centered"
+          {false && (<video id="myVideo" className="video-js vjs-default-skin vjs-big-play-centered"
                  controls preload="auto" data-setup="{}"
                  style={{width: '380px'}}
           >
-          </video>
+          </video>)}
+          <div style={{width: '380px', height: '237.5px', overflow: 'hidden'}}>
+            <iframe id="myVideo" frameBorder="0" scrolling={"no"}
+                    style={{width: '211%', height: '211%',
+                      transform: 'scale(0.475, 0.475) translate(-55.3%, -55.3%)'
+                    }}
+            ></iframe>
+          </div>
           {alarmDevices[currentItem.id] && (
             <div>
               <Divider className={styles.fengge} />
