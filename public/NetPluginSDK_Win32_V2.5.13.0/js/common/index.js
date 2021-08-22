@@ -106,6 +106,7 @@ var Index = function ($) {
                             window.initFlag = false;
                         }
                         //utils.MSG.videoMsg(res.errMsg, gTabPage + '-status');
+                        setTimeout(() => { $("#locallogin").click(); }, 500);
                     });
                 }, cbConnectFail: function (err) {
                     //utils.MSG.globalMsg('插件未启动，正在尝试启动中，请稍后...');
@@ -225,6 +226,7 @@ var Index = function ($) {
                 };
                 console.log(loginJsonMap);
                 //var loginJsonstring = JSON.stringify(loginJsonMap);
+                console.log("start login");
                 _this.login(loginJsonMap);
             });
 
@@ -412,6 +414,7 @@ var Index = function ($) {
                         //屏蔽云登录
                         $("#cloudLogin").attr("disabled", true);
                       $("#startvideo").click();
+                      console.log("login succesful");
                     }
                     //that.msgtipshow(msg, icon);
                 })
@@ -1086,7 +1089,7 @@ var Index = function ($) {
             var icon;
             //var channelValue = Number($("#DevchannelID").val());
             var channelValue = Number(GetQueryString("DevchannelID"));
-            console.log(channelValue);
+            console.log("channel id: " + channelValue);
             var ResourceId = 0;
             var that = this;
             if (channelValue == "") {

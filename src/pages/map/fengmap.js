@@ -70,7 +70,7 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
           });
           myVideo.play();
           */
-          var describe = '?cameraIp=21.105.208.16&DevchannelID=100';
+          var describe = '?cameraIp=21.105.208.16&DevchannelID=1284';
           document.getElementById("myVideo").src = '/NetPluginSDK_Win32_V2.5.13.0/index.html' + describe;
         }
         if(cm100List[target.index].productId === "TGSG-190") {
