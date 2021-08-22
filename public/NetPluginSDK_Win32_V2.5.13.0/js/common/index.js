@@ -4,7 +4,7 @@ var Index = function ($) {
         videotypejsonMap: [],      //视频类型对象数组
         livevideojsonMap: [],      //实况流对象数组
         playbackvideojsonMap: [],  //回放流对象数组
-        initOcxWindownum: 4,       //控件默认开启窗口个数
+        initOcxWindownum: 1,       //控件默认开启窗口个数
         ocxHeight: "400px",        //控件默认高度
         islocallogin: false,       //是否本地登录标志位
         iscloudlogin: false,       //是否云端登录标志位

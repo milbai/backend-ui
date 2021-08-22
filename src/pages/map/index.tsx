@@ -554,9 +554,9 @@ const Location: React.FC<Props> = props => {
           </video>)}
           <div style={{width: '380px', height: '237.5px', overflow: 'hidden'}}>
             <iframe id="myVideo" frameBorder="0" scrolling={"no"}
-                    style={{width: '211%', height: '211%',
-                      transform: 'scale(0.475, 0.475) translate(-55.3%, -55.3%)'
-                    }}
+                    // style={{width: '211%', height: '211%',
+                    //   transform: 'scale(0.475, 0.475) translate(-55.3%, -55.3%)'
+                    // }}
             ></iframe>
           </div>
           {alarmDevices[currentItem.id] && (

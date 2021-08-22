@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #video1{
+            width: 640px;
+            height: 480px;
+            margin-right:5px;
+            margin-bottom:5px;
+            float: left;
+            box-sizing: border-box;
+            object-fit: fill;
+            background-color: black;
+            z-index: -9999;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="wfsjs">
+    <video id="video1"></video>
+    <button>query</button>
+    <button>play</button>
+    <button>pause</button>
+    <button>continue</button>
+    <button>fast</button>
+    <button>slow</button>
+    <button>setPos</button>
+    <button>setTime</button>
+    <button>stop</button>
+    <textarea id ="list" style="width:600px;height:450px;"></textarea>
+</div>
+
+
+<script type="module" src="c2sdk_web.js"></script>
+<script type="module">
+    import {startPreview,createConn, queryRecord, startPlayback, playbackCtrl, stopPlayback} from './c2sdk_web.js';
+
+    var conn = null;
+    var record = null;
+
+    window.onload = function () {
+        var loginParam = {
+            ip  : "192.168.57.127",
+            port : 8888,
+            user : "admin",
+            password : "96e79218965eb72c92a549dd5a330112",
+            state : connStateCb
+        }
+        conn = createConn(loginParam, null);
+    };
+
+    function connStateCb(event) {
+
+    }
+
+    function recordList(e) {
+        console.log(e);
+        var list = document.getElementById("list");
+        list.value = e;
+    }
+
+    document.addEventListener("click", function(event){
+
+        var text = event.target || event.srcElement;
+        if (text.innerText === "query" ) {
+           if (null != conn) {
+               var recordParam = {
+                   devip :"192.168.66.187",
+                   port: 8000,
+                   chn : 32,
+                   beginTime: "2021-08-09T00:00:00Z",
+                   endTime: "2021-08-09T23:59:59Z",
+                   resultCb: recordList
+               }
+
+               queryRecord(conn, recordParam, null);
+           }
+        }
+        else if (text.innerText === "play" ) {
+            if (null == record) {
+                var video = document.getElementById("video1");
+
+                var playbackParam = {
+                    devip :"192.168.66.187",
+                    devport: 8000,
+                    chn : 32,
+                    mode : 1,   //0:文件  1:时间
+                    filename : "ch0001_00010000367000000",
+                    beginTime : "2021-08-03T00:00:00Z",
+                    endTime : "2021-08-03T23:59:59Z",
+                    hwnd : video
+                }
+
+                record = startPlayback(conn, playbackParam);
+            }
+        }
+        else if (text.innerText === "pause" ) {
+           if (null != record) {
+               var playbackCtrlPara = {
+                   cmd : 3,
+                   pos : 0
+               }
+
+               playbackCtrl(record, playbackCtrlPara);
+           }
+        }
+        else if (text.innerText === "continue" ) {
+            if (null != record) {
+                var playbackCtrlPara = {
+                    cmd : 4,
+                    pos : 0
+                }
+                playbackCtrl(record, playbackCtrlPara);
+            }
+        }
+        else if (text.innerText === "setPos" ) {
+            var playbackCtrlPara = {
+                cmd : 8,
+            }
+            playbackCtrl(record, playbackCtrlPara);
+             var playbackCtrlPara = {
+                cmd : 6,
+                pos : 50
+            }
+            playbackCtrl(record, playbackCtrlPara);
+        }
+        else if(text.innerText === "setTime" ) {
+            var playbackCtrlPara = {
+                cmd : 8,
+            }
+            playbackCtrl(record, playbackCtrlPara);
+            var playbackCtrlPara = {
+                cmd : 9,
+                time : "2021-08-03T17:25:59Z"
+            }
+            playbackCtrl(record, playbackCtrlPara);
+        }
+        else if (text.innerText === "fast" ) {
+            var playbackCtrlPara = {
+                cmd : 1,
+                pos : 0
+            }
+            playbackCtrl(record, playbackCtrlPara);
+        }
+        else if (text.innerText === "slow" ) {
+            var playbackCtrlPara = {
+                cmd : 2,
+                pos : 0
+            }
+            playbackCtrl(record, playbackCtrlPara);
+        }
+        else if (text.innerText === "stop" ) {
+            if (null != record) {
+                stopPlayback(record);
+                record = null;
+            }
+        }
+    });
+
+</script>
+
+</body>
+</html>
