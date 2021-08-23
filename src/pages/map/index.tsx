@@ -281,7 +281,7 @@ const Location: React.FC<Props> = props => {
 
   const getData = () => {
     //蓝牙胸卡 CM100-GB
-    //视频监控 videoMonitor
+    //视频监控 videoMonitor videoMonitorWuFang
     //声光报警器 TGSG-190
     defer(
       () => from(apis.deviceInstance.listAll(encodeQueryParam({ terms: {} }))).pipe(
@@ -292,7 +292,7 @@ const Location: React.FC<Props> = props => {
         item.createTime = item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : '';
         item.registryTime = item.registryTime ? moment(item.registryTime).format('YYYY-MM-DD HH:mm:ss') : '';
 
-        return item.productId === 'videoMonitor' || item.productId === 'TGSG-190' || item.productId === 'audioBroadcast' ||
+        return item.productId === 'videoMonitorWuFang' || item.productId === 'videoMonitor' || item.productId === 'TGSG-190' || item.productId === 'audioBroadcast' ||
           (item.productId === 'AN303' && item.state && item.state.value === 'online') ||
           (item.productId === 'JTY-GF-NT8141' && item.state && item.state.value === 'online') ||
           (item.productId === 'GT-CX400' && item.state && item.state.value === 'online');
@@ -552,11 +552,37 @@ const Location: React.FC<Props> = props => {
                  style={{width: '380px'}}
           >
           </video>)}
-          <div style={{width: '380px', height: '237.5px', overflow: 'hidden'}}>
-            <iframe id="myVideo" frameBorder="0" scrolling={"no"}
-                    // style={{width: '211%', height: '211%',
-                    //   transform: 'scale(0.475, 0.475) translate(-55.3%, -55.3%)'
-                    // }}
+          <div style={{ display: "none"}}>
+            <iframe
+              frameBorder="0"
+              src={"/NetPluginSDK_Win32_V2.5.13.0/index.html?cameraIp=" + currentItem.describe.split(", ")[0] + "&DevchannelID=" + currentItem.describe.split(", ")[1]}
+            ></iframe>
+          </div>
+          {alarmDevices[currentItem.id] && (
+            <div>
+              <Divider className={styles.fengge} />
+              告警
+              <a className={styles.vRight} onClick={() => {
+                router.push('/device/alarm?deviceId=' + currentItem.id);
+              }}>查看</a>
+            </div>
+          )}
+        </div>
+      )}
+      {currentItem.productId === "videoMonitorWuFang" && (
+        <div className={styles.videoModal}>
+          产品名称<span className={styles.vRight}>{currentItem.productName}</span>
+          <Divider className={styles.fengge} />
+          设备名称<span className={styles.vRight}>{currentItem.name}</span>
+          <Divider className={styles.fengge} />
+          <div style={{width: '380px', height: '285px', overflow: 'hidden'}}>
+            <iframe
+              frameBorder="0"
+              scrolling={"no"}
+              src={"/WuFang_SDK/index.html?cameraIp=" + currentItem.describe.split(", ")[0] + "&DevchannelID=" + currentItem.describe.split(", ")[1]}
+              style={{width: '168.4%', height: '168.4%',
+                transform: 'scale(0.594, 0.594) translate(-34.2%, -34.2%)'
+              }}
             ></iframe>
           </div>
           {alarmDevices[currentItem.id] && (

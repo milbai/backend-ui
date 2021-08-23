@@ -59,8 +59,8 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
           updateMarkers(cm100List);
         }
         setCurrentItem(cm100List[target.index]);
+        /*
         if(cm100List[target.index].productId === "videoMonitor") {
-          /*
           if(myVideo)
             myVideo.dispose();
           myVideo = videojs("myVideo", {});
@@ -69,10 +69,8 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
             type: 'application/x-mpegURL'
           });
           myVideo.play();
-          */
-          var describe = '?cameraIp=21.105.208.16&DevchannelID=1284';
-          document.getElementById("myVideo").src = '/NetPluginSDK_Win32_V2.5.13.0/index.html' + describe;
         }
+        */
         if(cm100List[target.index].productId === "TGSG-190") {
           getTGSG_state(cm100List[target.index].id);
         }

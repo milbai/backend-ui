@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
     <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
         #video1{
             width: 640px;
             height: 480px;
@@ -59,15 +63,15 @@
         #myMenu li:hover{
             background-color: #00ff00;
         }
-
-		<link rel="icon" href="data:;base64,=">
     </style>
+  <link rel="icon" href="data:;base64,=">
 </head>
 <body>
 
 
 <div class="wfsjs1">
-    <video autoplay muted id="video1" onmousemove="mouseover(this)" onmouseleave="mouseleave(this)"> </video>
+    <!--video autoplay muted id="video1" onmousemove="mouseover(this)" onmouseleave="mouseleave(this)"> </video-->
+  <video autoplay muted id="video1"> </video>
 </div>
 <div class="wfsjs2">
     <video autoplay muted id="video2" onmousemove="mouseover(this)" onmouseleave="mouseleave(this)"></video>
@@ -100,22 +104,33 @@
         o.style.border='none';
     }
 
-	debugger;
+	//debugger;
 
 </script>
 
 <script type="module">
 import {startPreview,createConn,stopPreview,ptzControl} from './c2sdk_web.js';
-	
+
 	var conn = null;
     var prev = new Array();
-    
+
 function connStateCb(event) {
 
 }
 
 function alarmcb(data) {
-    
+
+}
+
+function GetQueryString(name) {
+  var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+  var URL =  decodeURI(window.location.search);
+  var r = URL.substr(1).match(reg);
+  if(r!=null){
+    //decodeURI() 函数可对 encodeURI() 函数编码过的 URI 进行解码
+    return  decodeURI(r[2]);
+  };
+  return null;
 }
 
 function  previewDemo() {
@@ -125,9 +140,9 @@ function  previewDemo() {
     var video4 = document.getElementById("video4");
 
     var previewPara1 = {
-        devip : "172.25.30.103",
+        devip : GetQueryString("cameraIp"),
         port  : 8000,
-        chn   : 32,
+        chn   : Number(GetQueryString("DevchannelID")),
         type  : 0,   //大小码流
         hwnd  : video1
     }
