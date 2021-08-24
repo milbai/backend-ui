@@ -61,6 +61,7 @@ var webPlugin = {
                     }
                 };
                 document.addEventListener("visibilitychange", wndObj.visibilityChange, false);
+                window.parent.document.addEventListener("visibilitychange", wndObj.visibilityChange, false);
                 //创建web窗体，可能会失败
                 function _createDlg() {
                     var oldTitle = window.top.document.title;
@@ -98,8 +99,10 @@ var webPlugin = {
                                     });
                                 };
                                 //controlObj.wndControl.JS_MoidfyPartWnd(tabID);
-                                window.addEventListener('resize', that.wndMaganerList[tabID].wndSizeChange, false);
-                                window.addEventListener('scroll', that.wndMaganerList[tabID].wndSizeChange, false);
+                                //window.addEventListener('resize', that.wndMaganerList[tabID].wndSizeChange, false);
+                                //window.addEventListener('scroll', that.wndMaganerList[tabID].wndSizeChange, false);
+                                window.parent.addEventListener('resize', that.wndMaganerList[tabID].wndSizeChange, false);
+                                window.parent.addEventListener('scroll', that.wndMaganerList[tabID].wndSizeChange, false);
                                 callback({code: res.code, errMsg: '窗体创建成功', data: controlObj});
                             } else {
                                 callback({code: res.code, errMsg: '窗体创建失败', data: {isInstalled: false}});
@@ -124,8 +127,10 @@ var webPlugin = {
             this.wsObj.sendMsg('NETDEV_DestroyDlg', {uuid: that.wndMaganerList[tabID].uuid}, function(msg) {
                 if(msg.code === 0) {
                     document.removeEventListener("visibilitychange", that.wndMaganerList[tabID].visibilityChange, false);
-                    window.removeEventListener('resize', that.wndMaganerList[tabID].wndSizeChange, false);
-                    window.removeEventListener('scroll', that.wndMaganerList[tabID].wndSizeChange, false);
+                    //window.removeEventListener('resize', that.wndMaganerList[tabID].wndSizeChange, false);
+                    //window.removeEventListener('scroll', that.wndMaganerList[tabID].wndSizeChange, false);
+                    window.parent.removeEventListener('resize', that.wndMaganerList[tabID].wndSizeChange, false);
+                    window.parent.removeEventListener('scroll', that.wndMaganerList[tabID].wndSizeChange, false);
                     delete that.wndMaganerList[tabID];
                     callback({code: msg.code, errMsg: '窗体销毁成功'});
                 } else {

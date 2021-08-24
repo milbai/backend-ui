@@ -4,7 +4,8 @@ var Index = function ($) {
         videotypejsonMap: [],      //视频类型对象数组
         livevideojsonMap: [],      //实况流对象数组
         playbackvideojsonMap: [],  //回放流对象数组
-        initOcxWindownum: 4,       //控件默认开启窗口个数
+        //initOcxWindownum: 4,       //控件默认开启窗口个数
+        initOcxWindownum: 1,       //控件默认开启窗口个数
         ocxHeight: "400px",        //控件默认高度
         islocallogin: false,       //是否本地登录标志位
         iscloudlogin: false,       //是否云端登录标志位
@@ -106,6 +107,7 @@ var Index = function ($) {
                             window.initFlag = false;
                         }
                         //utils.MSG.videoMsg(res.errMsg, gTabPage + '-status');
+                      setTimeout(() => { $("#locallogin").click(); }, 500);
                     });
                 }, cbConnectFail: function (err) {
                     //utils.MSG.globalMsg('插件未启动，正在尝试启动中，请稍后...');
@@ -201,12 +203,20 @@ var Index = function ($) {
             var _this = this;
             //局域网登录
             $("#locallogin").on("click", function () {
+              /*
                 _this.ip = $("#cameraIp").val();
                 _this.port = Number($("#port").val());
                 _this.username = $("#localusername").val();
                 _this.password = _this.base64encode($("#localpassword").val());
                 _this.protocol = Number($("#localprotocol").val());
                 _this.devicetype = $("#localdeviceType").val();
+                */
+              _this.ip = GetQueryString("cameraIp");
+              _this.port = 80;
+              _this.username = "admin";
+              _this.password = _this.base64encode("ctg2020+");
+              _this.protocol = 1;
+              _this.devicetype = 501;
                 var loginJsonMap = {
                     "szIPAddr": _this.ip,
                     "dwPort": _this.port,
@@ -402,8 +412,9 @@ var Index = function ($) {
                         that.locallognsucPage();
                         //屏蔽云登录
                         $("#cloudLogin").attr("disabled", true);
+                      $("#startvideo").click();
                     }
-                    that.msgtipshow(msg, icon);
+                    //that.msgtipshow(msg, icon);
                 })
             }
         },
@@ -620,7 +631,7 @@ var Index = function ($) {
                         that.msgtipshow($.lang.tip["userlogoutSuc"], TIPS_TYPE.SUCCEED);
                     }
                 })
-				
+
                 that.loginoutbtnstyle();
                 //退出之后登录操作input输入框值为空
                 $("#cameraIp").val("");
@@ -639,7 +650,7 @@ var Index = function ($) {
                 $("#snapshoturldiv").addClass("hidden");
                 $("#downloadpathurldiv").addClass("hidden");
                 that.loginoutstopvideo();
-				
+
                 //放开云登录限制
                 $("#cloudLogin").attr("disabled", false);
                 that.initloginoutbtn();
@@ -1074,7 +1085,8 @@ var Index = function ($) {
         startVideo: function () {
             var msg;
             var icon;
-            var channelValue = Number($("#DevchannelID").val());
+            //var channelValue = Number($("#DevchannelID").val());
+            var channelValue = Number(GetQueryString("DevchannelID"));
             var ResourceId = 0;
             var that = this;
             if (channelValue == "") {

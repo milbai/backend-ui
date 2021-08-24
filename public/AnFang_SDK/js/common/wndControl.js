@@ -76,7 +76,8 @@ var wndControl = Class.extend({
     },
     JS_MoidfyPartWnd: function(tagId, callback) {
         var pRatio = utils.BROWER.getDevicePixelRatio();
-        var tagDom = document.getElementById(tagId);
+        //var tagDom = document.getElementById(tagId);
+        var tagDom = window.parent.document.getElementById(tagId);
         var tagWidth = tagDom.clientWidth;
         var tagHeight = tagDom.clientHeight;
         var rollSize = utils.BROWER.getRollbarSize();

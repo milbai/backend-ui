@@ -198,7 +198,8 @@ var utils = {
             return res;
         },
         getWndPostion: function(tagId, bEmbed) {
-            var tabDom = document.getElementById(tagId);
+            //var tabDom = document.getElementById(tagId);
+            var tabDom = window.parent.document.getElementById(tagId);
             var tabRect = tabDom.getBoundingClientRect();
             var browser = this.browserType();
             var r = 0, i = 0, l = 0, o = tabRect, f = 0;
@@ -243,7 +244,8 @@ var utils = {
             var w = 0, _ = 0;
             return (!browser.ClassSpace === 'msie' || browser.ClassSpace === 'msie' && "11.0" === browser.version) && (w = window.scrollX || window.pageXOffset, _ = window.scrollY || window.pageYOffset), realLeft = Math.round((realLeft - w) * pRatio), realTop = Math.round((realTop - _) * pRatio), {
                 x: realLeft,
-                y: realTop,
+                //y: realTop,
+                y: 276,
                 width: tabDom.clientWidth * pRatio,
                 height: tabDom.clientHeight * pRatio
             }

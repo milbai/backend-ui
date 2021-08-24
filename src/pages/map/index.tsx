@@ -561,15 +561,15 @@ const Location: React.FC<Props> = props => {
                  style={{width: '380px'}}
           >
           </video>)} */}
-          {/* <div style={{ display: "none"}}> */}
-          <div id="anFangVideo" style={{ width: '380px', height: '1px', overflow: 'hidden' }}>
+          <div id={"playerContainer"} style={{
+            width: '380px', height: '238px'
+          }}>
             <iframe
               frameBorder="0"
               style={{
-                width: '168.4%', height: '168.4%',
-                transform: 'scale(0.594, 0.594) translate(-34.2%, -34.2%)'
+                display: "none"
               }}
-              src={getVideoSrc(currentItem.describe, "/NetPluginSDK_Win32_V2.5.13.0/index.html")}
+              src={getVideoSrc(currentItem.describe, "/AnFang_SDK/index.html")}
             ></iframe>
           </div>
           {alarmDevices[currentItem.id] && (
