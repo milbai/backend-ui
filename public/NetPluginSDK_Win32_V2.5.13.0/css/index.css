@@ -4,7 +4,7 @@
 
 .main {
     margin: 0 auto;
-    background: #fff;
+    background: #000;
 }
 
 .mainbanxin {
@@ -164,7 +164,7 @@
 .Preset {
     font: 16px bolder;
     margin-left: 20px;
-    background-color: #ccc;
+    background-color: #000;
     overflow: hidden;
     padding-left: 10px;
     padding-right: 10px;
@@ -189,12 +189,12 @@
     height: 30px;
     line-height: 30px;
     text-align: center;
-    background-color: #ddd;
+    background-color: #000;
     margin: 3px;
 }
 
 .presetControl li:hover {
-    background-color: #eee;
+    background-color: #000;
     cursor: pointer;
 }
 
@@ -319,23 +319,16 @@
 
 /*控件*/
 .ocxStyle {
-    width: 400px;
+    width: 3000px;
   /*
     margin: 30px auto;
    */
 }
 #playerContainer{
     width: 400px;
-    height: 250px;
+    height: 285px;
     background: #000;
-    color: #fff;
-    /* position: absolute; */
-    /* top: 100px; */
-    margin-top: 15rem;
-    margin-right: rem;
-    display: flex;
-    align-items: flex-end;
-    padding: 10px;
+    /* color: #fff; */
 }
 
 /*提示信息样式重置*/

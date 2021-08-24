@@ -73,7 +73,7 @@
     <!--video autoplay muted id="video1" onmousemove="mouseover(this)" onmouseleave="mouseleave(this)"> </video-->
   <video autoplay muted id="video1"> </video>
 </div>
-<div class="wfsjs2">
+<!-- <div class="wfsjs2">
     <video autoplay muted id="video2" onmousemove="mouseover(this)" onmouseleave="mouseleave(this)"></video>
 </div>
 <div class="wfsjs3" >
@@ -81,7 +81,7 @@
 </div>
 <div class="wfsjs4" >
     <video autoplay muted id="video4" onmousemove="mouseover(this)" onmouseleave="mouseleave(this)"></video>
-</div>
+</div> -->
 
 <ul id="myMenu">
     <li>Play Video</li>
@@ -135,9 +135,9 @@ function GetQueryString(name) {
 
 function  previewDemo() {
     var video1 = document.getElementById("video1");
-    var video2 = document.getElementById("video2");
-    var video3 = document.getElementById("video3");
-    var video4 = document.getElementById("video4");
+    // var video2 = document.getElementById("video2");
+    // var video3 = document.getElementById("video3");
+    // var video4 = document.getElementById("video4");
 
     var previewPara1 = {
         devip : GetQueryString("cameraIp"),
@@ -149,32 +149,32 @@ function  previewDemo() {
 
     prev[0] = startPreview(conn, previewPara1);
 
-    var previewPara2 = {
-        devip : "172.25.30.103",
-        port  : 8000,
-        chn   : 33,
-        type  : 0,   //大小码流
-        hwnd  : video2
-    }
-    prev[1] = startPreview(conn, previewPara2);
+    // var previewPara2 = {
+    //     devip : "172.25.30.103",
+    //     port  : 8000,
+    //     chn   : 33,
+    //     type  : 0,   //大小码流
+    //     hwnd  : video2
+    // }
+    // prev[1] = startPreview(conn, previewPara2);
 
-    var previewPara3 = {
-        devip : "172.25.30.103",
-        port  : 8000,
-        chn   : 34,
-        type  : 0,   //大小码流
-        hwnd  : video3
-    }
-    prev[2] = startPreview(conn, previewPara3);
+    // var previewPara3 = {
+    //     devip : "172.25.30.103",
+    //     port  : 8000,
+    //     chn   : 34,
+    //     type  : 0,   //大小码流
+    //     hwnd  : video3
+    // }
+    // prev[2] = startPreview(conn, previewPara3);
 
-    var previewPara4 = {
-        devip : "172.25.30.103",
-        port  : 8000,
-        chn   : 35,
-        type  : 0,   //大小码流
-        hwnd  : video4
-    }
-    prev[3] = startPreview(conn, previewPara4);
+    // var previewPara4 = {
+    //     devip : "172.25.30.103",
+    //     port  : 8000,
+    //     chn   : 35,
+    //     type  : 0,   //大小码流
+    //     hwnd  : video4
+    // }
+    // prev[3] = startPreview(conn, previewPara4);
 }
 
 window.onload = function () {

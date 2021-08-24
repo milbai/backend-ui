@@ -547,14 +547,19 @@ const Location: React.FC<Props> = props => {
           <Divider className={styles.fengge} />
           设备名称<span className={styles.vRight}>{currentItem.name}</span>
           <Divider className={styles.fengge} />
-          {false && (<video id="myVideo" className="video-js vjs-default-skin vjs-big-play-centered"
+          {/* {false && (<video id="myVideo" className="video-js vjs-default-skin vjs-big-play-centered"
                  controls preload="auto" data-setup="{}"
                  style={{width: '380px'}}
           >
-          </video>)}
-          <div style={{ display: "none"}}>
+          </video>)} */}
+          {/* <div style={{ display: "none"}}> */}
+          <div id="anFangVideo" style={{ width: '380px', height: '1px', overflow: 'hidden' }}>
             <iframe
               frameBorder="0"
+              style={{
+                width: '168.4%', height: '168.4%',
+                transform: 'scale(0.594, 0.594) translate(-34.2%, -34.2%)'
+              }}
               src={"/NetPluginSDK_Win32_V2.5.13.0/index.html?cameraIp=" + currentItem.describe.split(", ")[0] + "&DevchannelID=" + currentItem.describe.split(", ")[1]}
             ></iframe>
           </div>
