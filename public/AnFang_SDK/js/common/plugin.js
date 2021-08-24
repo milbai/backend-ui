@@ -67,17 +67,13 @@ var webPlugin = {
                     window.top.document.title = msg.data.uuid;
                     setTimeout(function() {
                         var pos = utils.BROWER.getWndPostion(tabID, utils.BROWER.getCreateWndMode());
-                        //var width = window.parent.document.getElementById("anFangVideo").style.width;
-                        //var height = window.parent.document.getElementById("anFangVideo").style.height;
                         var browser = utils.BROWER.browserType();
                         var sendMsg = {
                             uuid: msg.data.uuid,
                             strClassSpace: browser.ClassSpace,
                             strVersion: browser.Version,
-                            lLeft: 1500,
-                            //lRight: pos.,
-                            //lTop: pos.y,
-                            lTop: 250,
+                            lLeft: pos.x,
+                            lTop: pos.y,
                             lWidth: pos.width,
                             lHeight: pos.height,
                             lFocusColor: 0x3399ff,
@@ -85,7 +81,6 @@ var webPlugin = {
                             lBackground: 0x000000,
                             lMaxPlays: 30
                         };
-                        console.log("position: " + pos.x, + " " + pos.y + " " + pos.width + " " + pos.height);
                         that.wsObj.sendMsg('NETDEV_CreateDlg', sendMsg, function(res) {
                             if(res.code === 0) {
                                 wndObj.wsObj = that.wsObj;

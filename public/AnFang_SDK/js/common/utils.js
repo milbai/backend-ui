@@ -199,7 +199,6 @@ var utils = {
         },
         getWndPostion: function(tagId, bEmbed) {
             var tabDom = document.getElementById(tagId);
-            //var tabDom = window.parent.document.getElementById(tagId);
             var tabRect = tabDom.getBoundingClientRect();
             var browser = this.browserType();
             var r = 0, i = 0, l = 0, o = tabRect, f = 0;
