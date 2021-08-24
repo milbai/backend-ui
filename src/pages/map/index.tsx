@@ -103,6 +103,15 @@ const Location: React.FC<Props> = props => {
     return result;
   };
 
+  const getVideoSrc = (describe: string, rootPath: string) => {
+    var src = '';
+    if(describe && describe.indexOf(", ") > -1) {
+      var params = describe.split(", ");
+      src = rootPath + "?cameraIp=" + params[0] + "&DevchannelID=" + params[1];
+    }
+    return src;
+  };
+
   const getBinder = (deviceId: string) => {
     apis.employee.getBinderById(deviceId)
       .then((response: any) => {
@@ -560,7 +569,7 @@ const Location: React.FC<Props> = props => {
                 width: '168.4%', height: '168.4%',
                 transform: 'scale(0.594, 0.594) translate(-34.2%, -34.2%)'
               }}
-              src={"/NetPluginSDK_Win32_V2.5.13.0/index.html?cameraIp=" + currentItem.describe.split(", ")[0] + "&DevchannelID=" + currentItem.describe.split(", ")[1]}
+              src={getVideoSrc(currentItem.describe, "/NetPluginSDK_Win32_V2.5.13.0/index.html")}
             ></iframe>
           </div>
           {alarmDevices[currentItem.id] && (
@@ -584,7 +593,7 @@ const Location: React.FC<Props> = props => {
             <iframe
               frameBorder="0"
               scrolling={"no"}
-              src={"/WuFang_SDK/index.html?cameraIp=" + currentItem.describe.split(", ")[0] + "&DevchannelID=" + currentItem.describe.split(", ")[1]}
+              src={getVideoSrc(currentItem.describe, "/WuFang_SDK/index.html")}
               style={{width: '168.4%', height: '168.4%',
                 transform: 'scale(0.594, 0.594) translate(-34.2%, -34.2%)'
               }}
