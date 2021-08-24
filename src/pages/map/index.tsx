@@ -309,8 +309,8 @@ const Location: React.FC<Props> = props => {
   const getCM100Data = () => {
     defer(
       () => from(apis.deviceInstance.list_bond1(encodeQueryParam({ terms: {} }))).pipe(
-        filter(resp => resp.status === 200),
-        map(resp => resp.result)
+        filter(resp => resp && resp.status === 200),
+        map(resp => resp ? resp.result : [])
       )).subscribe((data) => {
         var temp = [];
         var inCharge = {};
