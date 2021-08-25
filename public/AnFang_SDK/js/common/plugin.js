@@ -127,6 +127,7 @@ var webPlugin = {
             this.wsObj.sendMsg('NETDEV_DestroyDlg', {uuid: that.wndMaganerList[tabID].uuid}, function(msg) {
                 if(msg.code === 0) {
                     document.removeEventListener("visibilitychange", that.wndMaganerList[tabID].visibilityChange, false);
+                    window.parent.document.removeEventListener("visibilitychange", that.wndMaganerList[tabID].visibilityChange, false);
                     //window.removeEventListener('resize', that.wndMaganerList[tabID].wndSizeChange, false);
                     //window.removeEventListener('scroll', that.wndMaganerList[tabID].wndSizeChange, false);
                     window.parent.removeEventListener('resize', that.wndMaganerList[tabID].wndSizeChange, false);

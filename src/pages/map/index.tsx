@@ -551,36 +551,21 @@ const Location: React.FC<Props> = props => {
         </div>
       )}
       {currentItem.productId === "videoMonitor" && (
-        <div className={styles.videoModal}>
-          产品名称<span className={styles.vRight}>{currentItem.productName}</span>
-          <Divider className={styles.fengge} />
-          设备名称<span className={styles.vRight}>{currentItem.name}</span>
-          <Divider className={styles.fengge} />
+        <div id={"playerContainer"} style={{
+          width: '800px', height: '500px'
+        }}>
+          <iframe
+            frameBorder="0"
+            style={{
+              display: "none"
+            }}
+            src={getVideoSrc(currentItem.describe, "/AnFang_SDK/index.html")}
+          ></iframe>
           {/* {false && (<video id="myVideo" className="video-js vjs-default-skin vjs-big-play-centered"
                  controls preload="auto" data-setup="{}"
                  style={{width: '380px'}}
           >
           </video>)} */}
-          <div id={"playerContainer"} style={{
-            width: '380px', height: '238px'
-          }}>
-            <iframe
-              frameBorder="0"
-              style={{
-                display: "none"
-              }}
-              src={getVideoSrc(currentItem.describe, "/AnFang_SDK/index.html")}
-            ></iframe>
-          </div>
-          {alarmDevices[currentItem.id] && (
-            <div>
-              <Divider className={styles.fengge} />
-              告警
-              <a className={styles.vRight} onClick={() => {
-                router.push('/device/alarm?deviceId=' + currentItem.id);
-              }}>查看</a>
-            </div>
-          )}
         </div>
       )}
       {currentItem.productId === "videoMonitorWuFang" && (
