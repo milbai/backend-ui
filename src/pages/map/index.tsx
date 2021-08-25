@@ -271,15 +271,15 @@ const Location: React.FC<Props> = props => {
             temp[0] = tempFence[i];
             continue;
           }
-          if(!temp[1] && tempFence[i].area === '维修线' && tempFence[i].state) {
+          if (!temp[1] && tempFence[i].area === '停车日检库A区' && tempFence[i].state) {
             temp[1] = tempFence[i];
             continue;
           }
-          if(!temp[2] && tempFence[i].area === '停车日检库A区' && tempFence[i].state) {
+          if (!temp[2] && tempFence[i].area === '停车日检库B区' && tempFence[i].state) {
             temp[2] = tempFence[i];
             continue;
           }
-          if(!temp[3] && tempFence[i].area === '停车日检库B区' && tempFence[i].state) {
+          if(!temp[3] && tempFence[i].area === '出场线' && tempFence[i].state) {
             temp[3] = tempFence[i];
           }
         }
@@ -301,10 +301,16 @@ const Location: React.FC<Props> = props => {
         item.createTime = item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : '';
         item.registryTime = item.registryTime ? moment(item.registryTime).format('YYYY-MM-DD HH:mm:ss') : '';
 
-        return item.productId === 'videoMonitorWuFang' || item.productId === 'videoMonitor' || item.productId === 'TGSG-190' || item.productId === 'audioBroadcast' ||
-          (item.productId === 'AN303' && item.state && item.state.value === 'online') ||
-          (item.productId === 'JTY-GF-NT8141' && item.state && item.state.value === 'online') ||
-          (item.productId === 'GT-CX400' && item.state && item.state.value === 'online');
+        return item.productId === 'videoMonitorWuFang' 
+            || item.productId === 'videoMonitor'
+            || item.productId === 'TGSG-190' 
+            || item.productId === 'audioBroadcast' 
+            || item.productId === 'AN303'
+            || item.productId === 'JTY-GF-NT8141'
+            || item.productId === 'GT-CX400'
+          // (item.productId === 'AN303' && item.state && item.state.value === 'online') ||
+          // (item.productId === 'JTY-GF-NT8141' && item.state && item.state.value === 'online') ||
+          // (item.productId === 'GT-CX400' && item.state && item.state.value === 'online');
 
         //return item.productId === 'M401A';
       });
@@ -411,10 +417,10 @@ const Location: React.FC<Props> = props => {
           产品名称<span className={styles.vRight}>{currentItem.productName}</span>
           <Divider className={styles.fengge} />
           设备名称<span className={styles.vRight}>{currentItem.name}</span>
-          <Divider className={styles.fengge} />
+          {/* <Divider className={styles.fengge} />
           创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
           <Divider className={styles.fengge} />
-          注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
+          注册时间<span className={styles.vRight}>{currentItem.registryTime}</span> */}
           {alarmDevices[currentItem.id] && (
             <div>
               <Divider className={styles.fengge} />
@@ -482,10 +488,10 @@ const Location: React.FC<Props> = props => {
           <Divider className={styles.fengge} />
           设备名称<span className={styles.vRight}>{currentItem.name}</span>
           <Divider className={styles.fengge} />
-          创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
+          {/* 创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
           <Divider className={styles.fengge} />
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
-          <Divider className={styles.fengge} />
+          <Divider className={styles.fengge} /> */}
           温度<span id="an303_wendu" className={styles.vRight}>{ getDeviceInfo(currentItem.id) }</span>
           <Divider className={styles.fengge} />
           湿度<span id="an303_shidu" className={styles.vRight}>获取中...</span>
@@ -506,10 +512,10 @@ const Location: React.FC<Props> = props => {
           <Divider className={styles.fengge} />
           设备名称<span className={styles.vRight}>{currentItem.name}</span>
           <Divider className={styles.fengge} />
-          创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
+          {/* 创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
           <Divider className={styles.fengge} />
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
-          <Divider className={styles.fengge} />
+          <Divider className={styles.fengge} /> */}
           电量<span id="yangan_battery" className={styles.vRight}>{ getDeviceInfo(currentItem.id) }</span>
           <Divider className={styles.fengge} />
           烟雾浓度<span id="yangan_nongdu" className={styles.vRight}>获取中...</span>
@@ -532,10 +538,10 @@ const Location: React.FC<Props> = props => {
           <Divider className={styles.fengge} />
           设备名称<span className={styles.vRight}>{currentItem.name}</span>
           <Divider className={styles.fengge} />
-          创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
+          {/* 创建时间<span className={styles.vRight}>{currentItem.createTime}</span>
           <Divider className={styles.fengge} />
           注册时间<span className={styles.vRight}>{currentItem.registryTime}</span>
-          <Divider className={styles.fengge} />
+          <Divider className={styles.fengge} /> */}
           气体浓度<span id="cx400_nongdu" className={styles.vRight}>{ getDeviceInfo(currentItem.id) }</span>
           <Divider className={styles.fengge} />
           状态<span id="cx400_status" className={styles.vRight}>获取中...</span>
