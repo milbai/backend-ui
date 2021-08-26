@@ -1,317 +1,269 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-        #video1{
-            width: 640px;
-            height: 480px;
-            margin-right:5px;
-            margin-bottom:5px;
-            float: left;
-            box-sizing: border-box;
-            object-fit: fill;
-            background-color: black;
-            z-index: -9999;
-        }
-        #video2{
-            width: 640px;
-            height: 480px;
-            float: left;
-            object-fit: fill;
-            background-color: black;
-        }
-        #video3{
-            width: 640px;
-            height: 480px;
-            margin-right:5px;
-            margin-bottom:5px;
-            object-fit: fill;
-            background-color: black;
-            float: left;
-            clear: left;
-        }
-        #video4{
-            width: 640px;
-            height: 480px;
-            float: left;
-            object-fit: fill;
-            background-color: black;
-        }
-
-        ul, li {
-            margin: 0;
-            padding: 0;
-        }
-        #myMenu{
-            list-style: none;
-            width: 150px;
-            background-color: #ffffff;
-            position: absolute;
-            display: none;
-        }
-
-        #myMenu li{
-            border-bottom: 1px solid #ccc;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-
-        #myMenu li:hover{
-            background-color: #00ff00;
-        }
-    </style>
-  <link rel="icon" href="data:;base64,=">
+    <meta charset="UTF-8">
+    <title>demo</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="keywords" content="enter,your,keywords,here" />
+    <meta http-equiv="description" content="A short description of this page." />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="./css/ui.jqgrid.css">
+    <link rel="stylesheet" href="./css/nprogress.css">
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/index.css">
 </head>
-<body>
+<body onbeforeunload="Index.destory_activex()">;
+<div class="main clearfix">
+    <div class="mainbanxin">
+        <div id="errormsg"></div>
+        <div class="clearfix func">
+            <div class="login">
+                <ul class="clearfix">
+                    <li class="loginTtile">
+                        <span>Local Login</span>
+                    </li>
+                    <li>
+                        <span>Camera IP</span>
+                        <input type="text" id="cameraIp">
+                    </li>
+                    <li>
+                        <span>Port</span>
+                        <input type="text" id="port">
+                    </li>
+                    <li>
+                        <span>Username</span>
+                        <input type="text" id="localusername">
+                    </li>
+                    <li>
+                        <span>Password</span>
+                        <input id="localpassword">
+                    </li>
+                    <li style="margin-left: 140px;">
+                        <span>Device Type</span>
+                        <select id="localdeviceType">
+                            <option value="1">IPC</option>
+                            <option value="101">NVR</option>
+                            <option value="501">VMS</option>
+                        </select>
+                    </li>
+                    <li>
+                        <span>Protocol</span>
+                        <select id="localprotocol">
+                            <option value="0">ONVIF</option>
+                            <option value="1">Private</option>
+                        </select>
+                    </li>
+                </ul>
+                <div class="loginBtn">
+                    <input type="button" value="Login" class="loginIn" id="locallogin">
+                    <input type="button" value="Login Out" id="localloginout" >
+                </div>
+            </div>
+            <div class="localDevlist" id="localDevlist">
+                <ul class="localDevlistul clearfix">
+                    <li>
+                        <span>Get ChannelList</span>
+                    </li>
+                    <li class="getlocallistli clearfix">
+                        <input type="button" value="Get Local List" id="getlocallist" >
+                    </li>
+                </ul>
+                <div id="girdtableDiv">
+                    <!--<table id="girdTable"></table>-->
+                </div>
+            </div>
+            <div class="funcBtn fl" id="funBtn">
+                <div class="PresetTitle">
+                    FUN
+                </div>
+                <div class="funcBtnCommon funcBtnHeight">
+                    <span>Channel ID</span>
+                    <input type="text" id="DevchannelID">
+                </div>
+                <div class="funcBtnCommon funcBtnHeight">
+                    <span>Live</span>
+                    <input type="button" id="startvideo" value="Open Live" >
+                    <input type="button" id="closevideo" value="Close Live" >
+                </div>
+                <div class="funcBtnCommon funcBtnHeight">
+                    <span>Record</span>
+                    <input type="button" value="Start Record" id="startRecord">
+                    <input type="button" value="Stop Record" id="stopRecord">
+                    <div id="recordfiledispaly" class="hidden">
+                        <span>save To</span>
+                        <span id="recordfileurl"></span>
+                    </div>
+                </div>
+                <div class="funcBtnCommon clearfix">
+                    <div class="fl clearfix">
+                        <span style="margin-top: 5px;">Sound</span>
+                    </div>
+                    <div class="fr clearfix soundBtn">
+                        <div class="volumeInputBtn">
+                            <input type="button" value="Open Sound" id="opensound">
+                            <input type="button" value="Close Sound" id="closesound">
+                        </div>
+                        <div class="volumeInputBtn">
+                            <input type="button" value="Get Sound" id="getsound">
+                            <input type="button" value="Set Sound" id="setsound">
+                        </div>
+                        <div class="volumeinput">
+                            <span>Volume</span>
+                            <input type="text" id="soundvalue">
+                        </div>
+                    </div>
+                </div>
+                <div class="funcBtnCommon funcSnapBtn">
+                    <span>Snapshot</span>
+                    <input type="button" value="Snapshot" id="snapshot">
+                    <div style="margin-top: 5px;" class="hidden" id="snapshoturldiv">
+                        <span>Save to</span>
+                        <span style="margin-top: 5px; margin-left: -10px;" id="snapshoturl"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="Preset fl" id="presetBtn">
+                <div class="PresetTitle">
+                    Preset
+                </div>
+                <div class="presetControl clearfix">
+                    <div></div>
+                    <ul class="clearfix" id="presetul">
+                        <li id="turnNW">NW</li>
+                        <li id="turnUP">UP</li>
+                        <li id="turnNE">NE</li>
+                        <li id="turnL">L</li>
+                        <li id="turnSTOP">STOP</li>
+                        <li id="turnR">R</li>
+                        <li id="turnSW">SW</li>
+                        <li id="turnDN">DN</li>
+                        <li ID="turnSE">SE</li>
+                    </ul>
+                </div>
+                <div class="getPreset">
+                    <span class="getpresettitle">Preset</span>
+                    <input type="button" value="Get" id="getPreset">
+                    <select id="presetlistcontent">
 
-
-<div class="wfsjs1">
-    <!--video autoplay muted id="video1" onmousemove="mouseover(this)" onmouseleave="mouseleave(this)"> </video-->
-  <video autoplay muted id="video1"> </video>
+                    </select>
+                </div>
+                <div class="setPreset">
+                    <div class="setPresetInput">
+                        <span class="setPresetInputTitle">Set Preset</span>
+                        ID:
+                        <input type="text" id="presetID">
+                        Name:
+                        <input type="text" id="presetName">
+                    </div>
+                    <div class="setPresetBtn">
+                        <input type="button" value="Set" id="setpreset">
+                        <input type="button" value="GoTo" id="gotpreset">
+                        <input type="button" value="Delete" id="deletepreset">
+                    </div>
+                </div>
+            </div>
+            <div class="Query fl" id="queryBtn">
+                <div class="queryTitle">Query</div>
+                <div class="queryTime">
+                    Start: <input type="text" class="Wdate" id="startQuerytime" onclick="Index.queryclick()">
+                    End: <input type="text" class="Wdate" id="endQuerytime" onClick="Index.queryclick()">
+                </div>
+                <div class="queryBtn">
+                    <input type="button" value="Common" id="commonquery">
+                    <input type="button" value="Find All" id="FindAll">
+                </div>
+                <div id="querytablediv" style="margin-top:10px;">
+                    <!--<table id="querytable" class="querytable"></table>-->
+                </div>
+                <!--<div class="queryBtn">-->
+                    <!--<input type="button" value="Find Next File" id="findNextfile" >-->
+                    <!--<input type="button" value="Close Find" id="closefind">-->
+                <!--</div>-->
+                <div class="playback">
+                    <span>Playback</span>
+                    <input type="button" value="By Time" id="byTime">
+                    <input type="button" value="Stop" id="stopbytime">
+                </div>
+                <div class="download">
+                    <span>Download</span>
+                    <input type="button" value="By Time" id="downloadbytime">
+                    <input type="button" value="Stop" id="stopdownload">
+                </div>
+                <div class="download" id="downloadpathurldiv" class="hidden">
+                    <span>Save To</span>
+                    <span id="downloadpathurl"></span>
+                </div>
+                <div class="progress">
+                    <div>
+                        <span>Progress</span>
+                        <input type="button" value="Get" id="getprogress">
+                        <input type="text" id="getprogresstime" style="width: 115px;">
+                        <!--<input type="button" value="Set" id="setprogress">-->
+                    </div>
+                    <div style="margin-top: 5px;">
+                        <span></span>
+                        <input type="button" value="Set" id="setprogress">
+                        <!--<input type="text" id="getprogresstime">-->
+                        <input type="text" class="Wdate" id="setprogresstime" onclick="Index.queryclick()" style="width: 115px;">
+                    </div>
+                    <div style="margin-top: 5px; margin-bottom: 32px;">
+                        <span></span>
+                        <input type="button" value="Resume" id="resumeprogress">
+                        <input type="button" value="Pause" id="pauseprogress">
+                    </div>
+                </div>
+            </div>
+            <div class="Log fl">
+                <div class="logTitle">Log</div>
+                <div class="logBtn logBtnOpen" style="margin-bottom:10px;">
+                    <input type="text" id="logpath" value="C:\sdklog">
+                </div>
+                <div class="logBtn logBtnOpen">
+                    <input type="button" value="set path" id="setlogpath" style="margin-bottom:10px;">
+                </div>
+                <div class="logBtn logBtnOpen">
+                    <input type="button" value="OpenLog" id="openLog">
+                </div>
+                <div class="logBtn logBtnClose">
+                    <input type="button" value="CloseLog" id="closeLog">
+                </div>
+            </div>
+        </div>
+        <div class="ocxStyle">
+            <div id="playerContainer"></div>
+        </div>
+    </div>
 </div>
-<!-- <div class="wfsjs2">
-    <video autoplay muted id="video2" onmousemove="mouseover(this)" onmouseleave="mouseleave(this)"></video>
-</div>
-<div class="wfsjs3" >
-    <video autoplay muted id="video3" onmousemove="mouseover(this)" onmouseleave="mouseleave(this)"></video>
-</div>
-<div class="wfsjs4" >
-    <video autoplay muted id="video4" onmousemove="mouseover(this)" onmouseleave="mouseleave(this)"></video>
-</div> -->
-
-<ul id="myMenu">
-    <li>Play Video</li>
-    <li>Stop Video</li>
-    <li>Ptz Start</li>
-    <li>Ptz Stop</li>
-</ul>
-
-
-<script type="module" src="./c2sdk_web.js"></script>
-<script type="module" src="./connection.js"></script>
-<script type="module" src="./playback.js"></script>
-<script type="module" src="./preview.js"></script>
-<script type="module" src="./ptzctrl.js"></script>
-<script>
-    function  mouseover(o) {
-        o.style.border='2px solid red';
-    }
-    function  mouseleave(o) {
-        o.style.border='none';
-    }
-
-	//debugger;
-
-</script>
-
-<script type="module">
-import {startPreview,createConn,stopPreview,ptzControl} from './c2sdk_web.js';
-
-	var conn = null;
-    var prev = new Array();
-
-function connStateCb(event) {
-
-}
-
-function alarmcb(data) {
-
-}
-
-function GetQueryString(name) {
-  var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-  var URL =  decodeURI(window.location.search);
-  var r = URL.substr(1).match(reg);
-  if(r!=null){
-    //decodeURI() 函数可对 encodeURI() 函数编码过的 URI 进行解码
-    return  decodeURI(r[2]);
-  };
-  return null;
-}
-
-function  previewDemo() {
-    var video1 = document.getElementById("video1");
-    // var video2 = document.getElementById("video2");
-    // var video3 = document.getElementById("video3");
-    // var video4 = document.getElementById("video4");
-
-    var previewPara1 = {
-        devip : GetQueryString("cameraIp"),
-        port  : 8000,
-        chn   : Number(GetQueryString("DevchannelID")),
-        type  : 0,   //大小码流
-        hwnd  : video1
-    }
-
-    prev[0] = startPreview(conn, previewPara1);
-
-    // var previewPara2 = {
-    //     devip : "172.25.30.103",
-    //     port  : 8000,
-    //     chn   : 33,
-    //     type  : 0,   //大小码流
-    //     hwnd  : video2
-    // }
-    // prev[1] = startPreview(conn, previewPara2);
-
-    // var previewPara3 = {
-    //     devip : "172.25.30.103",
-    //     port  : 8000,
-    //     chn   : 34,
-    //     type  : 0,   //大小码流
-    //     hwnd  : video3
-    // }
-    // prev[2] = startPreview(conn, previewPara3);
-
-    // var previewPara4 = {
-    //     devip : "172.25.30.103",
-    //     port  : 8000,
-    //     chn   : 35,
-    //     type  : 0,   //大小码流
-    //     hwnd  : video4
-    // }
-    // prev[3] = startPreview(conn, previewPara4);
-}
-
-window.onload = function () {
-
-    var loginParam = {
-            ip  : "172.25.30.71",
-            port : 8888,
-            user : "admin",
-            password : "96e79218965eb72c92a549dd5a330112",
-            state : connStateCb,
-			alarmcallback : alarmcb
-    }
-
-    conn = createConn(loginParam, null);
-
-    setTimeout(previewDemo, 1000);
-    //previewDemo();
-}
-
-var cmd = 0;
-
-var myMenu = document.getElementById("myMenu");
-document.addEventListener("contextmenu", function(event){
-    event.preventDefault();
-    myMenu.style.display = "block";
-    myMenu.style.top = event.clientY + "px";
-    myMenu.style.left = event.clientX + "px";
-});
-
-document.addEventListener("click", function(event) {
-    myMenu.style.display = "none";
-
-    var index = 0;
-    var bfound = 0;
-    var videotag;
-    for (index = 1; index <= 4; ++index) {
-        videotag = "video" + index;
-        var div = document.getElementById(videotag);
-        var x = event.clientX;
-        var y = event.clientY;
-        var divx1 = div.offsetLeft;
-        var divy1 = div.offsetTop;
-        var divx2 = div.offsetLeft + div.offsetWidth;
-        var divy2 = div.offsetTop + div.offsetHeight;
-        if (x >= divx1 && x <= divx2 && y >= divy1 && y <= divy2) {
-            bfound = 1;
-            break;
-        }
-    }
-
-    if (!bfound) {
-        return;
-    }
-
-    var tag = event.target || event.srcElement;
-
-    var chnNo = 32;
-    if (index == 1) {
-        chnNo = 32;
-    }
-    else if (index == 2) {
-        chnNo = 34;
-    }
-    else if (index == 3) {
-        chnNo = 35;
-    }
-    else {
-        chnNo = 37;
-    }
-
-    if (tag.innerText == "Play Video") {
-        if (null != prev[index - 1]) {
-            return;
-        }
-        var video = document.getElementById(videotag);
-        var previewPara1 = {
-            devip: "192.168.57.127",
-            port: 8000,
-            chn: chnNo,
-            type: 1,   //大小码流
-            hwnd: video
-        }
-        prev[index - 1] = startPreview(conn, previewPara1);
-    }
-    else if (tag.innerText == "Stop Video") {
-        if (null == prev[index - 1]) {
-            return;
-        }
-
-        stopPreview(prev[index - 1]);
-        prev[index - 1] = null;
-    }
-    else if (tag.innerText == "Ptz Start") {
-
-        if (null == prev[index - 1]) {
-            return;
-        }
-
-        cmd = cmd+1;
-        if (cmd  > 4) {
-            cmd = 18;
-        }
-
-        var ptzParam = {
-            devip :prev[index - 1].previewPara.devip,
-            devport: prev[index - 1].previewPara.port,
-            chn : prev[index - 1].previewPara.chn,
-            cmd : cmd,
-            stop : 0,
-            speed : 5,
-            preset : 1,
-        }
-
-        ptzControl(conn, ptzParam);
-
-        if (cmd == 18) {
-            cmd = 0;
-        }
-    }
-    else if (tag.innerText == "Ptz Stop") {
-        if (null == prev[index - 1]) {
-            return;
-        }
-
-        var ptzParam = {
-            devip :prev[index - 1].previewPara.devip,
-            devport: prev[index - 1].previewPara.port,
-            chn : prev[index - 1].previewPara.chn,
-            cmd : cmd,
-            stop : 1,
-            speed : 5,
-            preset : 1,
-        }
-
-        ptzControl(conn, ptzParam);
-    }
- });
-</script>
 </body>
 </html>
+<script src="js/plugins/jquery.min.js"></script>
+<script src="js/plugins/json2.js"></script>
+<script src="js/plugins/jquery.jqGrid.min.js"></script>
+<script src="js/plugins/datepicker/WdatePicker.js"></script>
+<script src="js/plugins/msgbox.js"></script>
+<script src="js/plugins/nprogress.js"></script>
+<script src="js/common/comscript.js"></script>
+<script src="lang/zh_lang.js"></script>
+<script src="js/common/utils.js"></script>
+<!--控件加载Begin-->
+
+<script src="js/common/sdkviewer.js"></script>
+<script type="text/javascript" src="js/common/wndControl.js"></script>
+<script type="text/javascript" src="js/common/wsRequest.js"></script>
+<script src="js/common/plugin.js"></script>
+<!--控件加载End-->
+<script src="js/common/index.js"></script>
+
+<script>
+  function GetQueryString(name) {
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var URL =  decodeURI(window.location.search);
+    var r = URL.substr(1).match(reg);
+    if(r!=null){
+      //decodeURI() 函数可对 encodeURI() 函数编码过的 URI 进行解码
+      return  decodeURI(r[2]);
+    };
+    return null;
+  }
+</script>

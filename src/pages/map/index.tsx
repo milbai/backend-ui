@@ -558,7 +558,7 @@ const Location: React.FC<Props> = props => {
       )}
       {currentItem.productId === "videoMonitor" && (
         <div id={"playerContainer"} style={{
-          width: '800px', height: '500px'
+          width: '600px', height: '350px'
         }}>
           <iframe
             frameBorder="0"
@@ -574,7 +574,26 @@ const Location: React.FC<Props> = props => {
           </video>)} */}
         </div>
       )}
-      {currentItem.productId === "videoMonitorWuFang" && (
+      {currentItem.productId === "videoMonitorWuFang" && (    
+        
+        <div id={"playerContainer"} style={{
+          width: '600px', height: '350px'
+        }}>
+          <iframe
+            frameBorder="0"
+            style={{
+              display: "none"
+            }}
+            src={getVideoSrc(currentItem.describe, "/WuFang_SDK/index.html")}
+          ></iframe>
+          {/* {false && (<video id="myVideo" className="video-js vjs-default-skin vjs-big-play-centered"
+                 controls preload="auto" data-setup="{}"
+                 style={{width: '380px'}}
+          >
+          </video>)} */}
+        </div>
+      )}
+      {/* {currentItem.productId === "videoMonitorWuFang" && (
         <div className={styles.videoModal}>
           产品名称<span className={styles.vRight}>{currentItem.productName}</span>
           <Divider className={styles.fengge} />
@@ -600,7 +619,7 @@ const Location: React.FC<Props> = props => {
             </div>
           )}
         </div>
-      )}
+      )} */}
       {currentItem.productId === "TGSG-190" && (
         <div className={styles.fenceModal}>
           产品名称<span className={styles.vRight}>{currentItem.productName}</span>
