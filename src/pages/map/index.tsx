@@ -8,7 +8,7 @@ import {filter, map} from "rxjs/operators";
 import {useState} from "react";
 import moment from "moment";
 
-import { createFengmap, addPolygonMarker, setDevicesData, setAlarms } from './fengmap'
+import { createFengmap, setFenceData, setDevicesData, setAlarms } from './fengmap'
 import styles from './css/index.css';
 import {connect} from "dva";
 import {ConnectState, Dispatch} from "@/models/connect";
@@ -283,7 +283,7 @@ const Location: React.FC<Props> = props => {
             temp[3] = tempFence[i];
           }
         }
-        addPolygonMarker(temp);
+        setFenceData(temp);
       });
     });
   };

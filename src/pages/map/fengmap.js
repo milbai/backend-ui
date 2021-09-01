@@ -2,10 +2,48 @@ import fengmap from 'fengmap';
 import videojs from "video.js";
 //var myVideo;
 var map;
-var fenceList, cm100List;
+var fenceList = [], cm100List;
 var selected = null;
 var devicesData = {};
 var alarmDevices = {};
+
+const fenceCoords = [
+  //月检线
+  [
+    { x: 12609343.487486389, y: 2634680.7467382923, z: 56 },
+    { x: 12609339.252967019, y: 2634651.1668030284, z: 56 },
+    { x: 12609706.621351019, y: 2634652.1526199896, z: 56 },
+    { x: 12609706.650074564, y: 2634681.1130687636,  z: 56 },
+  ],
+  //维修线
+  [
+    { x: 12609257.503689926, y: 2634651.916090568, z: 56 },
+    { x: 12609258.790374342, y: 2634636.405447829, z: 56 },
+    { x: 12609707.527558396, y: 2634634.2928042985, z: 56 },
+    { x: 12609706.033594407, y: 2634652.290200657, z: 56 },
+  ],
+  //停车日检库A区
+  [
+    { x: 12609242.913614508, y: 2634621.3513399083, z: 56 },
+    { x: 12609239.662802674, y: 2634466.6577441064, z: 56 },
+    { x: 12609613.856840886, y: 2634465.754081998, z: 56 },
+    { x: 12609613.544191122, y: 2634621.7920239493, z: 56 },
+  ],
+  //停车日检库B区
+  [
+    { x: 12609647.203478605, y: 2634622.74148204, z: 56 },
+    { x: 12609645.15114645, y: 2634464.339464341, z: 56 },
+    { x: 12609998.237355687, y: 2634466.8285023263, z: 56 },
+    { x: 12610002.36026345, y: 2634620.025391266, z: 56 },
+  ],
+  //出场线
+  [
+    { x: 12610038.671650294, y: 2634635.777639212, z: 56 },
+    { x: 12610035.285046501, y: 2634466.6918881186, z: 56 },
+    { x: 12610117.767852884, y: 2634470.7921805014, z: 56 },
+    { x: 12610110.052573442, y: 2634623.166006285, z: 56 },
+  ]
+];
 
 export function setAlarms(alarms) {
   alarmDevices = alarms;
@@ -38,7 +76,7 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
     //console.log(event);
     var nodeType = event.nodeType;
     var target = event.target;
-    if(!nodeType || !target || (nodeType !== 36 && nodeType !== 31)) {
+    if(!nodeType || !target || (nodeType !== 36 && nodeType !== 31) || (nodeType === 36 && target.index === -1)) {
       if(selected) {
         selected = null;
         updateMarkers(cm100List);
@@ -79,51 +117,14 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
   });
 }
 
-export function addPolygonMarker(data) {
+function updatePolygonMarker() {
   var group = map.getFMGroup(map.focusGroupID);
   var layer = group.getOrCreateLayer('polygonMarker');
   layer.removeAll();
-  fenceList = data;
-  //console.log(data);
-  const fenceCoords = [
-    //月检线
-    [
-      { x: 12609343.487486389, y: 2634680.7467382923, z: 56 },
-      { x: 12609339.252967019, y: 2634651.1668030284, z: 56 },
-      { x: 12609706.621351019, y: 2634652.1526199896, z: 56 },
-      { x: 12609706.650074564, y: 2634681.1130687636,  z: 56 },
-    ],
-    //维修线
-    [
-      { x: 12609257.503689926, y: 2634651.916090568, z: 56 },
-      { x: 12609258.790374342, y: 2634636.405447829, z: 56 },
-      { x: 12609707.527558396, y: 2634634.2928042985, z: 56 },
-      { x: 12609706.033594407, y: 2634652.290200657, z: 56 },
-    ],
-    //停车日检库A区
-    [
-      { x: 12609242.913614508, y: 2634621.3513399083, z: 56 },
-      { x: 12609239.662802674, y: 2634466.6577441064, z: 56 },
-      { x: 12609613.856840886, y: 2634465.754081998, z: 56 },
-      { x: 12609613.544191122, y: 2634621.7920239493, z: 56 },
-    ],
-    //停车日检库B区
-    [
-      { x: 12609647.203478605, y: 2634622.74148204, z: 56 },
-      { x: 12609645.15114645, y: 2634464.339464341, z: 56 },
-      { x: 12609998.237355687, y: 2634466.8285023263, z: 56 },
-      { x: 12610002.36026345, y: 2634620.025391266, z: 56 },
-    ],
-    //出场线
-    [
-      { x: 12610038.671650294, y: 2634635.777639212, z: 56 },
-      { x: 12610035.285046501, y: 2634466.6918881186, z: 56 },
-      { x: 12610117.767852884, y: 2634470.7921805014, z: 56 },
-      { x: 12610110.052573442, y: 2634623.166006285, z: 56 },
-    ]
-  ];
+
+  //画围栏
   for(var i = 0; i < fenceCoords.length; i++) {
-    if(data[i]) {
+    if(fenceList[i]) {
       addPolygonMarker(fenceCoords[i], i);
     }
   }
@@ -139,6 +140,47 @@ export function addPolygonMarker(data) {
     polygonMarker.index = index;
     layer.addMarker(polygonMarker);
   }
+
+  //画蓝牙圆圈
+  var list = devicesData['1'];
+  if(!list)
+    return;
+  for(var j = 0; j < list.length; j++) {
+    createCircleMaker(list[j]);
+  }
+  function createCircleMaker(item) {
+    var circleMaker = new fengmap.FMPolygonMarker({
+      //设置颜色
+      color: '#3CF9DF',
+      //设置透明度
+      alpha: .3,
+      //设置边框线的宽度
+      lineWidth: 1,
+      //设置高度
+      height: 6,
+      //多边形的坐标点集数组
+      points: {
+        //设置为圆形
+        type: 'circle',
+        //设置此形状的中心坐标
+        center: {
+          x: parseFloat(item.longitude),
+          y: parseFloat(item.latitude)
+        },
+        //设置半径
+        radius: 20, //改成 item.你的key
+        //设置段数，默认为40段
+        segments: 40
+      }
+    });
+    circleMaker.index = -1;
+    layer.addMarker(circleMaker);
+  }
+}
+
+export function setFenceData(data) {
+  fenceList = data;
+  updatePolygonMarker();
 }
 
 export function setDevicesData(data) {
@@ -148,6 +190,7 @@ export function setDevicesData(data) {
     arr = arr.concat(devicesData[key]);
   }
   cm100List = arr;
+  updatePolygonMarker();
   updateMarkers(cm100List);
 }
 
