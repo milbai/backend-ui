@@ -18,7 +18,8 @@ interface MapDemoProps {
 //定义全局map变量
 var map: any = null;
 //定义地图ID变量
-var fmapID = '1384053067182067713';
+//var fmapID = '1384053067182067713'; // 陈头岗
+var fmapID = '1397382550647533570'; // 万顷沙
 //定义地图是否加载完成变量
 var loadComplete = false;
 
