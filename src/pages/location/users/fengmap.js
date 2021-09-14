@@ -90,41 +90,64 @@ var lastCoord = null;
 var coords = [];
 //定义markert图层数组
 var layers = [];
+var subwayStation = 1;
+
 export var naviData = null;
 export function createFengmap(data) {
-  /*
-  var fmapID = '1384053067182067713'; // 陈头岗
-  var mapOptions = {
-    container: document.getElementById('fengmap'),
-    mapServerURL: './fengmap/data/' + fmapID,
-    mapThemeURL: './fengmap/data/theme',
-    defaultThemeName: '3b91d03288204d02368dd4f68fc1f189',
-    mapScaleLevelRange: [16, 23],       // 比例尺级别范围， 16级到23级
-    // mapScaleRange: [200, 4000]      // 自定义比例尺范围，单位（厘米）
-    defaultMapScaleLevel: 18,          // 默认比例尺级别设置为19级
-    appName: '陈头岗地铁停车场',
-    key: '40308d481d2d806bcd2e5fb346c2dc45',
-    // 把地图转成俯视图的效果
-    defaultViewMode: fengmap.FMViewMode.MODE_2D,
-    defaultControlsPose: 0,     //角度值。
-    defaultViewCenter: { x: 12609603.113274425, y: 2634539.7186213997 },
-  };
-*/
-  var fmapID = '1397382550647533570'; // 万顷沙
-  var mapOptions = {
-    container: document.getElementById('fengmap'),
-    mapServerURL: './fengmap/data/' + fmapID,
-    mapThemeURL: './fengmap/data/theme',
-    defaultThemeName: '3b91d03288204d02368dd4f68fc1f189',
-    mapScaleLevelRange: [6, 23],       // 比例尺级别范围， 16级到23级
-    // mapScaleRange: [200, 4000]      // 自定义比例尺范围，单位（厘米）
-    defaultMapScaleLevel: 15,          // 默认比例尺级别设置为19级
-    appName: '陈头岗地铁停车场',
-    key: '40308d481d2d806bcd2e5fb346c2dc45',
-    // 把地图转成俯视图的效果
-    defaultViewMode: fengmap.FMViewMode.MODE_2D,
-    defaultControlsPose: 0,     //角度值。
-  };
+  var fmapID = '';
+  var mapOptions = {};
+  if (subwayStation === 1) {
+    fmapID = '1384053067182067713'; // 陈头岗
+    mapOptions = {
+      container: document.getElementById('fengmap'),
+      mapServerURL: './fengmap/data/' + fmapID,
+      mapThemeURL: './fengmap/data/theme',
+      defaultThemeName: '3b91d03288204d02368dd4f68fc1f189',
+      mapScaleLevelRange: [16, 23],       // 比例尺级别范围， 16级到23级
+      // mapScaleRange: [200, 4000]      // 自定义比例尺范围，单位（厘米）
+      defaultMapScaleLevel: 18,          // 默认比例尺级别设置为19级
+      appName: '陈头岗地铁停车场',
+      key: '40308d481d2d806bcd2e5fb346c2dc45',
+      // 把地图转成俯视图的效果
+      defaultViewMode: fengmap.FMViewMode.MODE_2D,
+      defaultControlsPose: 0,     //角度值。
+      defaultViewCenter: { x: 12609603.113274425, y: 2634539.7186213997 },
+    };
+  } else if (subwayStation === 2) {
+    fmapID = '1422111691233742850'; // 陇枕
+    mapOptions = {
+      container: document.getElementById('fengmap'),
+      mapServerURL: './fengmap/data/' + fmapID,
+      mapThemeURL: './fengmap/data/theme',
+      defaultThemeName: '3b91d03288204d02368dd4f68fc1f189',
+      mapScaleLevelRange: [6, 23],       // 比例尺级别范围， 16级到23级
+      // mapScaleRange: [200, 4000]      // 自定义比例尺范围，单位（厘米）
+      defaultMapScaleLevel: 15,          // 默认比例尺级别设置为19级
+      appName: '陈头岗地铁停车场',
+      key: '40308d481d2d806bcd2e5fb346c2dc45',
+      // 把地图转成俯视图的效果
+      defaultViewMode: fengmap.FMViewMode.MODE_2D,
+      defaultControlsPose: 0,     //角度值。
+    };
+
+  } else {
+    fmapID = '1397382550647533570'; // 万顷沙
+    mapOptions = {
+      container: document.getElementById('fengmap'),
+      mapServerURL: './fengmap/data/' + fmapID,
+      mapThemeURL: './fengmap/data/theme',
+      defaultThemeName: '3b91d03288204d02368dd4f68fc1f189',
+      mapScaleLevelRange: [6, 23],       // 比例尺级别范围， 16级到23级
+      // mapScaleRange: [200, 4000]      // 自定义比例尺范围，单位（厘米）
+      defaultMapScaleLevel: 15,          // 默认比例尺级别设置为19级
+      appName: '陈头岗地铁停车场',
+      key: '40308d481d2d806bcd2e5fb346c2dc45',
+      // 把地图转成俯视图的效果
+      defaultViewMode: fengmap.FMViewMode.MODE_2D,
+      defaultControlsPose: 0,     //角度值。
+    };
+  }
+
   map = new fengmap.FMMap(mapOptions);
   map.openMapById(fmapID, function (error) {
     console.log(error);
