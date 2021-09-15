@@ -4,7 +4,7 @@ var locationMarker;
 //textmarker对象
 //var tm = null;
 //marker图层
-//var layer = null;
+var layer = null;
 var subwayStation = 1;
 
 export function createFengmap() {
@@ -98,6 +98,9 @@ function renderLocation(data) {
         }
       }
       */
+      callback: function () {
+        updateCircle(data);
+      }
     });
     //添加定位点marker
     map.addLocationMarker(locationMarker);
@@ -115,6 +118,9 @@ function renderLocation(data) {
         }
       }
       */
+      callback: function () {
+        updateCircle(data);
+      }
     });
   }
 
@@ -145,6 +151,46 @@ function renderLocation(data) {
     layer.addMarker(tm);
   }
   */
+}
+
+function updateCircle(data) {
+  var group = map.getFMGroup(map.focusGroupID);
+  layer = group.getOrCreateLayer('polygonMarker');
+  layer.removeAll();
+
+  var circleMaker = new fengmap.FMPolygonMarker({
+    //设置颜色
+    color: '#3CF9DF',
+    //设置透明度
+    alpha: .3,
+    //设置边框线的宽度
+    lineWidth: 1,
+    //设置高度
+    height: 6,
+    //多边形的坐标点集数组
+    points: {
+      //设置为圆形
+      type: 'circle',
+      //设置此形状的中心坐标
+      center: {
+        x: parseFloat(data.x),
+        y: parseFloat(data.y)
+      },
+      //设置半径
+      radius: function() {
+        var radiusT = 15;
+        if (data.precision === 2) {
+          radiusT = 22;
+        } else if (data.precision === 1) {
+          radiusT = 30;
+        }
+        return radiusT;
+      }(),
+      //设置段数，默认为40段
+      segments: 40
+    }
+  });
+  layer.addMarker(circleMaker);
 }
 
 function step(currentItem, setCurrentItem) {
@@ -229,11 +275,12 @@ export function clearMap(currentItem, setCurrentItem) {
     data: [],
     speed: currentItem.speed
   });
-  /*
+
   //删除layer上所有Marker
   if (layer) {
     layer.removeAll();
   }
+  /*
   if(tm) {
     tm = null;
   }

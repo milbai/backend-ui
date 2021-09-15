@@ -75,7 +75,7 @@ const Trajectory: React.FC<Props> = props => {
         moment(e).format('YYYY-MM-DD HH:mm:ss'),
       );
       params.createTime$BTW = formatDate.join(',');
-      //params.createTime$BTW = "2021-08-02 10:00:00,2021-08-02 12:00:00";
+      //params.createTime$BTW = "2021-09-13 10:00:00,2021-09-15 12:00:00";
       loadLogData({
         pageSize: 10000,
         pageIndex: 0,
@@ -107,6 +107,7 @@ const Trajectory: React.FC<Props> = props => {
                   x: p.badgePos_x,
                   y: p.badgePos_y,
                   z: 3,
+                  precision: p.precision,
                   time: data[i].createTime ? moment(data[i].createTime).format('YYYY-MM-DD HH:mm:ss') : ''
                 });
             }
