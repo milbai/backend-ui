@@ -64,8 +64,8 @@ var webPlugin = {
                 window.parent.document.addEventListener("visibilitychange", wndObj.visibilityChange, false);
                 //创建web窗体，可能会失败
                 function _createDlg() {
-                    var oldTitle = window.top.document.title;
-                    window.top.document.title = msg.data.uuid;
+                    var oldTitle = window.parent.document.title;
+                    window.parent.document.title = msg.data.uuid;
                     setTimeout(function() {
                         var pos = utils.BROWER.getWndPostion(tabID, utils.BROWER.getCreateWndMode());
                         var browser = utils.BROWER.browserType();
@@ -107,7 +107,7 @@ var webPlugin = {
                             } else {
                                 callback({code: res.code, errMsg: '窗体创建失败', data: {isInstalled: false}});
                             }
-                            window.top.document.title = oldTitle;
+                            window.parent.document.title = oldTitle;
                         });
                     }, 300)
                 }

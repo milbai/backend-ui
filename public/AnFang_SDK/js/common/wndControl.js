@@ -36,8 +36,8 @@ var wndControl = Class.extend({
     },
     JS_UpdateWnd: function(wndTitle, callback) {
         var that = this;
-        var oldTitle = typeof wndTitle === "undefined" ? window.top.document.title : wndTitle;
-        window.top.document.title = that.wsControl.uuid;
+        var oldTitle = typeof wndTitle === "undefined" ? window.parent.document.title : wndTitle;
+        window.parent.document.title = that.wsControl.uuid;
         setTimeout(function() {
             return that.wsControl.wsObj.sendMsg('NETDEV_UpdateDlgParentWnd', {uuid: that.wsControl.uuid}, function (res) {
                 if(res.code === 0) {
@@ -45,7 +45,7 @@ var wndControl = Class.extend({
                 } else {
                     // that.JS_ShowWnd(false);
                 }
-                window.top.document.title = oldTitle;
+                window.parent.document.title = oldTitle;
             });
         }, 300);
     },

@@ -180,7 +180,7 @@ var utils = {
         getCreateWndMode: function() {
             var e = navigator.userAgent, t = navigator.platform,
                 n = "Win64" === t || "Win32" === t || "Windows" === t, r = this.browserType(), i = !0;
-            return window.top !== window ? i = !1 : n ? (e.indexOf("Windows NT 10.0") > -1 && r.ClassSpace === 'chrome' && (i = !1), r.ClassSpace === 'edge' && (i = !1)) : i = !1, i
+            return window.parent !== window ? i = !1 : n ? (e.indexOf("Windows NT 10.0") > -1 && r.ClassSpace === 'chrome' && (i = !1), r.ClassSpace === 'edge' && (i = !1)) : i = !1, i
         },
         getDevicePixelRatio: function() {
             var e = this, t = 1;
