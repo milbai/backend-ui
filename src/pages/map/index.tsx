@@ -301,10 +301,10 @@ const Location: React.FC<Props> = props => {
         item.createTime = item.createTime ? moment(item.createTime).format('YYYY-MM-DD HH:mm:ss') : '';
         item.registryTime = item.registryTime ? moment(item.registryTime).format('YYYY-MM-DD HH:mm:ss') : '';
 
-        return item.productId === 'videoMonitorWuFang' 
+        return item.productId === 'videoMonitorWuFang'
             || item.productId === 'videoMonitor'
-            || item.productId === 'TGSG-190' 
-            || item.productId === 'audioBroadcast' 
+            || item.productId === 'TGSG-190'
+            || item.productId === 'audioBroadcast'
             || item.productId === 'AN303'
             || item.productId === 'JTY-GF-NT8141'
             || item.productId === 'GT-CX400'
@@ -558,7 +558,7 @@ const Location: React.FC<Props> = props => {
       )}
       {currentItem.productId === "videoMonitor" && (
         <div id={"playerContainer"} style={{
-          width: '600px', height: '350px'
+          width: '600px', height: '350px', position: "absolute", right: "0"
         }}>
           <iframe
             frameBorder="0"
@@ -574,10 +574,10 @@ const Location: React.FC<Props> = props => {
           </video>)} */}
         </div>
       )}
-      {currentItem.productId === "videoMonitorWuFang" && (    
-        
+      {currentItem.productId === "videoMonitorWuFang" && (
+
         <div id={"playerContainer"} style={{
-          width: '600px', height: '350px'
+          width: '600px', height: '350px', position: "absolute", right: "0"
         }}>
           <iframe
             frameBorder="0"
