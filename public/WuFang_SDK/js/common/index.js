@@ -414,7 +414,7 @@ var Index = function ($) {
                         $("#cloudLogin").attr("disabled", true);
                       $("#startvideo").click();
                     }
-                    //that.msgtipshow(msg, icon);
+                    that.msgtipshow(msg, icon);
                 })
             }
         },

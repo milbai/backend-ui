@@ -149,6 +149,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
       //localStorage.setItem('hide_menu', hide_menu);
       localStorage.setItem('hide_menu', "true");
     }
+    console.log("auth: " + props.location?.query?.auth);
   }, []);
 
 
