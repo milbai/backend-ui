@@ -109,7 +109,7 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
     };
   }
 
-  
+
   map = new fengmap.FMMap(mapOptions);
   map.openMapById(fmapID, function (error) {
     console.log(error);
@@ -120,6 +120,11 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
     //console.log(event);
     var nodeType = event.nodeType;
     var target = event.target;
+
+    if(target && target.index && cm100List && cm100List[target.index] && selected !==  cm100List[target.index].id) {
+      closevideo();
+    }
+
     if(!nodeType || !target || (nodeType !== 36 && nodeType !== 31) || (nodeType === 36 && target.index === -1)) {
       if(selected) {
         selected = null;
@@ -161,11 +166,18 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
   });
 }
 
+function closevideo() {
+  var iframe = document.getElementsByTagName('iframe')[0];
+  if(iframe && iframe.contentWindow && iframe.contentWindow.document.getElementById('closevideo')) {
+    iframe.contentWindow.document.getElementById('closevideo').click();
+  }
+}
+
 function updatePolygonMarker() {
   var group = map.getFMGroup(map.focusGroupID);
   var layer = group.getOrCreateLayer('polygonMarker');
   layer.removeAll();
-  
+
   //画围栏
   for(var i = 0; i < fenceCoords.length; i++) {
     if(fenceList[i]) {
@@ -193,7 +205,7 @@ function updatePolygonMarker() {
     createCircleMaker(list[j]);
   }
   function createCircleMaker(item) {
-    
+
     var circleMaker = new fengmap.FMPolygonMarker({
       //设置颜色
       color: '#3CF9DF',
