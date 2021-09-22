@@ -15,6 +15,7 @@ import {ConnectState, Dispatch} from "@/models/connect";
 import 'video.js/dist/video-js.css';
 import Save from "./save";
 import {router} from "umi";
+import { camelCase } from 'lodash';
 //import {createWebSocket} from "@/pages/map/websocket";
 
 interface Props {
@@ -558,7 +559,8 @@ const Location: React.FC<Props> = props => {
       )}
       {currentItem.productId === "videoMonitor" && (
         <div id={"playerContainer"} style={{
-          width: '600px', height: '350px', position: "absolute", right: "0"
+          // width: '600px', height: '350px', position: "absolute", right: "0"
+          width: '600px', height: '350px', position: "absolute", left: 'calc(100% - 600px + 250px)', top: '100px'
         }}>
           <iframe
             frameBorder="0"
@@ -577,7 +579,8 @@ const Location: React.FC<Props> = props => {
       {currentItem.productId === "videoMonitorWuFang" && (
 
         <div id={"playerContainer"} style={{
-          width: '600px', height: '350px', position: "absolute", right: "0"
+          // width: '600px', height: '350px', position: "absolute", right: "0"
+          width: '600px', height: '350px', position: "absolute", left: 'calc(100% - 600px + 250px)', top: '100px'
         }}>
           <iframe
             frameBorder="0"

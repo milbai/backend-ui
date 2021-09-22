@@ -412,7 +412,9 @@ var Index = function ($) {
                         that.locallognsucPage();
                         //屏蔽云登录
                         $("#cloudLogin").attr("disabled", true);
-                      $("#startvideo").click();
+                        //$("#startvideo").click();
+                        that.getChannellist();
+                        setTimeout(() => { $("#startvideo").click(); }, 500);
                     }
                     //that.msgtipshow(msg, icon);
                 })
