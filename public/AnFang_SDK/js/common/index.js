@@ -273,6 +273,7 @@ var Index = function ($) {
             });
 
             $("#closevideo").on("click", function () {
+                console.log('close video');
                 _this.stopVideo();
                 //滚动条滑动，避免视频存留一帧
                 _this.bodyScroll();

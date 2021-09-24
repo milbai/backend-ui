@@ -178,11 +178,11 @@ function updateCircle(data) {
       },
       //设置半径
       radius: function() {
-        var radiusT = 15;
+        var radiusT = 12;
         if (data.precision === 2) {
-          radiusT = 22;
+          radiusT = 17;
         } else if (data.precision === 1) {
-          radiusT = 30;
+          radiusT = 25;
         }
         return radiusT;
       }(),
