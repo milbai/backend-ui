@@ -120,21 +120,19 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
     //console.log(event);
     var nodeType = event.nodeType;
     var target = event.target;
-
-    if(target && target.index && cm100List && cm100List[target.index] && selected !==  cm100List[target.index].id) {
-      closevideo();
-    }
-
     if(!nodeType || !target || (nodeType !== 36 && nodeType !== 31) || (nodeType === 36 && target.index === -1)) {
       if(selected) {
+        closevideo();
         selected = null;
         updateMarkers(cm100List);
       }
       setCurrentItem({});
       return;
     }
+
     if(nodeType === 36) {
       if(selected) {
+        closevideo();
         selected = null;
         updateMarkers(cm100List);
       }
@@ -142,6 +140,7 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
     } else if(nodeType === 31) {
       setTimeout(function () {
         if(selected !==  cm100List[target.index].id) {
+          closevideo();
           selected = cm100List[target.index].id;
           updateMarkers(cm100List);
         }
@@ -167,9 +166,11 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
 }
 
 function closevideo() {
-  var iframe = document.getElementsByTagName('iframe')[0];
-  if(iframe && iframe.contentWindow && iframe.contentWindow.document.getElementById('closevideo')) {
-    iframe.contentWindow.document.getElementById('closevideo').click();
+  for(var i = 0; i < document.getElementsByTagName('iframe').length; i++) {
+    var iframe = document.getElementsByTagName('iframe')[i];
+    if(iframe && iframe.contentWindow && iframe.contentWindow.document.getElementById('closevideo')) {
+      iframe.contentWindow.document.getElementById('closevideo').click();
+    }
   }
 }
 
