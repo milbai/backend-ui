@@ -565,7 +565,8 @@ const Location: React.FC<Props> = props => {
           <iframe
             frameBorder="0"
             style={{
-              display: "none"
+              //display: "none"
+              width: '1px', height: '1px'
             }}
             src={getVideoSrc(currentItem.describe, "/AnFang_SDK/index.html")}
           ></iframe>
@@ -585,7 +586,8 @@ const Location: React.FC<Props> = props => {
           <iframe
             frameBorder="0"
             style={{
-              display: "none"
+              //display: "none"
+              width: '1px', height: '1px'
             }}
             src={getVideoSrc(currentItem.describe, "/WuFang_SDK/index.html")}
           ></iframe>

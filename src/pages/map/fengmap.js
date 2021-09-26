@@ -170,6 +170,12 @@ function closevideo() {
     var iframe = document.getElementsByTagName('iframe')[i];
     if(iframe && iframe.contentWindow && iframe.contentWindow.document.getElementById('closevideo')) {
       iframe.contentWindow.document.getElementById('closevideo').click();
+
+      setTimeout(()=> {
+        if(iframe && iframe.contentWindow && iframe.contentWindow.document.getElementById('localloginout')) {
+          iframe.contentWindow.document.getElementById('localloginout').click();
+        }
+      }, 100);
     }
   }
 }
