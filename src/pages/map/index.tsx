@@ -598,7 +598,7 @@ const Location: React.FC<Props> = props => {
           <iframe
             frameBorder="0"
             style={{
-              display: "none"
+              width: '1px', height: '1px'
             }}
             src={getVideoSrc('21.105.208.16, 2604', "/AnFang_SDK/index.html")}
           ></iframe>
