@@ -397,6 +397,7 @@ const Location: React.FC<Props> = props => {
             setAlarmsVideo(video);
             if(video) {
               showVideo();
+              setCurrentItem({});
             } else {
               closevideo();
             }

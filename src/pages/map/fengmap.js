@@ -66,7 +66,6 @@ export function showVideo() {
     selected = null;
     updateMarkers(cm100List);
   }
-  setCurrentItem({});
 }
 
 export function createFengmap(callback, setCurrentItem, getTGSG_state, setVideoVisible) {
