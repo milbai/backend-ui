@@ -29,6 +29,7 @@ interface State {
   AudioSetting: any;
   audioVisible: boolean;
   alarmDevices: any;
+  videoVisible: boolean;
 }
 
 const Location: React.FC<Props> = props => {
@@ -40,6 +41,7 @@ const Location: React.FC<Props> = props => {
     AudioSetting: {},
     audioVisible: false,
     alarmDevices: {},
+    videoVisible: false,
   };
   const [currentItem, setCurrentItem] = useState(initState.currentItem);
   const [tempEmployee, setTempEmployee] = useState(initState.tempEmployee);
@@ -47,6 +49,7 @@ const Location: React.FC<Props> = props => {
   const [AudioSetting, setAudioSetting] = useState(initState.AudioSetting);
   const [audioVisible, setAudioVisible] = useState(initState.audioVisible);
   const [alarmDevices, setAlarmDevices] = useState(initState.alarmDevices);
+  const [videoVisible, setVideoVisible] = useState(initState.videoVisible);
 
   const handle_switch = (b: boolean) => {
     currentItem.state = b;
@@ -372,14 +375,23 @@ const Location: React.FC<Props> = props => {
       .then((response: any) => {
         if (response.status === 200 && response.result) {
           var alarms = {};
+          var video = false;
           for(var i = 0; i < response.result.length; i++) {
-            var id = response.result[i].deviceId;
+            var item = response.result[i];
+            var id = item.deviceId;
             if(alarms[id]) {
               alarms[id]++;
             } else {
               alarms[id] = 1;
             }
+
+            if(item.productId === 'AN303'
+              || item.productId === 'JTY-GF-NT8141'
+              || item.productId === 'GT-CX400') {
+              video = true;
+            }
           }
+          setVideoVisible(video);
           setAlarms(alarms);
           setAlarmDevices(alarms);
         }
@@ -574,6 +586,19 @@ const Location: React.FC<Props> = props => {
                  style={{width: '380px'}}
           >
           </video>)} */}
+        </div>
+      )}
+      {videoVisible && (
+        <div id={"playerContainer"} style={{
+          width: '600px', height: '350px', position: "absolute", left: 'calc(100% - 600px + 250px)', top: '100px'
+        }}>
+          <iframe
+            frameBorder="0"
+            style={{
+              display: "none"
+            }}
+            src={getVideoSrc('21.105.208.16, 2604', "/AnFang_SDK/index.html")}
+          ></iframe>
         </div>
       )}
       {currentItem.productId === "videoMonitorWuFang" && (
