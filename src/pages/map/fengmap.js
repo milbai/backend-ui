@@ -10,10 +10,14 @@ var subwayStation = 1;
 const fenceCoords = [
   //月检线
   [
-    { x: 12609690.697, y: 2634633.375, z: 56 },
-    { x: 12609690.697, y: 2634689.016, z: 56 },
-    { x: 12609340.636, y: 2634689.016, z: 56 },
-    { x: 12609340.636, y: 2634635.375, z: 56 },
+    // { x: 12609690.697, y: 2634633.375, z: 56 },
+    // { x: 12609690.697, y: 2634689.016, z: 56 },
+    // { x: 12609340.636, y: 2634689.016, z: 56 },
+    // { x: 12609340.636, y: 2634635.375, z: 56 },
+    { x: 12609670.697, y: 2634633.375, z: 56 },
+    { x: 12609670.697, y: 2634689.016, z: 56 },
+    { x: 12609360.636, y: 2634689.016, z: 56 },
+    { x: 12609360.636, y: 2634635.375, z: 56 },
   ],
 
   //维修线
@@ -170,6 +174,12 @@ function closevideo() {
     var iframe = document.getElementsByTagName('iframe')[i];
     if(iframe && iframe.contentWindow && iframe.contentWindow.document.getElementById('closevideo')) {
       iframe.contentWindow.document.getElementById('closevideo').click();
+
+      setTimeout(()=> {
+        if(iframe && iframe.contentWindow && iframe.contentWindow.document.getElementById('localloginout')) {
+          iframe.contentWindow.document.getElementById('localloginout').click();
+        }
+      }, 100);
     }
   }
 }

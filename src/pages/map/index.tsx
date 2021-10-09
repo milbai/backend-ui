@@ -172,8 +172,8 @@ const Location: React.FC<Props> = props => {
         if (response.status === 200 && response.result && response.result.data && response.result.data.length) {
           var content = JSON.parse(response.result.data[0].content);
           if(response.result.data[0].productId === 'AN303') {
-            document.getElementById('an303_wendu').innerHTML = content.temperature;
-            document.getElementById('an303_shidu').innerHTML = content.humidity;
+            document.getElementById('an303_wendu').innerHTML = content.temperature + ' °C';
+            document.getElementById('an303_shidu').innerHTML = content.humidity + ' %';
           } else if(response.result.data[0].productId === 'JTY-GF-NT8141') {
             document.getElementById('yangan_battery').innerHTML = content.battery;
             document.getElementById('yangan_nongdu').innerHTML = content.smokedencityvalue;
@@ -198,7 +198,8 @@ const Location: React.FC<Props> = props => {
                 case 'battery low and alarm test':
                   return '低电压时测试报警';
                 default:
-                  return content.type;
+                  //return content.type;
+                  return '正常';
               }
             }();
           } else if(response.result.data[0].productId === 'GT-CX400') {
@@ -218,7 +219,8 @@ const Location: React.FC<Props> = props => {
                 case 'storage_err':
                   return '存储故障';
                 default:
-                  return content.sensor_status;
+                  //return content.sensor_status;
+                  return '正常';
               }
             }();
           }
@@ -577,7 +579,8 @@ const Location: React.FC<Props> = props => {
           <iframe
             frameBorder="0"
             style={{
-              display: "none"
+              //display: "none"
+              width: '1px', height: '1px'
             }}
             src={getVideoSrc(currentItem.describe, "/AnFang_SDK/index.html")}
           ></iframe>
@@ -610,7 +613,8 @@ const Location: React.FC<Props> = props => {
           <iframe
             frameBorder="0"
             style={{
-              display: "none"
+              //display: "none"
+              width: '1px', height: '1px'
             }}
             src={getVideoSrc(currentItem.describe, "/WuFang_SDK/index.html")}
           ></iframe>
