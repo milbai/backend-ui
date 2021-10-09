@@ -6,6 +6,7 @@ var fenceList = [], cm100List;
 var selected = null;
 var devicesData = {};
 var alarmDevices = {};
+var videoVisible = false;
 var subwayStation = 1;
 const fenceCoords = [
   //月检线
@@ -56,8 +57,19 @@ const fenceCoords = [
 export function setAlarms(alarms) {
   alarmDevices = alarms;
 }
+export function setAlarmsVideo(b) {
+  videoVisible = b;
+}
+export function showVideo() {
+  if(selected) {
+    closevideo();
+    selected = null;
+    updateMarkers(cm100List);
+  }
+  setCurrentItem({});
+}
 
-export function createFengmap(callback, setCurrentItem, getTGSG_state) {
+export function createFengmap(callback, setCurrentItem, getTGSG_state, setVideoVisible) {
 
   var fmapID = '';
   var mapOptions = {};
@@ -121,6 +133,10 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state) {
   map.on('loadComplete', callback);
 
   map.on('mapClickNode', function (event) {
+    if(videoVisible) {
+      closevideo();
+      setVideoVisible(false);
+    }
     //console.log(event);
     var nodeType = event.nodeType;
     var target = event.target;

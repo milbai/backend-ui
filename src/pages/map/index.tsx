@@ -8,7 +8,7 @@ import {filter, map} from "rxjs/operators";
 import {useState} from "react";
 import moment from "moment";
 
-import { createFengmap, setFenceData, setDevicesData, setAlarms } from './fengmap'
+import { createFengmap, setFenceData, setDevicesData, setAlarms, setAlarmsVideo, showVideo, closevideo } from './fengmap'
 import styles from './css/index.css';
 import {connect} from "dva";
 import {ConnectState, Dispatch} from "@/models/connect";
@@ -393,7 +393,15 @@ const Location: React.FC<Props> = props => {
               video = true;
             }
           }
-          setVideoVisible(video);
+          if(videoVisible !== video) {
+            setAlarmsVideo(video);
+            if(video) {
+              showVideo();
+            } else {
+              closevideo();
+            }
+            setVideoVisible(video);
+          }
           setAlarms(alarms);
           setAlarmDevices(alarms);
         }
@@ -403,7 +411,7 @@ const Location: React.FC<Props> = props => {
 
   useEffect(() => {
     var requestData;
-    createFengmap(mapDone, setCurrentItem, getTGSG_state);
+    createFengmap(mapDone, setCurrentItem, getTGSG_state, setVideoVisible);
 
     function mapDone() {
       //console.log('地图加载完成！');
