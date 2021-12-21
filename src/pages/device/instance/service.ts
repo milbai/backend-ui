@@ -220,8 +220,8 @@ export async function getAudioList() {
 }
 
 //打开关闭音频
-export async function handle_audio(data: any) {
-  return request(`/rwslinks/device/instance/command/audio`, {
+export async function handle_audio(action: string, data: any) {
+  return request(`/rwslinks/device/instance/command/audio/${action}`, {
     method: 'POST',
     data,
   });

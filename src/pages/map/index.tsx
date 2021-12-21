@@ -87,8 +87,6 @@ const Location: React.FC<Props> = props => {
         if (response.status === 200 && response.result) {
           setAudioSetting({
             audio_list: response.result,//多选 信息
-            audio_channal: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18],//单选 通道
-            audio_zone: [1,2,3,4],//多选 分区
           });
         } else {
         }
@@ -128,33 +126,28 @@ const Location: React.FC<Props> = props => {
 
   const handle_audio = (setting: any) => {
     var data = {
-      "company": "BL",
-      "token": "",
-      "data": {
-        "channal": setting.channal
-      },
-      "return_message": ""
+      "deviceId": [ currentItem.id ]
     };
     if(setting.play) {
-      data.data["musicid"] = setting.musicid;
-      data.data["zone"] = setting.zone;
-      data["actioncode"] = "prerecord_play_request";
+      data["audio"] = setting.musicid.split(',');
+      data["repeate"] = setting.repeate === "true" ? true : false;
+      data["action"] = "play";
     } else {
-      data["actioncode"] = "prerecord_play_stop_request";
+      data["action"] = "stop";
     }
-
     apis.deviceInstance
-      .handle_audio(encodeQueryParam(data))
+      .handle_audio(setting.play ? "play":"stop", encodeQueryParam(data))
       .then(response => {
         if (response.status === 200) {
-          setAudioSetting(setting);
-          setAudioVisible(false);
+          //setAudioSetting(setting);
+          //setAudioVisible(false);
           message.success("操作成功");
         } else {
-          message.error(`操作失败，${response.message}`);
+          //message.error(`操作失败，${response.message}`);
         }
       })
       .catch(() => {});
+    setAudioVisible(false);
   };
 
   const getDeviceInfo = (deviceId: string) => {
@@ -411,7 +404,7 @@ const Location: React.FC<Props> = props => {
   };
 
   useEffect(() => {
-    var requestData;
+    var requestData: any;
     createFengmap(mapDone, setCurrentItem, getTGSG_state, setVideoVisible);
 
     function mapDone() {

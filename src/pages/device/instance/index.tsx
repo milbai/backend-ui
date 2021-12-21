@@ -176,7 +176,7 @@ const DeviceInstancePage: React.FC<Props> = props => {
       title: '状态',
       //dataIndex: 'state',
       width: '90px',
-      render: record => (record.productId != 'videoMonitorWuFang' && record.productId != 'videoMonitor' && record.productId != 'M401A' && record.state) ? <Badge status={statusMap.get(record.state.value)} text={record.state.text} /> : '',
+      render: record => (record.productId != 'audioBroadcast' &&record.productId != 'videoMonitorWuFang' && record.productId != 'videoMonitor' && record.productId != 'M401A' && record.state) ? <Badge status={statusMap.get(record.state.value)} text={record.state.text} /> : '',
       filters: [
         {
           text: '未启用',

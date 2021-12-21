@@ -13,10 +13,10 @@ const Save: React.FC<Props> = props => {
   const submitData = () => {
     form.validateFields((err, fileValue) => {
       if (err) return;
-      props.data.channal = fileValue.channal;
+      
       if(props.data.play) {
         props.data.musicid = fileValue.musicid.toString();
-        props.data.zone = fileValue.zone.toString();
+        props.data.repeate = fileValue.repeate;
       }
       props.save(props.data);
     });
@@ -31,6 +31,7 @@ const Save: React.FC<Props> = props => {
       onOk={() => { submitData() }}
       onCancel={() => props.close()}
     >
+      {!props.data.play && (<p>确实要停止音频播放吗？</p>)}
       <Form labelCol={{ span: 4 }} wrapperCol={{ span: 20 }}>
         {props.data.play && (<Form.Item label="音频">
           {getFieldDecorator('musicid', {
@@ -40,24 +41,15 @@ const Save: React.FC<Props> = props => {
             {props.data.audio_list.map((item: any, index: number) => <Select.Option value={item} key={index}>{item}</Select.Option>)}
           </Select>)}
         </Form.Item>)}
-        <Form.Item label="通道">
-          {getFieldDecorator('channal', {
-            rules: [{ required: true, message: '请选择通道' }],
-            initialValue: props.data?.channal,
-          })(<Select placeholder="请选择">
-            {props.data.audio_channal.map((i: any, index: number) => {
-              return <Select.Option key={index} value={i}>{i}</Select.Option>
-            })}
+        {props.data.play && <Form.Item label="重复">
+          {getFieldDecorator('repeate', {
+            rules: [{ required: true, message: '请选择是否重复播放' }],
+            initialValue: "false",
+          })(<Select>
+            <Select.Option value="true">是</Select.Option>
+            <Select.Option value="false">否</Select.Option>
           </Select>)}
-        </Form.Item>
-        {props.data.play && (<Form.Item label="区域">
-          {getFieldDecorator('zone', {
-            rules: [{ required: true, message: '请选择区域' }],
-            initialValue: props.data.zone ? props.data.zone.split(',') : [],
-          })(<Select mode='multiple'>
-            {props.data.audio_zone.map((item: any, index: number) => <Select.Option value={item} key={index}>{item}</Select.Option>)}
-          </Select>)}
-        </Form.Item>)}
+        </Form.Item>}
       </Form>
     </Modal>
   );
