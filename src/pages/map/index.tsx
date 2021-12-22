@@ -85,8 +85,13 @@ const Location: React.FC<Props> = props => {
     apis.deviceInstance.getAudioList()
       .then(response => {
         if (response.status === 200 && response.result) {
+          //let result = ["[", " \"dingdong.mp3\",", " \"29_空调_通用.mp3\",", " \"31_四号线的徘徊_通用.mp3\",", " \"32_童玩_通用.mp3\",", "]"];
+          let result = response.result;
+          result.shift();
+          result.pop();
+          result = result.map(str => str.substring(2, str.length-2));
           setAudioSetting({
-            audio_list: response.result,//多选 信息
+            audio_list: result,//多选 信息
           });
         } else {
         }
