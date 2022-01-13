@@ -8,7 +8,7 @@ import {filter, map} from "rxjs/operators";
 import {useState} from "react";
 import moment from "moment";
 
-import { createFengmap, setFenceData, setDevicesData, setAlarms, setAlarmsVideo, showVideo, closevideo } from './fengmap'
+import { createFengmap, setFenceData, setDevicesData, setAlarms, setAlarmsVideo, showVideo, isAlarmVideoShow } from './fengmap.js'
 import styles from './css/index.css';
 import {connect} from "dva";
 import {ConnectState, Dispatch} from "@/models/connect";
@@ -30,6 +30,7 @@ interface State {
   audioVisible: boolean;
   alarmDevices: any;
   videoVisible: boolean;
+  videoDevice4Alarm: string;
 }
 
 const Location: React.FC<Props> = props => {
@@ -42,6 +43,7 @@ const Location: React.FC<Props> = props => {
     audioVisible: false,
     alarmDevices: {},
     videoVisible: false,
+    videoDevice4Alarm: '',
   };
   const [currentItem, setCurrentItem] = useState(initState.currentItem);
   const [tempEmployee, setTempEmployee] = useState(initState.tempEmployee);
@@ -50,6 +52,9 @@ const Location: React.FC<Props> = props => {
   const [audioVisible, setAudioVisible] = useState(initState.audioVisible);
   const [alarmDevices, setAlarmDevices] = useState(initState.alarmDevices);
   const [videoVisible, setVideoVisible] = useState(initState.videoVisible);
+  const [videoDevice4Alarm, setVideoDevice4Alarm] = useState(initState.videoDevice4Alarm);
+
+  let deviceList: any;
 
   const handle_switch = (b: boolean) => {
     currentItem.state = b;
@@ -111,6 +116,7 @@ const Location: React.FC<Props> = props => {
   };
 
   const getVideoSrc = (describe: string, rootPath: string) => {
+    // console.log("getVideoSrc: " + describe);
     var src = '';
     if(describe && describe.indexOf(", ") > -1) {
       var params = describe.split(", ");
@@ -119,15 +125,55 @@ const Location: React.FC<Props> = props => {
     return src;
   };
 
-  const getBinder = (deviceId: string) => {
-    apis.employee.getBinderById(deviceId)
-      .then((response: any) => {
-        if (response.status === 200 && response.result && response.result.name) {
-          document.getElementById('binder_name').innerHTML = response.result.name;
+  const getNearestVideo = (alarmDevice: any) => {
+    let distanceMinY = 100;
+    let distanceMinX = 1000;
+    let idx = 0;
+
+    // longitude: number;
+    // latitude: number;
+    console.log(deviceList[0].productId);
+    console.log(alarmDevice);
+    let postionY = alarmDevice.alarmData.trigger0['devicePositionY'] != undefined ? alarmDevice.alarmData.trigger0['devicePositionY'] : alarmDevice.alarmData.trigger0['badgePos_y'];
+    let postionX = alarmDevice.alarmData.trigger0['devicePositionX'] != undefined ? alarmDevice.alarmData.trigger0['devicePositionX'] : alarmDevice.alarmData.trigger0['badgePos_x'];
+    for(var i = 0; i < deviceList.length; i++) {
+      if(deviceList[i].productId === "videoMonitor") {
+
+        let distance = Math.abs(parseFloat(deviceList[i].latitude) - parseFloat(postionY));
+        let distanceX = 0;
+        // console.log('device: ' + deviceList[i].latitude);
+        // console.log('alarm: ');
+        console.log(distance);
+
+        if (distanceMinY >= distance) {
+          distanceMinY = distance;
+          idx = i;
+          
+          distanceX = Math.abs(parseFloat(deviceList[i].longitude) - parseFloat(postionX));
+          if (distanceMinX > distanceX) {
+            distanceMinX = distanceX;
+            idx = i;
+          }
         }
-      });
-    return '获取中...';
+      }
+    }
+    if (deviceList[idx].productId === "videoMonitor" || deviceList[idx].productId === "videoMonitorWuFang") {
+      setVideoDevice4Alarm(deviceList[idx].describe);
+      console.log(' --- ' + deviceList[idx].name)
+      console.log(' --- ' + deviceList[idx].describe);
+    }
+
   };
+
+  // const getBinder = (deviceId: string) => {
+  //   apis.employee.getBinderById(deviceId)
+  //     .then((response: any) => {
+  //       if (response.status === 200 && response.result && response.result.name) {
+  //         document.getElementById('binder_name').innerHTML = response.result.name;
+  //       }
+  //     });
+  //   return '获取中...';
+  // };
 
   const handle_audio = (setting: any) => {
     var data = {
@@ -322,6 +368,7 @@ const Location: React.FC<Props> = props => {
         data: temp,
         type: 2
       });
+      deviceList = temp;
     });
   };
 
@@ -375,7 +422,9 @@ const Location: React.FC<Props> = props => {
       .then((response: any) => {
         if (response.status === 200 && response.result) {
           var alarms = {};
-          var video = false;
+          var isWeiFangPinAlarm = false;
+          var isChestCardAlarm = false;
+          let tempAlarm = {};
           for(var i = 0; i < response.result.length; i++) {
             var item = response.result[i];
             var id = item.deviceId;
@@ -388,19 +437,43 @@ const Location: React.FC<Props> = props => {
             if(item.productId === 'AN303'
               || item.productId === 'JTY-GF-NT8141'
               || item.productId === 'GT-CX400') {
-              video = true;
+              isWeiFangPinAlarm = true;
+            } else {
+              // 胸卡产生的报警
+              if (!isChestCardAlarm) {
+                isChestCardAlarm = true;
+                tempAlarm = item;
+              }
             }
           }
-          if(videoVisible !== video) {
-            setAlarmsVideo(video);
-            if(video) {
+          console.log('chest card alarm video show: ' + isAlarmVideoShow());
+          if (isAlarmVideoShow()) {
+            // 报警已处理，关闭自动开启的摄像头
+            if (!isWeiFangPinAlarm && !isChestCardAlarm) {
+              setVideoVisible(false);
+              setAlarmsVideo(false);
+            }
+          } else {
+            if (isWeiFangPinAlarm) {
+              // 开启危废品间的摄像头
+              setVideoDevice4Alarm('21.105.208.16, 2604');
               showVideo();
               setCurrentItem({});
+              setVideoVisible(true);
+              setAlarmsVideo(true);
+            } else if(isChestCardAlarm) {
+              // 开启胸卡报警时，周边摄像头
+              getNearestVideo(tempAlarm)
+              showVideo();
+              setCurrentItem({});
+              setVideoVisible(true);
+              setAlarmsVideo(true);
             } else {
-              closevideo();
+              setVideoVisible(false);
+              setAlarmsVideo(false);
             }
-            setVideoVisible(video);
           }
+          
           setAlarms(alarms);
           setAlarmDevices(alarms);
         }
@@ -414,9 +487,9 @@ const Location: React.FC<Props> = props => {
 
     function mapDone() {
       //console.log('地图加载完成！');
+      getData();
       getAlarmLogList();
       getFenceData();
-      getData();
       getCM100Data();
       getAudioList();
       //createWebSocket(getAlarmLogList);
@@ -605,9 +678,9 @@ const Location: React.FC<Props> = props => {
           <iframe
             frameBorder="0"
             style={{
-              width: '1px', height: '1px'
+              width: '100px', height: '100px'
             }}
-            src={getVideoSrc('21.105.208.16, 2604', "/AnFang_SDK/index.html")}
+            src={getVideoSrc(videoDevice4Alarm, "/AnFang_SDK/index.html")}
           ></iframe>
         </div>
       )}
@@ -693,10 +766,10 @@ const Location: React.FC<Props> = props => {
             handle_switch(b);
         }} />
           <Divider className={styles.fengge} />
-          开始时间<span className={styles.vRight}>{currentItem.begin ? moment(currentItem.begin).format('YYYY-MM-DD HH:mm:ss') : ''}</span>
+          {/* 开始时间<span className={styles.vRight}>{currentItem.begin ? moment(currentItem.begin).format('YYYY-MM-DD HH:mm:ss') : ''}</span>
           <Divider className={styles.fengge} />
           结束时间<span className={styles.vRight}>{currentItem.end ? moment(currentItem.end).format('YYYY-MM-DD HH:mm:ss') : ''}</span>
-          <Divider className={styles.fengge} />
+          <Divider className={styles.fengge} /> */}
           离开报警<span className={styles.vRight}>{currentItem.outsideAlarm ? '开启' : '关闭'}</span>
           <Divider className={styles.fengge} />
           离开超时<span className={styles.vRight}>{currentItem.outsideTimeout + '分钟'}</span>
@@ -704,8 +777,8 @@ const Location: React.FC<Props> = props => {
           未进入报警<span className={styles.vRight}>{currentItem.insideAlarm ? '开启' : '关闭'}</span>
           <Divider className={styles.fengge} />
           进入超时<span className={styles.vRight}>{currentItem.insideTimeout + '分钟'}</span>
-          <Divider className={styles.fengge} />
-          可进入员工<span className={styles.vRight}>{getEmployeeName(currentItem.employees)}</span>
+          {/* <Divider className={styles.fengge} />
+          可进入员工<span className={styles.vRight}>{getEmployeeName(currentItem.employees)}</span> */}
         </div>
       )}
 

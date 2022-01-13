@@ -60,6 +60,10 @@ export function setAlarms(alarms) {
 export function setAlarmsVideo(b) {
   videoVisible = b;
 }
+
+export function isAlarmVideoShow() {
+  return videoVisible;
+}
 export function showVideo() {
   if(selected) {
     closevideo();
@@ -135,6 +139,7 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state, setVideoV
     if(videoVisible) {
       closevideo();
       setVideoVisible(false);
+      videoVisible = false;
     }
     //console.log(event);
     var nodeType = event.nodeType;
@@ -176,6 +181,7 @@ export function createFengmap(callback, setCurrentItem, getTGSG_state, setVideoV
           myVideo.play();
         }
         */
+        console.log("clicked: " + cm100List[target.index].name);
         if(cm100List[target.index].productId === "TGSG-190") {
           getTGSG_state(cm100List[target.index].id);
         }
